@@ -1,0 +1,50 @@
+{
+    "name": "jenky/atlas",
+    "description": "This is my package atlas",
+    "keywords": [
+        "jenky",
+        "atlas"
+    ],
+    "homepage": "https://github.com/jenky/atlas",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lynh",
+            "email": "jenky.w0w@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5|^8.0",
+        "http-interop/http-factory-discovery": "^1.5",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.3",
+        "guzzlehttp/guzzle": "^7.5",
+        "nyholm/psr7": "^1.5",
+        "phpunit/phpunit": "^8.0|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jenky\\Atlas\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jenky\\Atlas\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "cs": "vendor/bin/php-cs-fixer fix",
+        "test": "vendor/bin/phpunit",
+        "coverage": "vendor/bin/phpunit --coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
