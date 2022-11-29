@@ -1,9 +1,12 @@
 {
     "name": "jenky/atlas",
-    "description": "This is my package atlas",
+    "description": "A simple package that allows you to write your API integrations or SDKs in a elegant way.",
     "keywords": [
         "jenky",
-        "atlas"
+        "atlas",
+        "http",
+        "sdk",
+        "api"
     ],
     "homepage": "https://github.com/jenky/atlas",
     "license": "MIT",
