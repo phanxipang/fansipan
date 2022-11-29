@@ -7,6 +7,9 @@ namespace Jenky\Atlas;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Jenky\Atlas\Contracts\PendingRequest as PendingRequestInterface;
 
+/**
+ * @method \Jenky\Atlas\Response send()
+ */
 abstract class Request
 {
     use ForwardsCalls;
