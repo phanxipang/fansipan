@@ -6,11 +6,16 @@ namespace Jenky\Atlas;
 
 use ArrayAccess;
 use Closure;
+use Illuminate\Support\Traits\Macroable;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
 class Response implements ArrayAccess
 {
+    use Macroable {
+        __call as macroCall;
+    }
+
     protected $response;
 
     /**
@@ -54,7 +59,7 @@ class Response implements ArrayAccess
             return $this->decoded;
         }
 
-        return $this->decoded[$key] ?? $default;
+        return data_get($this->decoded, $key, $default);
     }
 
     /**
@@ -351,6 +356,8 @@ class Response implements ArrayAccess
      */
     public function __call($method, $parameters)
     {
-        return $this->response->{$method}(...$parameters);
+        return static::hasMacro($method)
+            ? $this->macroCall($method, $parameters)
+            : $this->response->{$method}(...$parameters);
     }
 }

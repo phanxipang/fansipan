@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use Jenky\Atlas\Support\ForwardsCalls;
+use Illuminate\Support\Traits\ForwardsCalls;
+use Jenky\Atlas\Contracts\PendingRequest as PendingRequestInterface;
 
 abstract class Request
 {
@@ -44,7 +45,7 @@ abstract class Request
      *
      * @return array
      */
-    public function defaultQuery(): array
+    protected function defaultQuery(): array
     {
         return [];
     }
@@ -54,7 +55,7 @@ abstract class Request
      *
      * @return array
      */
-    public function defaultHeaders(): array
+    protected function defaultHeaders(): array
     {
         return [];
     }
@@ -64,7 +65,7 @@ abstract class Request
      *
      * @return array
      */
-    public function defaultPayload(): array
+    protected function defaultPayload(): array
     {
         return [];
     }
@@ -79,6 +80,11 @@ abstract class Request
         return property_exists($this, 'method') ? $this->method : 'GET';
     }
 
+    /**
+     * Get request query string parameters.
+     *
+     * @return \Jenky\Atlas\Map
+     */
     public function query(): Map
     {
         if (is_null($this->query)) {
@@ -88,6 +94,11 @@ abstract class Request
         return $this->query;
     }
 
+    /**
+     * Get request headers.
+     *
+     * @return \Jenky\Atlas\Map
+     */
     public function headers(): Map
     {
         if (is_null($this->headers)) {
@@ -97,6 +108,11 @@ abstract class Request
         return $this->headers;
     }
 
+    /**
+     * Get request payload.
+     *
+     * @return \Jenky\Atlas\Payload
+     */
     public function payload(): Payload
     {
         if (is_null($this->payload)) {
@@ -127,13 +143,20 @@ abstract class Request
     /**
      * Create a pending request instance.
      *
-     * @return \Jenky\Atlas\PendingRequest
+     * @return \Jenky\Atlas\Contracts\PendingRequest
      */
-    protected function createPendingRequest(): PendingRequest
+    protected function createPendingRequest(): PendingRequestInterface
     {
         return new PendingRequest($this);
     }
 
+    /**
+     * Dynamically pass calls to the pending request.
+     *
+     * @param  mixed  $method
+     * @param  mixed  $parameters
+     * @return mixed
+     */
     public function __call($method, $parameters)
     {
         return $this->forwardCallTo(

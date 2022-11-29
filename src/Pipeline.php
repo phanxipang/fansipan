@@ -3,9 +3,10 @@
 namespace Jenky\Atlas;
 
 use Closure;
+use Illuminate\Contracts\Pipeline\Pipeline as PipelineInterface;
 use Throwable;
 
-class Pipeline
+class Pipeline implements PipelineInterface
 {
     /**
      * The object being passed through the pipeline.

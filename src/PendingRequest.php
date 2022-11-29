@@ -6,9 +6,10 @@ namespace Jenky\Atlas;
 
 use Http\Factory\Discovery\HttpFactory;
 use InvalidArgumentException;
+use Jenky\Atlas\Contracts\PendingRequest as PendingRequestInterface;
 use Psr\Http\Message\RequestInterface;
 
-class PendingRequest
+class PendingRequest implements PendingRequestInterface
 {
     /**
      * @var \Jenky\Atlas\Request
@@ -52,7 +53,7 @@ class PendingRequest
      */
     public function send(): Response
     {
-        return (new Pipeline())
+        return $this->connector->pipeline()
             ->send($this->request)
             ->through($this->gatherMiddleware())
             ->then(function ($request) {
@@ -73,9 +74,11 @@ class PendingRequest
     {
         $middleware = $this->connector->middleware();
 
-        $middleware[] = Middleware\SetResponseDtoSerializer::class;
+        $middleware->push(Middleware\SetResponseDtoSerializer::class, 'dto');
 
-        return $middleware;
+        return array_filter(array_map(function ($item) {
+            return $item[0] ?? null;
+        }, $middleware->all()));
     }
 
     /**
