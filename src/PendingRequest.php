@@ -74,7 +74,7 @@ class PendingRequest implements PendingRequestInterface
     {
         $middleware = $this->connector->middleware();
 
-        $middleware->push(Middleware\SetResponseDtoSerializer::class, 'dto');
+        $middleware->push(Middleware\CastsResponseToDto::class, 'dto');
 
         return array_filter(array_map(function ($item) {
             return $item[0] ?? null;

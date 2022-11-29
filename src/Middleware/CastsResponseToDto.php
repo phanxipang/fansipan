@@ -7,17 +7,17 @@ namespace Jenky\Atlas\Middleware;
 use Closure;
 use Jenky\Atlas\Contracts\DtoSerializable;
 use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
 
-class SetResponseDtoSerializer
+class CastsResponseToDto
 {
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
 
         if ($request instanceof DtoSerializable) {
-            $response->setDtoSerializer(function (Response $r) use ($request) {
-                return $request->toDto($r);
+            $response->macro('dto', function () use ($request) {
+                /** @var \Jenky\Atlas\Response $this */
+                return $this->successful() ? $request->toDto($this) : null;
             });
         }
 

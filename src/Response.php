@@ -10,6 +10,9 @@ use Illuminate\Support\Traits\Macroable;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @method mixed dto()
+ */
 class Response implements ArrayAccess
 {
     use Macroable {
@@ -24,8 +27,6 @@ class Response implements ArrayAccess
      * @var array
      */
     protected $decoded;
-
-    protected $dtoSerializer;
 
     public function __construct(ResponseInterface $response)
     {
@@ -218,29 +219,6 @@ class Response implements ArrayAccess
         $this->response->getBody()->close();
 
         return $this;
-    }
-
-    public function getDtoSerializer()
-    {
-        return $this->dtoSerializer ?: function () {
-            //
-        };
-    }
-
-    public function setDtoSerializer(Closure $callback)
-    {
-        $this->dtoSerializer = $callback;
-
-        return $this;
-    }
-
-    public function dto()
-    {
-        if ($this->failed()) {
-            return null;
-        }
-
-        return call_user_func($this->getDtoSerializer(), $this);
     }
 
     /**
