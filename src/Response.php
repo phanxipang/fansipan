@@ -12,6 +12,8 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * @method mixed dto()
+ *
+ * @mixin \Psr\Http\Message\ResponseInterface
  */
 class Response implements ArrayAccess
 {
@@ -19,6 +21,9 @@ class Response implements ArrayAccess
         __call as macroCall;
     }
 
+    /**
+     * @var \Psr\Http\Message\ResponseInterface
+     */
     protected $response;
 
     /**
@@ -28,6 +33,12 @@ class Response implements ArrayAccess
      */
     protected $decoded;
 
+    /**
+     * Create new response instance.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface  $response
+     * @return void
+     */
     public function __construct(ResponseInterface $response)
     {
         $this->response = $response;
@@ -38,7 +49,7 @@ class Response implements ArrayAccess
      *
      * @return string
      */
-    public function body()
+    public function body(): string
     {
         return (string) $this->response->getBody();
     }
@@ -77,11 +88,11 @@ class Response implements ArrayAccess
      * Get a header from the response.
      *
      * @param  string  $header
-     * @return string
+     * @return null|string
      */
-    public function header(string $header)
+    public function header(string $header): ?string
     {
-        return $this->response->getHeaderLine($header);
+        return $this->response->getHeaderLine($header) ?: null;
     }
 
     /**
@@ -89,7 +100,7 @@ class Response implements ArrayAccess
      *
      * @return array
      */
-    public function headers()
+    public function headers(): array
     {
         return $this->response->getHeaders();
     }
@@ -99,7 +110,7 @@ class Response implements ArrayAccess
      *
      * @return int
      */
-    public function status()
+    public function status(): int
     {
         return (int) $this->response->getStatusCode();
     }
@@ -109,7 +120,7 @@ class Response implements ArrayAccess
      *
      * @return string
      */
-    public function reason()
+    public function reason(): string
     {
         return $this->response->getReasonPhrase();
     }
@@ -119,7 +130,7 @@ class Response implements ArrayAccess
      *
      * @return bool
      */
-    public function successful()
+    public function successful(): bool
     {
         return $this->status() >= 200 && $this->status() < 300;
     }
@@ -129,7 +140,7 @@ class Response implements ArrayAccess
      *
      * @return bool
      */
-    public function ok()
+    public function ok(): bool
     {
         return $this->status() === 200;
     }
@@ -139,7 +150,7 @@ class Response implements ArrayAccess
      *
      * @return bool
      */
-    public function redirect()
+    public function redirect(): bool
     {
         return $this->status() >= 300 && $this->status() < 400;
     }
@@ -149,7 +160,7 @@ class Response implements ArrayAccess
      *
      * @return bool
      */
-    public function unauthorized()
+    public function unauthorized(): bool
     {
         return $this->status() === 401;
     }
@@ -159,7 +170,7 @@ class Response implements ArrayAccess
      *
      * @return bool
      */
-    public function forbidden()
+    public function forbidden(): bool
     {
         return $this->status() === 403;
     }
@@ -169,7 +180,7 @@ class Response implements ArrayAccess
      *
      * @return bool
      */
-    public function failed()
+    public function failed(): bool
     {
         return $this->serverError() || $this->clientError();
     }
@@ -179,7 +190,7 @@ class Response implements ArrayAccess
      *
      * @return bool
      */
-    public function clientError()
+    public function clientError(): bool
     {
         return $this->status() >= 400 && $this->status() < 500;
     }
@@ -189,7 +200,7 @@ class Response implements ArrayAccess
      *
      * @return bool
      */
-    public function serverError()
+    public function serverError(): bool
     {
         return $this->status() >= 500;
     }
@@ -226,7 +237,7 @@ class Response implements ArrayAccess
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function toPsrResponse()
+    public function toPsrResponse(): ResponseInterface
     {
         return $this->response;
     }
@@ -283,7 +294,8 @@ class Response implements ArrayAccess
      * @param  string  $offset
      * @return mixed
      */
-    public function offsetGet($offset): mixed
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
         return $this->json()[$offset];
     }
