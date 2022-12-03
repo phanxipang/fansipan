@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use Http\Factory\Discovery\HttpFactory;
+use Http\Discovery\Psr17FactoryDiscovery;
 use InvalidArgumentException;
-use Jenky\Atlas\Contracts\PendingRequest as PendingRequestInterface;
+use Jenky\Atlas\Contracts\PendingRequestInterface;
 use Psr\Http\Message\RequestInterface;
 
 class PendingRequest implements PendingRequestInterface
@@ -74,6 +74,7 @@ class PendingRequest implements PendingRequestInterface
     {
         $middleware = $this->connector->middleware();
 
+        $middleware->prepend(Middleware\AttachRequestContentTypeHeader::class, 'body_format_content_type');
         $middleware->push(Middleware\CastsResponseToDto::class, 'dto');
 
         return array_filter(array_map(function ($item) {
@@ -128,7 +129,7 @@ class PendingRequest implements PendingRequestInterface
      */
     protected function createRequest(): RequestInterface
     {
-        $request = HttpFactory::requestFactory()->createRequest(
+        $request = Psr17FactoryDiscovery::findRequestFactory()->createRequest(
             $this->request->method(), $this->uri()
         );
 
@@ -139,8 +140,8 @@ class PendingRequest implements PendingRequestInterface
         }
 
         return $request->withBody(
-            HttpFactory::streamFactory()->createStream(
-                (string) $this->request->payload()
+            Psr17FactoryDiscovery::findStreamFactory()->createStream(
+                (string) $this->request->body()
             )
         );
     }

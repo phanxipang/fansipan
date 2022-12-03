@@ -9,9 +9,9 @@ use Jenky\Atlas\Request;
 
 class AddCustomHeader
 {
-    public function handle(Request $request, Closure $next)
+    public function __invoke(Request $request, Closure $next)
     {
-        $request->headers()->set('X-From', 'atlas');
+        $request->headers()->with('X-From', 'atlas');
 
         return $next($request);
     }

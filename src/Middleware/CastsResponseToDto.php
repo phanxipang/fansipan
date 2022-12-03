@@ -7,10 +7,11 @@ namespace Jenky\Atlas\Middleware;
 use Closure;
 use Jenky\Atlas\Contracts\DtoSerializable;
 use Jenky\Atlas\Request;
+use Jenky\Atlas\Response;
 
 class CastsResponseToDto
 {
-    public function handle(Request $request, Closure $next)
+    public function __invoke(Request $request, Closure $next): Response
     {
         $response = $next($request);
 

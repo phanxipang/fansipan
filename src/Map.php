@@ -9,6 +9,7 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use Traversable;
+use UnexpectedValueException;
 
 class Map implements ArrayAccess, IteratorAggregate, Countable
 {
@@ -24,39 +25,42 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
         return $this->parameters;
     }
 
-    public function get(string $key, $default = null)
+    public function set($value)
     {
-        return $this->parameters[$key] ?? $default;
+        $this->assertArray($value);
+
+        $this->parameters = $value;
+
+        return $this;
     }
 
-    public function set(string $key, $value)
+    public function with(string $key, $value)
     {
         $this->parameters[$key] = $value;
 
         return $this;
     }
 
-    public function push($key, $value)
+    public function push($value, ?string $key = null)
     {
-        $array = $this->get($key, []);
+        if (! $key) {
+            $this->parameters[] = $value;
+
+            return $this;
+        }
+
+        $array = $this->parameters[$key] ?? [];
+
+        $this->assertArray($array);
 
         $array[] = $value;
 
-        $this->set($key, $array);
-
-        return $this;
+        return $this->with($key, $array);
     }
 
-    public function forget(string $key)
+    public function remove(string $key)
     {
         unset($this->attributes[$key]);
-
-        return $this;
-    }
-
-    public function replace(array $parameters)
-    {
-        $this->parameters = $parameters;
 
         return $this;
     }
@@ -90,6 +94,13 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
     public function isNotEmpty(): bool
     {
         return $this->count() > 0;
+    }
+
+    protected function assertArray($value): void
+    {
+        if (! is_array($value)) {
+            throw new UnexpectedValueException('The value must be an array.');
+        }
     }
 
     /**

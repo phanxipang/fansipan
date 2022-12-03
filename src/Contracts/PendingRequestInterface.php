@@ -6,7 +6,7 @@ namespace Jenky\Atlas\Contracts;
 
 use Jenky\Atlas\Response;
 
-interface PendingRequest
+interface PendingRequestInterface
 {
     /**
      * Send the request.

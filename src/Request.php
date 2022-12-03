@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use Illuminate\Support\Traits\ForwardsCalls;
-use Jenky\Atlas\Contracts\PendingRequest as PendingRequestInterface;
+use InvalidArgumentException;
+use Jenky\Atlas\Body\FormPayload;
+use Jenky\Atlas\Contracts\PayloadInterface;
+use Jenky\Atlas\Contracts\PendingRequestInterface;
 
-/**
- * @method \Jenky\Atlas\Response send()
- */
 abstract class Request
 {
-    use ForwardsCalls;
-
     /**
      * The connector instance.
      *
@@ -24,17 +21,17 @@ abstract class Request
     /**
      * @var \Jenky\Atlas\Map
      */
-    protected $headers;
+    private $headers;
 
     /**
      * @var \Jenky\Atlas\Map
      */
-    protected $query;
+    private $query;
 
     /**
-     * @var \Jenky\Atlas\Payload
+     * @var \Jenky\Atlas\Contracts\PayloadInterface
      */
-    protected $payload;
+    private $body;
 
     /**
      * Get the request endpoint.
@@ -66,11 +63,27 @@ abstract class Request
     /**
      * Get request body payload.
      *
-     * @return array
+     * @return mixed
      */
-    protected function defaultPayload(): array
+    protected function defaultBody()
     {
-        return [];
+        return null;
+    }
+
+    /**
+     * Create a body payload from body format.
+     *
+     * @return \Jenky\Atlas\Contracts\PayloadInterface
+     */
+    protected function definePayload(): PayloadInterface
+    {
+        $payload = property_exists($this, 'bodyFormat') ? $this->bodyFormat : FormPayload::class;
+
+        if (! is_a($payload, PayloadInterface::class, true)) {
+            throw new InvalidArgumentException('Payload class must be instance of '.PayloadInterface::class);
+        }
+
+        return is_null($this->defaultBody()) ? new $payload() : new $payload($this->defaultBody());
     }
 
     /**
@@ -114,15 +127,15 @@ abstract class Request
     /**
      * Get request payload.
      *
-     * @return \Jenky\Atlas\Payload
+     * @return \Jenky\Atlas\Contracts\PayloadInterface
      */
-    public function payload(): Payload
+    public function body(): PayloadInterface
     {
-        if (is_null($this->payload)) {
-            $this->payload = new Payload($this->defaultPayload());
+        if (is_null($this->body)) {
+            $this->body = $this->definePayload();
         }
 
-        return $this->payload;
+        return $this->body;
     }
 
     /**
@@ -138,6 +151,11 @@ abstract class Request
         return $this;
     }
 
+    /**
+     * Get the connector.
+     *
+     * @return null|\Jenky\Atlas\Connector
+     */
     public function connector()
     {
         return $this->connector;
@@ -146,7 +164,7 @@ abstract class Request
     /**
      * Create a pending request instance.
      *
-     * @return \Jenky\Atlas\Contracts\PendingRequest
+     * @return \Jenky\Atlas\Contracts\PendingRequestInterface
      */
     protected function createPendingRequest(): PendingRequestInterface
     {
@@ -154,16 +172,12 @@ abstract class Request
     }
 
     /**
-     * Dynamically pass calls to the pending request.
+     * Send the request.
      *
-     * @param  mixed  $method
-     * @param  mixed  $parameters
-     * @return mixed
+     * @return \Jenky\Atlas\Response
      */
-    public function __call($method, $parameters)
+    public function send(): Response
     {
-        return $this->forwardCallTo(
-            $this->createPendingRequest(), $method, $parameters
-        );
+        return $this->createPendingRequest()->send();
     }
 }

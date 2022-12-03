@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jenky\Atlas;
 
 use ArrayAccess;
-use Closure;
 use Illuminate\Support\Traits\Macroable;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
