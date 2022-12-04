@@ -15,7 +15,7 @@ abstract class Request
      *
      * @var null|\Jenky\Atlas\Connector
      */
-    private $connector;
+    protected $connector;
 
     /**
      * @var \Jenky\Atlas\Map
