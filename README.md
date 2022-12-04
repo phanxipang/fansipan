@@ -51,20 +51,20 @@ If you discover any security related issues, please email :author_email instead 
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/:vendor/atlas.svg?style=for-the-badge
+[ico-version]: https://img.shields.io/packagist/v/jenky/atlas.svg?style=for-the-badge
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=for-the-badge
-[ico-travis]: https://img.shields.io/travis/:vendor/atlas/master.svg?style=for-the-badge
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/:vendor/atlas.svg?style=for-the-badge
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/:vendor/atlas.svg?style=for-the-badge
-[ico-gh-actions]: https://img.shields.io/github/workflow/status/:vendor/atlas/Tests?label=actions&logo=github&style=for-the-badge
-[ico-codecov]: https://img.shields.io/codecov/c/github/:vendor/atlas?logo=codecov&style=for-the-badge
-[ico-downloads]: https://img.shields.io/packagist/dt/:vendor/atlas.svg?style=for-the-badge
+[ico-travis]: https://img.shields.io/travis/jenky/atlas/master.svg?style=for-the-badge
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/atlas.svg?style=for-the-badge
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/atlas.svg?style=for-the-badge
+[ico-gh-actions]: https://img.shields.io/github/workflow/status/jenky/atlas/Tests?label=actions&logo=github&style=for-the-badge
+[ico-codecov]: https://img.shields.io/codecov/c/github/jenky/atlas?logo=codecov&style=for-the-badge
+[ico-downloads]: https://img.shields.io/packagist/dt/jenky/atlas.svg?style=for-the-badge
 
-[link-packagist]: https://packagist.org/packages/:vendor/atlas
-[link-travis]: https://travis-ci.org/:vendor/atlas
-[link-scrutinizer]: https://scrutinizer-ci.com/g/:vendor/atlas/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/:vendor/atlas
-[link-gh-actions]: https://github.com/jenky/:vendor/atlas
-[link-codecov]: https://codecov.io/gh/:vendor/atlas
-[link-downloads]: https://packagist.org/packages/:vendor/atlas
+[link-packagist]: https://packagist.org/packages/jenky/atlas
+[link-travis]: https://travis-ci.org/jenky/atlas
+[link-scrutinizer]: https://scrutinizer-ci.com/g/jenky/atlas/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/jenky/atlas
+[link-gh-actions]: https://github.com/jenky/jenky/atlas
+[link-codecov]: https://codecov.io/gh/jenky/atlas
+[link-downloads]: https://packagist.org/packages/jenky/atlas
 
