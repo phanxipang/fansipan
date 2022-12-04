@@ -6,7 +6,10 @@
         "atlas",
         "http",
         "sdk",
-        "api"
+        "api",
+        "psr7",
+        "psr17",
+        "psr18"
     ],
     "homepage": "https://github.com/jenky/atlas",
     "license": "MIT",

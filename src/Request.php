@@ -7,7 +7,6 @@ namespace Jenky\Atlas;
 use InvalidArgumentException;
 use Jenky\Atlas\Body\FormPayload;
 use Jenky\Atlas\Contracts\PayloadInterface;
-use Jenky\Atlas\Contracts\PendingRequestInterface;
 
 abstract class Request
 {
@@ -16,7 +15,7 @@ abstract class Request
      *
      * @var null|\Jenky\Atlas\Connector
      */
-    protected $connector;
+    private $connector;
 
     /**
      * @var \Jenky\Atlas\Map
@@ -162,22 +161,12 @@ abstract class Request
     }
 
     /**
-     * Create a pending request instance.
-     *
-     * @return \Jenky\Atlas\Contracts\PendingRequestInterface
-     */
-    protected function createPendingRequest(): PendingRequestInterface
-    {
-        return new PendingRequest($this);
-    }
-
-    /**
      * Send the request.
      *
      * @return \Jenky\Atlas\Response
      */
     public function send(): Response
     {
-        return $this->createPendingRequest()->send();
+        return PendingRequest::from($this)->send();
     }
 }

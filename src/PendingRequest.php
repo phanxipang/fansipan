@@ -6,10 +6,9 @@ namespace Jenky\Atlas;
 
 use Http\Discovery\Psr17FactoryDiscovery;
 use InvalidArgumentException;
-use Jenky\Atlas\Contracts\PendingRequestInterface;
 use Psr\Http\Message\RequestInterface;
 
-class PendingRequest implements PendingRequestInterface
+class PendingRequest
 {
     /**
      * @var \Jenky\Atlas\Request

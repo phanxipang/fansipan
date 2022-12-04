@@ -123,7 +123,7 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        return $this->get($offset);
+        return $this->parameters[$offset] ?? null;
     }
 
     /**
@@ -135,7 +135,7 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetSet($offset, $value): void
     {
-        $this->set($offset, $value);
+        $this->with($offset, $value);
     }
 
     /**
@@ -146,7 +146,7 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetUnset($offset): void
     {
-        $this->forget($offset);
+        $this->remove($offset);
     }
 
     /**
@@ -157,7 +157,7 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
      */
     public function __get($key)
     {
-        return $this->get($key);
+        return $this->offsetGet($key);
     }
 
     /**
@@ -169,7 +169,7 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
      */
     public function __set($key, $value)
     {
-        $this->set($key, $value);
+        $this->offsetSet($key, $value);
     }
 
     /**

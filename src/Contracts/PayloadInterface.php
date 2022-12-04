@@ -21,7 +21,7 @@ interface PayloadInterface
     public function all();
 
     /**
-     * Set a given payload value.
+     * Set the payload value.
      *
      * @param  string|array  $value
      * @return mixed
