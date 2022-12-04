@@ -17,7 +17,7 @@ class CastsResponseToDto
 
         if ($request instanceof DtoSerializable) {
             $response->macro('dto', function () use ($request) {
-                /* @var \Jenky\Atlas\Response $this */
+                /** @var \Jenky\Atlas\Response $this */
                 return $this->successful() ? $request->toDto($this) : null;
             });
         }
