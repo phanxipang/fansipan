@@ -47,8 +47,8 @@ class RequestTest extends TestCase
         $response = $request->withConnector(Connector::class)->send();
 
         $this->assertTrue($response->ok());
-        $this->assertSame('bar', $response->json('headers', [])['X-Foo'] ?? null);
-        $this->assertSame('atlas', $response->json('headers', [])['X-From'] ?? null);
+        $this->assertSame('bar', $response->data('headers', [])['X-Foo'] ?? null);
+        $this->assertSame('atlas', $response->data('headers', [])['X-From'] ?? null);
     }
 
     public function test_cast_json_to_dto(): void
@@ -59,7 +59,7 @@ class RequestTest extends TestCase
 
         $this->assertTrue($response->ok());
         $this->assertInstanceOf(Uuid::class, $dto = $response->dto());
-        $this->assertSame($response->json('uuid'), $dto->uuid());
+        $this->assertSame($response->data('uuid'), $dto->uuid());
     }
 
     public function test_request_body(): void
@@ -74,7 +74,7 @@ class RequestTest extends TestCase
 
         $response = $request->send();
 
-        $data = $response->json('json', []);
+        $data = $response->data('json', []);
 
         $this->assertTrue($response->ok());
         $this->assertSame('bar', $data['foo'] ?? null);
@@ -92,10 +92,10 @@ class RequestTest extends TestCase
 
         $this->assertFalse($response->failed());
 
-        $data = $response->json('form', []);
+        $data = $response->data('form', []);
 
         $this->assertSame('John', $data['name'] ?? null);
         $this->assertSame('john.doe@example.com', $data['email'] ?? null);
-        $this->assertArrayHasKey('img', $response->json('files', []));
+        $this->assertArrayHasKey('img', $response->data('files', []));
     }
 }

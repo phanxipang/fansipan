@@ -26,7 +26,12 @@ class Response implements ArrayAccess
     protected $response;
 
     /**
-     * The decoded JSON response.
+     * @var callable
+     */
+    protected $decoder;
+
+    /**
+     * The decoded response.
      *
      * @var array
      */
@@ -54,16 +59,16 @@ class Response implements ArrayAccess
     }
 
     /**
-     * Get the JSON decoded body of the response as an array or scalar value.
+     * Get the decoded body of the response as an array or scalar value.
      *
      * @param  string|null  $key
      * @param  mixed  $default
      * @return mixed
      */
-    public function json($key = null, $default = null)
+    public function data($key = null, $default = null)
     {
         if (! $this->decoded) {
-            $this->decoded = json_decode($this->body(), true);
+            $this->decoded = $this->decode();
         }
 
         if (is_null($key)) {
@@ -74,13 +79,28 @@ class Response implements ArrayAccess
     }
 
     /**
-     * Get the JSON decoded body of the response as an object.
+     * Set the decoder.
      *
-     * @return object|array
+     * @param  callable  $decoder
+     * @return void
      */
-    public function object()
+    public function decoder(callable $decoder): void
     {
-        return json_decode($this->body(), false);
+        $this->decoder = $decoder;
+    }
+
+    /**
+     * Decode the response body.
+     *
+     * @return array
+     */
+    protected function decode(): array
+    {
+        $decoder = $this->decoder ?: function (Response $response) {
+            return [];
+        };
+
+        return $decoder($this);
     }
 
     /**
@@ -284,7 +304,7 @@ class Response implements ArrayAccess
      */
     public function offsetExists($offset): bool
     {
-        return isset($this->json()[$offset]);
+        return isset($this->data()[$offset]);
     }
 
     /**
@@ -296,7 +316,7 @@ class Response implements ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        return $this->json()[$offset];
+        return $this->data()[$offset];
     }
 
     /**

@@ -7,6 +7,7 @@ namespace Jenky\Atlas;
 use Http\Discovery\Psr17FactoryDiscovery;
 use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class PendingRequest
 {
@@ -56,12 +57,23 @@ class PendingRequest
             ->send($this->request)
             ->through($this->gatherMiddleware())
             ->then(function ($request) {
-                return new Response(
+                return $this->prepareResponse(
                     $this->connector->client()->sendRequest(
                         $this->createRequest()
                     )
                 );
             });
+    }
+
+    /**
+     * Decorates the PRS response.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface  $response
+     * @return \Jenky\Atlas\Response
+     */
+    protected function prepareResponse(ResponseInterface $response): Response
+    {
+        return new Response($response);
     }
 
     /**
@@ -74,6 +86,7 @@ class PendingRequest
         $middleware = $this->connector->middleware();
 
         $middleware->prepend(Middleware\AttachContentTypeRequestHeader::class, 'body_format_content_type');
+        $middleware->after('body_format_content_type', Middleware\SetResponseDecoder::class);
         $middleware->push(Middleware\CastsResponseToDto::class, 'dto');
 
         return array_filter(array_map(function ($item) {

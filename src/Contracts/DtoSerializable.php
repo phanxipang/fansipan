@@ -12,7 +12,7 @@ interface DtoSerializable
      * Cast the response to DTO.
      *
      * @param  \Jenky\Atlas\Response  $response
-     * @return mixed
+     * @return object
      */
-    public function toDto(Response $response);
+    public function toDto(Response $response): object;
 }
