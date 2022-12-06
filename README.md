@@ -64,7 +64,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-travis]: https://travis-ci.org/jenky/atlas
 [link-scrutinizer]: https://scrutinizer-ci.com/g/jenky/atlas/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/jenky/atlas
-[link-gh-actions]: https://github.com/jenky/jenky/atlas
+[link-gh-actions]: https://github.com/jenky/atlas/actions
 [link-codecov]: https://codecov.io/gh/jenky/atlas
 [link-downloads]: https://packagist.org/packages/jenky/atlas
 
