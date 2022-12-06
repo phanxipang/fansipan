@@ -14,7 +14,7 @@ use Jenky\Atlas\Tests\Services\HTTPBin\PostRequest;
 
 class RequestTest extends TestCase
 {
-    public function test_sending_request_directly(): void
+    public function test_sending_request_directly()
     {
         $request = new GetHeadersRequest();
 
@@ -27,7 +27,7 @@ class RequestTest extends TestCase
         $this->assertTrue($response->ok());
     }
 
-    public function test_sending_request_from_connector(): void
+    public function test_sending_request_from_connector()
     {
         $connector = new Connector();
 
@@ -36,7 +36,7 @@ class RequestTest extends TestCase
         $this->assertTrue($response->ok());
     }
 
-    public function test_request_headers(): void
+    public function test_request_headers()
     {
         $request = new GetHeadersRequest();
 
@@ -51,7 +51,7 @@ class RequestTest extends TestCase
         $this->assertSame('atlas', $response->data('headers', [])['X-From'] ?? null);
     }
 
-    public function test_cast_json_to_dto(): void
+    public function test_cast_json_to_dto()
     {
         $request = new GetUuidRequest();
 
@@ -62,7 +62,7 @@ class RequestTest extends TestCase
         $this->assertSame($response->data('uuid'), $dto->uuid());
     }
 
-    public function test_request_body(): void
+    public function test_request_body()
     {
         $request = new PostAnythingRequest();
 
@@ -82,7 +82,7 @@ class RequestTest extends TestCase
         $this->assertSame('world', $data['hello'] ?? null);
     }
 
-    public function test_request_multipart(): void
+    public function test_request_multipart()
     {
         $request = new PostRequest('John', 'john.doe@example.com');
         $request->body()

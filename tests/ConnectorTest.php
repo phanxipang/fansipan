@@ -8,7 +8,7 @@ use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 
 class ConnectorTest extends TestCase
 {
-    public function test_middleware(): void
+    public function test_middleware()
     {
         $connector = new Connector();
 
