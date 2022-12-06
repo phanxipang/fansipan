@@ -30,7 +30,7 @@ trait HasClient
     }
 
     /**
-     * Get and set the HTTP client instance.
+     * Get the HTTP client instance.
      *
      * @return \Psr\Http\Client\ClientInterface
      */

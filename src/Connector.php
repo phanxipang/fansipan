@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-class Connector
+use Jenky\Atlas\Contracts\ConnectorInterface;
+
+class Connector implements ConnectorInterface
 {
     use Traits\HasClient;
     use Traits\HasMiddleware;
