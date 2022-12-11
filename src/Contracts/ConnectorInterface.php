@@ -42,10 +42,17 @@ interface ConnectorInterface
     public function pipeline(): PipelineInterface;
 
     /**
+     * Get the middleware instance.
+     *
+     * @return \Jenky\Atlas\Middleware
+     */
+    // public function middleware(): Middleware;
+
+    /**
      * Send the given request.
      *
-     * The request should be processed through the middleware via the pipeline
-     * before sending by the HTTP client.
+     * The request and response should be processed through the middleware via
+     * the pipeline.
      *
      * @param  \Jenky\Atlas\Request  $request
      * @return \Jenky\Atlas\Response
