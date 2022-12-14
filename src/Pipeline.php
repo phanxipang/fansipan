@@ -3,7 +3,7 @@
 namespace Jenky\Atlas;
 
 use Closure;
-use Illuminate\Contracts\Pipeline\Pipeline as PipelineInterface;
+use Jenky\Atlas\Contracts\PipelineInterface;
 use Throwable;
 
 class Pipeline implements PipelineInterface
@@ -21,13 +21,6 @@ class Pipeline implements PipelineInterface
      * @var array
      */
     protected $pipes = [];
-
-    /**
-     * The method to call on each pipe.
-     *
-     * @var string
-     */
-    protected $method = 'handle';
 
     /**
      * Set the object being sent through the pipeline.
@@ -69,19 +62,6 @@ class Pipeline implements PipelineInterface
     }
 
     /**
-     * Set the method to call on the pipes.
-     *
-     * @param  string  $method
-     * @return $this
-     */
-    public function via($method)
-    {
-        $this->method = $method;
-
-        return $this;
-    }
-
-    /**
      * Run the pipeline with a final destination callback.
      *
      * @param  \Closure  $destination
@@ -94,18 +74,6 @@ class Pipeline implements PipelineInterface
         );
 
         return $pipeline($this->passable);
-    }
-
-    /**
-     * Run the pipeline and return the result.
-     *
-     * @return mixed
-     */
-    public function thenReturn()
-    {
-        return $this->then(function ($passable) {
-            return $passable;
-        });
     }
 
     /**
@@ -156,9 +124,7 @@ class Pipeline implements PipelineInterface
                         $parameters = [$passable, $stack];
                     }
 
-                    $carry = method_exists($pipe, $this->method)
-                                    ? $pipe->{$this->method}(...$parameters)
-                                    : $pipe(...$parameters);
+                    $carry = $pipe(...$parameters);
 
                     return $this->handleCarry($carry);
                 } catch (Throwable $e) {

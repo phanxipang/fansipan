@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Traits;
 
-use Illuminate\Contracts\Pipeline\Pipeline as PipelineInterface;
+use Jenky\Atlas\Contracts\PipelineInterface;
 use Jenky\Atlas\Middleware;
 use Jenky\Atlas\Pipeline;
 
@@ -27,7 +27,7 @@ trait HasMiddleware
     /**
      * Set the pipeline instance.
      *
-     * @param  \Illuminate\Contracts\Pipeline\Pipeline  $pipeline
+     * @param  \Jenky\Atlas\Contracts\PipelineInterface  $pipeline
      * @return $this
      */
     public function withPipeline(PipelineInterface $pipeline)
@@ -40,7 +40,7 @@ trait HasMiddleware
     /**
      * Get the pipeline instance.
      *
-     * @return \Illuminate\Contracts\Pipeline\Pipeline
+     * @return \Jenky\Atlas\Contracts\PipelineInterface
      */
     public function pipeline(): PipelineInterface
     {
@@ -54,7 +54,7 @@ trait HasMiddleware
     /**
      * Define the default pipeline instance.
      *
-     * @return \Illuminate\Contracts\Pipeline\Pipeline
+     * @return \Jenky\Atlas\Contracts\PipelineInterface
      */
     protected function definePipeline(): PipelineInterface
     {

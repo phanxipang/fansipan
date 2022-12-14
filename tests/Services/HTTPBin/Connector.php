@@ -25,7 +25,7 @@ class Connector extends BaseConnector
         ]);
     }
 
-    public function defaultMiddleware(): array
+    protected function defaultMiddleware(): array
     {
         return [
             Middleware\AddCustomHeader::class,

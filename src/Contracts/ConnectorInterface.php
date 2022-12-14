@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Contracts;
 
-use Illuminate\Contracts\Pipeline\Pipeline as PipelineInterface;
+use Jenky\Atlas\Middleware;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 use Psr\Http\Client\ClientInterface;
@@ -37,7 +37,7 @@ interface ConnectorInterface
     /**
      * Get the pipeline instance.
      *
-     * @return \Illuminate\Contracts\Pipeline\Pipeline
+     * @return \Jenky\Atlas\Contracts\PipelineInterface
      */
     public function pipeline(): PipelineInterface;
 
@@ -46,7 +46,7 @@ interface ConnectorInterface
      *
      * @return \Jenky\Atlas\Middleware
      */
-    // public function middleware(): Middleware;
+    public function middleware(): Middleware;
 
     /**
      * Send the given request.
