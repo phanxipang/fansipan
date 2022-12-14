@@ -9,6 +9,7 @@ use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\DTO\Uuid;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetUuidRequest;
+use Jenky\Atlas\Tests\Services\HTTPBin\GetXmlRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\PostAnythingRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\PostRequest;
 
@@ -97,5 +98,17 @@ class RequestTest extends TestCase
         $this->assertSame('John', $data['name'] ?? null);
         $this->assertSame('john.doe@example.com', $data['email'] ?? null);
         $this->assertArrayHasKey('img', $response->data('files', []));
+    }
+
+    public function test_response_xml_decoder()
+    {
+        $request = new GetXmlRequest();
+
+        $response = $request->withConnector(Connector::class)->send();
+
+        $this->assertTrue($response->ok());
+
+        $this->assertIsArray($data = $response->data());
+        $this->assertCount(2, $data['slide']);
     }
 }

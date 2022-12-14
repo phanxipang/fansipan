@@ -6,6 +6,7 @@ namespace Jenky\Atlas\Middleware;
 
 use Closure;
 use Jenky\Atlas\Body\JsonDecoder;
+use Jenky\Atlas\Body\XmlDecoder;
 use Jenky\Atlas\Contracts\ResponseDecodable;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
@@ -43,6 +44,9 @@ class SetResponseDecoder
         switch ($response->header('Content-Type')) {
             case 'application/json':
                 return new JsonDecoder();
+
+            case 'application/xml':
+                return new XmlDecoder();
 
             default:
                 return null;
