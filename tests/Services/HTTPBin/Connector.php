@@ -10,6 +10,14 @@ use Psr\Http\Client\ClientInterface;
 
 class Connector extends BaseConnector
 {
+    protected $requests = [
+        GetHeadersRequest::class,
+        'dynamic' => [
+            'uuid' => GetUuidRequest::class,
+            'delay' => DelayRequest::class,
+        ],
+    ];
+
     protected function defineClient(): ClientInterface
     {
         return new Client([

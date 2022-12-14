@@ -10,6 +10,25 @@ class Connector implements ConnectorInterface
 {
     use Traits\HasClient;
     use Traits\HasMiddleware;
+    use Traits\HasRequestCollection;
+
+    /**
+     * The request collection.
+     *
+     * @var array
+     */
+    protected $requests = [];
+
+    /**
+     * Assign connector to given request.
+     *
+     * @param  \Jenky\Atlas\Request  $request
+     * @return \Jenky\Atlas\Request
+     */
+    public function request(Request $request): Request
+    {
+        return $request->withConnector($this);
+    }
 
     /**
      * Send the request.
@@ -19,8 +38,6 @@ class Connector implements ConnectorInterface
      */
     public function send(Request $request): Response
     {
-        return PendingRequest::from(
-            $request->withConnector($this)
-        )->send();
+        return PendingRequest::from($this->request($request))->send();
     }
 }

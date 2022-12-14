@@ -36,4 +36,22 @@ class ConnectorTest extends TestCase
         $this->assertSame('first', $middleware[0][1]);
         $this->assertSame('echo', $middleware[3][1]);
     }
+
+    public function test_requests_can_be_called_via_magic_method()
+    {
+        $connector = new Connector();
+
+        $response = $connector->getHeadersRequest()->send();
+
+        $this->assertTrue($response->ok());
+
+        $response = $connector->dynamic()->uuid()->send();
+
+        $this->assertTrue($response->ok());
+
+        $response = $connector->dynamic()->delay(2)->send();
+
+        $this->assertTrue($response->ok());
+        $this->assertSame('https://httpbin.org/delay/2', $response->data('url'));
+    }
 }
