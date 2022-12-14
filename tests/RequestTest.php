@@ -52,7 +52,7 @@ class RequestTest extends TestCase
         $this->assertSame('atlas', $response->data('headers', [])['X-From'] ?? null);
     }
 
-    public function test_cast_json_to_dto()
+    public function test_cast_response_to_dto()
     {
         $request = new GetUuidRequest();
 
@@ -104,7 +104,7 @@ class RequestTest extends TestCase
     {
         $request = new GetXmlRequest();
 
-        $response = $request->withConnector(Connector::class)->send();
+        $response = $request->send();
 
         $this->assertTrue($response->ok());
 

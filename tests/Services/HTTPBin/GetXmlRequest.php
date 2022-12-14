@@ -8,6 +8,8 @@ use Jenky\Atlas\Request;
 
 class GetXmlRequest extends Request
 {
+    protected $connector = Connector::class;
+
     public function endpoint(): string
     {
         return '/xml';
