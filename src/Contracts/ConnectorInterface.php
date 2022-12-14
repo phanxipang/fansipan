@@ -29,7 +29,7 @@ interface ConnectorInterface
     /**
      * Return the instance with provided pipeline.
      *
-     * @param  Pipeline  $pipeline
+     * @param  \Jenky\Atlas\Contracts\PipelineInterface  $pipeline
      * @return mixed
      */
     public function withPipeline(PipelineInterface $pipeline);

@@ -153,7 +153,7 @@ abstract class Request
     /**
      * Get the connector.
      *
-     * @return null|\Jenky\Atlas\Connector
+     * @return null|string|\Jenky\Atlas\Connector
      */
     public function connector()
     {

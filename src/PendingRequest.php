@@ -39,7 +39,7 @@ class PendingRequest
      * Create new pending request instance.
      *
      * @param  \Jenky\Atlas\Request  $request
-     * @return $this
+     * @return static
      */
     public static function from(Request $request)
     {
