@@ -13,13 +13,6 @@ class Connector implements ConnectorInterface
     use Traits\HasRequestCollection;
 
     /**
-     * The request collection.
-     *
-     * @var array
-     */
-    protected $requests = [];
-
-    /**
      * Assign connector to given request.
      *
      * @param  \Jenky\Atlas\Request  $request
