@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Body\Multipart;
+use Jenky\Atlas\Exceptions\HttpException;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\DTO\Uuid;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
+use Jenky\Atlas\Tests\Services\HTTPBin\GetStatusRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetUuidRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetXmlRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\PostAnythingRequest;
@@ -75,12 +77,10 @@ class RequestTest extends TestCase
 
         $response = $request->send();
 
-        $data = $response->data('json', []);
-
         $this->assertTrue($response->ok());
-        $this->assertSame('bar', $data['foo'] ?? null);
-        $this->assertSame('quiz', $data['buzz'] ?? null);
-        $this->assertSame('world', $data['hello'] ?? null);
+        $this->assertSame('bar', $response['json']['foo'] ?? null);
+        $this->assertSame('quiz', $response['json']['buzz'] ?? null);
+        $this->assertSame('world', $response['json']['hello'] ?? null);
     }
 
     public function test_request_multipart()
@@ -110,5 +110,14 @@ class RequestTest extends TestCase
 
         $this->assertIsArray($data = $response->data());
         $this->assertCount(2, $data['slide']);
+    }
+
+    public function test_response_exception()
+    {
+        $request = new GetStatusRequest(400);
+
+        $this->expectException(HttpException::class);
+
+        $response = $request->send()->throwIf(true);
     }
 }

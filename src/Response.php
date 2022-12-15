@@ -6,6 +6,7 @@ namespace Jenky\Atlas;
 
 use ArrayAccess;
 use Illuminate\Support\Traits\Macroable;
+use Jenky\Atlas\Exceptions\HttpException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -264,13 +265,19 @@ class Response implements ArrayAccess
     /**
      * Create an exception if a server or client error occurred.
      *
-     * @return \Illuminate\Http\Client\RequestException|null
+     * @return null|\Jenky\Atlas\Exceptions\HttpException
      */
-    public function toException()
+    public function toException(): ?HttpException
     {
-        if ($this->failed()) {
-            return new RequestException($this);
+        if ($this->clientError()) {
+            return new Exceptions\ClientException($this);
         }
+
+        if ($this->serverError()) {
+            return new Exceptions\ServerException($this);
+        }
+
+        return null;
     }
 
     /**
@@ -279,7 +286,7 @@ class Response implements ArrayAccess
      * @param  \Closure|null  $callback
      * @return $this
      *
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws \Jenky\Atlas\Exceptions\HttpException
      */
     public function throw()
     {
@@ -294,6 +301,19 @@ class Response implements ArrayAccess
         }
 
         return $this;
+    }
+
+    /**
+     * Throw an exception if a server or client error occurred and the given condition evaluates to true.
+     *
+     * @param  bool  $condition
+     * @return $this
+     *
+     * @throws \Jenky\Atlas\Exceptions\HttpException
+     */
+    public function throwIf(bool $condition)
+    {
+        return $condition ? $this->throw() : $this;
     }
 
     /**
