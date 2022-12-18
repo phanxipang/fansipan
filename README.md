@@ -56,7 +56,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-travis]: https://img.shields.io/travis/jenky/atlas/master.svg?style=for-the-badge
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/atlas.svg?style=for-the-badge
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/atlas.svg?style=for-the-badge
-[ico-gh-actions]: https://img.shields.io/github/workflow/status/jenky/atlas/Tests?label=actions&logo=github&style=for-the-badge
+[ico-gh-actions]: https://img.shields.io/github/actions/workflow/status/jenky/atlas/testing.yml?branch=main&label=actions&logo=github&style=for-the-badge
 [ico-codecov]: https://img.shields.io/codecov/c/github/jenky/atlas?logo=codecov&style=for-the-badge
 [ico-downloads]: https://img.shields.io/packagist/dt/jenky/atlas.svg?style=for-the-badge
 
