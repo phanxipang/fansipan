@@ -17,6 +17,13 @@ class GetStatusRequest extends Request
         $this->status = $status;
     }
 
+    public function withStatus(int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     public function endpoint(): string
     {
         return '/status/'.$this->status;

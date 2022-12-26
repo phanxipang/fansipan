@@ -6,6 +6,7 @@ namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Body\Multipart;
 use Jenky\Atlas\Exceptions\HttpException;
+use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\DTO\Uuid;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
@@ -118,6 +119,10 @@ class RequestTest extends TestCase
 
         $this->expectException(HttpException::class);
 
-        $response = $request->send()->throwIf(true);
+        $request->send()->throwIf(function (Response $response) {
+            return $response->failed();
+        });
+
+        $request->withStatus(200)->send()->throwIf(true);
     }
 }
