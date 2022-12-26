@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas;
 
 use ArrayAccess;
+use Closure;
 use Illuminate\Support\Traits\Macroable;
 use Jenky\Atlas\Exceptions\HttpException;
 use LogicException;
@@ -313,7 +314,9 @@ class Response implements ArrayAccess
      */
     public function throwIf($condition)
     {
-        return value($condition, $this) ? $this->throw(func_get_args()[1] ?? null) : $this;
+        $condition = $condition instanceof Closure ? $condition($this) : $condition;
+
+        return $condition ? $this->throw(func_get_args()[1] ?? null) : $this;
     }
 
     /**
