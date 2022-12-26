@@ -50,6 +50,11 @@
         "test": "vendor/bin/phpunit",
         "coverage": "vendor/bin/phpunit --coverage"
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
     "config": {
         "sort-packages": true
     },
