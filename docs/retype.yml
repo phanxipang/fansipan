@@ -1,0 +1,24 @@
+input: .
+output: .retype
+url: # Add your website address here
+
+branding:
+  title: Atlas
+  label: beta
+
+edit:
+  repo: https://github.com/jenky/atlas
+  base: /docs
+
+links:
+  - text: Home
+    link: /
+    icon: home
+
+  - text: Github
+    link: https://github.com/jenky/atlas
+    icon: mark-github
+    target: blank
+
+footer:
+  copyright: "&copy; Copyright {{ year }}. All rights reserved."
