@@ -15,7 +15,7 @@ trait HasMiddleware
      *
      * @var \Illuminate\Contracts\Pipeline\Pipeline
      */
-    protected $pipeline;
+    private $pipeline;
 
     /**
      * The middleware instance.

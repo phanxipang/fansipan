@@ -14,7 +14,7 @@ trait HasClient
      *
      * @var \Psr\Http\Client\ClientInterface
      */
-    protected $client;
+    private $client;
 
     /**
      * Set the HTTP client instance.
