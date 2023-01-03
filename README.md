@@ -7,22 +7,11 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Software License][ico-license]](LICENSE.md)
 
-This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
+A simple package that allows you to write your API integrations or SDKs in a elegant way.
 
-## Installation
+## Installation & Usage
 
-You can install the package via composer:
-
-```bash
-composer require jenky/atlas
-```
-
-## Usage
-
-```php
-$atlas = new Jenky\Atlas();
-echo $atlas->echoPhrase('Hello, Jenky!');
-```
+This package requires PHP >= 7.2.5. You'll find installation instructions and full documentation on https://jenky.github.io/atlas.
 
 ## Testing
 
