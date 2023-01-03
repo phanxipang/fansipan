@@ -22,7 +22,7 @@ trait HasMiddleware
      *
      * @var \Jenky\Atlas\Middleware
      */
-    protected $middleware;
+    private $middleware;
 
     /**
      * Set the pipeline instance.
