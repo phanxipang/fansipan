@@ -53,9 +53,6 @@ class Multipart implements MultipartInterface
     /**
      * Analyse the part.
      *
-     * @param  mixed  $part
-     * @return void
-     *
      * @throws \RuntimeException
      * @throws \UnexpectedValueException
      */
@@ -87,9 +84,6 @@ class Multipart implements MultipartInterface
     /**
      * Create a stream for given part.
      *
-     * @param  mixed  $content
-     * @return \Psr\Http\Message\StreamInterface
-     *
      * @throws \UnexpectedValueException
      */
     protected function createStream($content): StreamInterface
@@ -111,9 +105,6 @@ class Multipart implements MultipartInterface
 
     /**
      * Get the filename form the stream.
-     *
-     * @param  \Psr\Http\Message\StreamInterface  $stream
-     * @return null|string
      */
     private function getFilenameFromStream(StreamInterface $stream): ?string
     {
@@ -128,8 +119,6 @@ class Multipart implements MultipartInterface
 
     /**
      * Determine whether the part is file.
-     *
-     * @return bool
      */
     public function isFile(): bool
     {
@@ -138,8 +127,6 @@ class Multipart implements MultipartInterface
 
     /**
      * Get the filename in case part is file.
-     *
-     * @return null|string
      */
     public function filename(): ?string
     {
@@ -148,8 +135,6 @@ class Multipart implements MultipartInterface
 
     /**
      * Get the content type of the part.
-     *
-     * @return null|string
      */
     public function mimeType(): ?string
     {
@@ -178,8 +163,6 @@ class Multipart implements MultipartInterface
 
     /**
      * Get the stream representing the part.
-     *
-     * @return \Psr\Http\Message\StreamInterface
      */
     public function stream(): StreamInterface
     {

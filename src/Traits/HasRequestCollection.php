@@ -14,9 +14,6 @@ trait HasRequestCollection
 {
     /**
      * Build the request collection.
-     *
-     * @param  array  $collection
-     * @return array
      */
     protected function requests(array $collection): array
     {
@@ -36,10 +33,6 @@ trait HasRequestCollection
 
     /**
      * Create new instance of request from the collection mapping.
-     *
-     * @param  mixed  $method
-     * @param  array  $parameters
-     * @return \Jenky\Atlas\Request
      *
      * @throws \BadMethodCallException
      */

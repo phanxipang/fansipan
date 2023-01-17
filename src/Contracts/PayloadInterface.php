@@ -8,8 +8,6 @@ interface PayloadInterface
 {
     /**
      * Get the header content type value.
-     *
-     * @return null|string
      */
     public function contentType(): ?string;
 
@@ -64,8 +62,6 @@ interface PayloadInterface
 
     /**
      * Determine whether the payload data is empty.
-     *
-     * @return bool
      */
     public function isEmpty(): bool;
 }

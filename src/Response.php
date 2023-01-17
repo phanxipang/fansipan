@@ -52,8 +52,6 @@ class Response implements ArrayAccess
 
     /**
      * Get the body of the response.
-     *
-     * @return string
      */
     public function body(): string
     {
@@ -82,9 +80,6 @@ class Response implements ArrayAccess
 
     /**
      * Set the decoder.
-     *
-     * @param  callable  $decoder
-     * @return void
      */
     public function decoder(callable $decoder): void
     {
@@ -93,8 +88,6 @@ class Response implements ArrayAccess
 
     /**
      * Decode the response body.
-     *
-     * @return array
      */
     protected function decode(): array
     {
@@ -107,9 +100,6 @@ class Response implements ArrayAccess
 
     /**
      * Get a header from the response.
-     *
-     * @param  string  $header
-     * @return null|string
      */
     public function header(string $header): ?string
     {
@@ -118,8 +108,6 @@ class Response implements ArrayAccess
 
     /**
      * Get the headers from the response.
-     *
-     * @return array
      */
     public function headers(): array
     {
@@ -128,8 +116,6 @@ class Response implements ArrayAccess
 
     /**
      * Get the status code of the response.
-     *
-     * @return int
      */
     public function status(): int
     {
@@ -138,8 +124,6 @@ class Response implements ArrayAccess
 
     /**
      * Get the reason phrase of the response.
-     *
-     * @return string
      */
     public function reason(): string
     {
@@ -148,8 +132,6 @@ class Response implements ArrayAccess
 
     /**
      * Determine if the request was successful.
-     *
-     * @return bool
      */
     public function successful(): bool
     {
@@ -158,8 +140,6 @@ class Response implements ArrayAccess
 
     /**
      * Determine if the response code was "OK".
-     *
-     * @return bool
      */
     public function ok(): bool
     {
@@ -168,8 +148,6 @@ class Response implements ArrayAccess
 
     /**
      * Determine if the response was a redirect.
-     *
-     * @return bool
      */
     public function redirect(): bool
     {
@@ -178,8 +156,6 @@ class Response implements ArrayAccess
 
     /**
      * Determine if the response was a 401 "Unauthorized" response.
-     *
-     * @return bool
      */
     public function unauthorized(): bool
     {
@@ -188,8 +164,6 @@ class Response implements ArrayAccess
 
     /**
      * Determine if the response was a 403 "Forbidden" response.
-     *
-     * @return bool
      */
     public function forbidden(): bool
     {
@@ -198,8 +172,6 @@ class Response implements ArrayAccess
 
     /**
      * Determine if the response indicates a client or server error occurred.
-     *
-     * @return bool
      */
     public function failed(): bool
     {
@@ -208,8 +180,6 @@ class Response implements ArrayAccess
 
     /**
      * Determine if the response indicates a client error occurred.
-     *
-     * @return bool
      */
     public function clientError(): bool
     {
@@ -218,8 +188,6 @@ class Response implements ArrayAccess
 
     /**
      * Determine if the response indicates a server error occurred.
-     *
-     * @return bool
      */
     public function serverError(): bool
     {
@@ -228,11 +196,8 @@ class Response implements ArrayAccess
 
     /**
      * Execute the given callback if there was a server or client error.
-     *
-     * @param  callable  $callback
-     * @return $this
      */
-    public function onError(callable $callback)
+    public function onError(callable $callback): self
     {
         if ($this->failed()) {
             $callback($this);
@@ -243,10 +208,8 @@ class Response implements ArrayAccess
 
     /**
      * Close the stream and any underlying resources.
-     *
-     * @return $this
      */
-    public function close()
+    public function close(): self
     {
         $this->response->getBody()->close();
 
@@ -255,8 +218,6 @@ class Response implements ArrayAccess
 
     /**
      * Get the underlying PSR response for the response.
-     *
-     * @return \Psr\Http\Message\ResponseInterface
      */
     public function toPsrResponse(): ResponseInterface
     {
@@ -265,8 +226,6 @@ class Response implements ArrayAccess
 
     /**
      * Create an exception if a server or client error occurred.
-     *
-     * @return null|\Jenky\Atlas\Exceptions\HttpException
      */
     public function toException(): ?HttpException
     {
@@ -284,12 +243,9 @@ class Response implements ArrayAccess
     /**
      * Throw an exception if a server or client error occurred.
      *
-     * @param  \Closure|null  $callback
-     * @return $this
-     *
      * @throws \Jenky\Atlas\Exceptions\HttpException
      */
-    public function throw()
+    public function throw(): self
     {
         $callback = func_get_args()[0] ?? null;
 
@@ -307,12 +263,9 @@ class Response implements ArrayAccess
     /**
      * Throw an exception if a server or client error occurred and the given condition evaluates to true.
      *
-     * @param  bool|\Closure  $condition
-     * @return $this
-     *
      * @throws \Jenky\Atlas\Exceptions\HttpException
      */
-    public function throwIf($condition)
+    public function throwIf($condition): self
     {
         $condition = $condition instanceof Closure ? $condition($this) : $condition;
 
@@ -321,9 +274,6 @@ class Response implements ArrayAccess
 
     /**
      * Determine if the given offset exists.
-     *
-     * @param  string  $offset
-     * @return bool
      */
     public function offsetExists($offset): bool
     {
@@ -345,10 +295,6 @@ class Response implements ArrayAccess
     /**
      * Set the value at the given offset.
      *
-     * @param  string  $offset
-     * @param  mixed  $value
-     * @return void
-     *
      * @throws \LogicException
      */
     public function offsetSet($offset, $value): void
@@ -358,9 +304,6 @@ class Response implements ArrayAccess
 
     /**
      * Unset the value at the given offset.
-     *
-     * @param  string  $offset
-     * @return void
      *
      * @throws \LogicException
      */

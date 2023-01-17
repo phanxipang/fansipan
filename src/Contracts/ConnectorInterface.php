@@ -21,8 +21,6 @@ interface ConnectorInterface
 
     /**
      * Get the HTTP client instance.
-     *
-     * @return \Psr\Http\Client\ClientInterface
      */
     public function client(): ClientInterface;
 
@@ -36,15 +34,11 @@ interface ConnectorInterface
 
     /**
      * Get the pipeline instance.
-     *
-     * @return \Jenky\Atlas\Contracts\PipelineInterface
      */
     public function pipeline(): PipelineInterface;
 
     /**
      * Get the middleware instance.
-     *
-     * @return \Jenky\Atlas\Middleware
      */
     public function middleware(): Middleware;
 
@@ -53,9 +47,6 @@ interface ConnectorInterface
      *
      * The request and response should be processed through the middleware via
      * the pipeline.
-     *
-     * @param  \Jenky\Atlas\Request  $request
-     * @return \Jenky\Atlas\Response
      */
     public function send(Request $request): Response;
 }

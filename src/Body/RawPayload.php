@@ -27,8 +27,6 @@ class RawPayload implements PayloadInterface
 
     /**
      * Get the header content type value.
-     *
-     * @return null|string
      */
     public function contentType(): ?string
     {
@@ -37,8 +35,6 @@ class RawPayload implements PayloadInterface
 
     /**
      * Get the payload data.
-     *
-     * @return string
      */
     public function all(): string
     {
@@ -118,8 +114,6 @@ class RawPayload implements PayloadInterface
 
     /**
      * Determine whether payload data is empty.
-     *
-     * @return bool
      */
     public function isEmpty(): bool
     {

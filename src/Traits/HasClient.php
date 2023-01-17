@@ -18,9 +18,6 @@ trait HasClient
 
     /**
      * Set the HTTP client instance.
-     *
-     * @param  \Psr\Http\Client\ClientInterface  $client
-     * @return $this
      */
     public function withClient(ClientInterface $client)
     {
@@ -31,8 +28,6 @@ trait HasClient
 
     /**
      * Get the HTTP client instance.
-     *
-     * @return \Psr\Http\Client\ClientInterface
      */
     public function client(): ClientInterface
     {
@@ -45,8 +40,6 @@ trait HasClient
 
     /**
      * Define the default HTTP client instance.
-     *
-     * @return \Psr\Http\Client\ClientInterface
      */
     protected function defineClient(): ClientInterface
     {

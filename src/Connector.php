@@ -14,9 +14,6 @@ class Connector implements ConnectorInterface
 
     /**
      * Assign connector to given request.
-     *
-     * @param  \Jenky\Atlas\Request  $request
-     * @return \Jenky\Atlas\Request
      */
     public function request(Request $request): Request
     {
@@ -25,9 +22,6 @@ class Connector implements ConnectorInterface
 
     /**
      * Send the request.
-     *
-     * @param  \Jenky\Atlas\Request  $request
-     * @return \Jenky\Atlas\Response
      */
     public function send(Request $request): Response
     {

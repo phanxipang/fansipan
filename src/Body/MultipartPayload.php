@@ -38,8 +38,6 @@ class MultipartPayload extends Map implements PayloadInterface
 
     /**
      * Get the header content type value.
-     *
-     * @return null|string
      */
     public function contentType(): ?string
     {
@@ -48,8 +46,6 @@ class MultipartPayload extends Map implements PayloadInterface
 
     /**
      * Gather all the parts.
-     *
-     * @return array
      */
     private function parts(): array
     {
@@ -64,10 +60,6 @@ class MultipartPayload extends Map implements PayloadInterface
 
     /**
      * Build a single part.
-     *
-     * @param  string  $name
-     * @param  mixed  $value
-     * @return string
      */
     private function part(string $name, $value): string
     {

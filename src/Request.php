@@ -34,15 +34,11 @@ abstract class Request
 
     /**
      * Get the request endpoint.
-     *
-     * @return string
      */
     abstract public function endpoint(): string;
 
     /**
      * Get request query string parameters.
-     *
-     * @return array
      */
     protected function defaultQuery(): array
     {
@@ -51,8 +47,6 @@ abstract class Request
 
     /**
      * Get request headers.
-     *
-     * @return array
      */
     protected function defaultHeaders(): array
     {
@@ -71,8 +65,6 @@ abstract class Request
 
     /**
      * Create a body payload from body format.
-     *
-     * @return \Jenky\Atlas\Contracts\PayloadInterface
      */
     protected function definePayload(): PayloadInterface
     {
@@ -87,8 +79,6 @@ abstract class Request
 
     /**
      * Get request HTTP method.
-     *
-     * @return string
      */
     public function method(): string
     {
@@ -97,8 +87,6 @@ abstract class Request
 
     /**
      * Get request query string parameters.
-     *
-     * @return \Jenky\Atlas\Map
      */
     public function query(): Map
     {
@@ -111,8 +99,6 @@ abstract class Request
 
     /**
      * Get request headers.
-     *
-     * @return \Jenky\Atlas\Map
      */
     public function headers(): Map
     {
@@ -125,8 +111,6 @@ abstract class Request
 
     /**
      * Get request payload.
-     *
-     * @return \Jenky\Atlas\Contracts\PayloadInterface
      */
     public function body(): PayloadInterface
     {
@@ -162,8 +146,6 @@ abstract class Request
 
     /**
      * Send the request.
-     *
-     * @return \Jenky\Atlas\Response
      */
     public function send(): Response
     {

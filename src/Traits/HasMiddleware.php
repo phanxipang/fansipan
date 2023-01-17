@@ -26,9 +26,6 @@ trait HasMiddleware
 
     /**
      * Set the pipeline instance.
-     *
-     * @param  \Jenky\Atlas\Contracts\PipelineInterface  $pipeline
-     * @return $this
      */
     public function withPipeline(PipelineInterface $pipeline)
     {
@@ -39,8 +36,6 @@ trait HasMiddleware
 
     /**
      * Get the pipeline instance.
-     *
-     * @return \Jenky\Atlas\Contracts\PipelineInterface
      */
     public function pipeline(): PipelineInterface
     {
@@ -53,8 +48,6 @@ trait HasMiddleware
 
     /**
      * Define the default pipeline instance.
-     *
-     * @return \Jenky\Atlas\Contracts\PipelineInterface
      */
     protected function definePipeline(): PipelineInterface
     {
@@ -63,8 +56,6 @@ trait HasMiddleware
 
     /**
      * Get the middleware instance.
-     *
-     * @return \Jenky\Atlas\Middleware
      */
     public function middleware(): Middleware
     {
@@ -77,8 +68,6 @@ trait HasMiddleware
 
     /**
      * Get default middleware.
-     *
-     * @return array
      */
     protected function defaultMiddleware(): array
     {

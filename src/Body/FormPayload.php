@@ -11,8 +11,6 @@ class FormPayload extends Map implements PayloadInterface
 {
     /**
      * Get the header content type value.
-     *
-     * @return null|string
      */
     public function contentType(): ?string
     {

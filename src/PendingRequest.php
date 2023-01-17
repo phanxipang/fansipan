@@ -48,8 +48,6 @@ class PendingRequest
 
     /**
      * Send the request through connector middleware.
-     *
-     * @return \Jenky\Atlas\Response
      */
     public function send(): Response
     {
@@ -67,9 +65,6 @@ class PendingRequest
 
     /**
      * Decorates the PRS response.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface  $response
-     * @return \Jenky\Atlas\Response
      */
     protected function toResponse(ResponseInterface $response): Response
     {
@@ -78,8 +73,6 @@ class PendingRequest
 
     /**
      * Gather all the middleware from the connector instance.
-     *
-     * @return array
      */
     protected function gatherMiddleware(): array
     {
@@ -96,8 +89,6 @@ class PendingRequest
 
     /**
      * Build the request URI.
-     *
-     * @return string
      */
     protected function uri(): string
     {
@@ -112,8 +103,6 @@ class PendingRequest
 
     /**
      * Create a connector instance.
-     *
-     * @return \Jenky\Atlas\Connector
      *
      * @throws \InvalidArgumentException
      */
@@ -136,8 +125,6 @@ class PendingRequest
 
     /**
      * Create new PSR request instance.
-     *
-     * @return \Psr\Http\Message\RequestInterface
      */
     protected function toPsrRequest(): RequestInterface
     {
