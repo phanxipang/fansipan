@@ -10,7 +10,6 @@ class Connector implements ConnectorInterface
 {
     use Traits\HasClient;
     use Traits\HasMiddleware;
-    use Traits\HasRequestCollection;
 
     /**
      * Assign connector to given request.
