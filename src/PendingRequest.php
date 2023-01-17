@@ -57,9 +57,9 @@ class PendingRequest
             ->send($this->request)
             ->through($this->gatherMiddleware())
             ->then(function ($request) {
-                return $this->prepareResponse(
+                return $this->toResponse(
                     $this->connector->client()->sendRequest(
-                        $this->createRequest()
+                        $this->toPsrRequest()
                     )
                 );
             });
@@ -71,7 +71,7 @@ class PendingRequest
      * @param  \Psr\Http\Message\ResponseInterface  $response
      * @return \Jenky\Atlas\Response
      */
-    protected function prepareResponse(ResponseInterface $response): Response
+    protected function toResponse(ResponseInterface $response): Response
     {
         return new Response($response);
     }
@@ -139,7 +139,7 @@ class PendingRequest
      *
      * @return \Psr\Http\Message\RequestInterface
      */
-    protected function createRequest(): RequestInterface
+    protected function toPsrRequest(): RequestInterface
     {
         $request = Psr17FactoryDiscovery::findRequestFactory()->createRequest(
             $this->request->method(), $this->uri()
