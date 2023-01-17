@@ -331,8 +331,17 @@ class Response implements ArrayAccess
      */
     public function __call($method, $parameters)
     {
-        return static::hasMacro($method)
-            ? $this->macroCall($method, $parameters)
-            : $this->response->{$method}(...$parameters);
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
+
+        $result = $this->response->{$method}(...$parameters);
+
+        if ($result instanceof ResponseInterface) {
+            // Allow to modify response
+            $this->response = $result;
+        }
+
+        return $this;
     }
 }

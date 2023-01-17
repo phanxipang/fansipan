@@ -25,10 +25,14 @@ class ConnectorTest extends TestCase
 
         $this->assertCount(2, $connector->middleware());
 
-        $connector->middleware()->before('echo', Interceptor::request(function () {
+        $id = uniqid();
+
+        $connector->middleware()->before('echo', Interceptor::request(function (Request $request) use ($id) {
+            $request->headers()->with('X-Unique-Id', $id);
         }));
 
-        $connector->middleware()->after('echo', Interceptor::response(function () {
+        $connector->middleware()->after('echo', Interceptor::response(function (Response $response) use ($id) {
+            $response->withHeader('X-Unique-Id', $id);
         }));
 
         $connector->middleware()->prepend(function (Request $request, Closure $next): Response {
@@ -43,8 +47,7 @@ class ConnectorTest extends TestCase
         $this->assertSame('echo', $middleware[3][1]);
 
         $connector->middleware()->push(function (Request $request, Closure $next): Response {
-            $request->headers()
-                ->with('X-Foo', 'bar');
+            $request->headers()->with('X-Foo', 'bar');
 
             return $next($request);
         });
@@ -53,6 +56,8 @@ class ConnectorTest extends TestCase
 
         $this->assertTrue($response->ok());
         $this->assertSame('bar', $response->data('headers.X-Foo'));
+        $this->assertSame($id, $response->data('headers.X-Unique-Id'));
+        $this->assertSame($id, $response->header('X-Unique-Id'));
     }
 
     public function test_requests_can_be_called_via_magic_method()

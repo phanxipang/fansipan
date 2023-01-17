@@ -6,10 +6,13 @@ namespace Jenky\Atlas\Tests\Services\HTTPBin;
 
 use GuzzleHttp\Client;
 use Jenky\Atlas\Connector as BaseConnector;
+use Jenky\Atlas\Traits\HasRequestCollection;
 use Psr\Http\Client\ClientInterface;
 
 class Connector extends BaseConnector
 {
+    use HasRequestCollection;
+
     protected $requests = [
         GetHeadersRequest::class,
         'dynamic' => [
