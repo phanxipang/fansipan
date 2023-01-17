@@ -91,17 +91,20 @@ $request->send();
 
 ## Using Request Collection
 
-Alternatively, you can define request classes and groups of requests on your connector class by using the `$requests` property to define requests. By using this method, you will have to register your API routes, but then developers can use methods to make API calls.
+Alternatively, you can define request classes and groups of requests on your connector class by using the `$requests` property to define requests. By using this method, you will have to register your API routes, but then developers can use methods to make API calls. To enable request collection for a connector, add the `Jenky\Atlas\Traits\HasRequestCollection` trait to the connector:
 
 ```php
 <?php
 
 use GuzzleHttp\Client;
 use Jenky\Atlas\Connector;
+use Jenky\Atlas\Traits\HasRequestCollection;
 use Psr\Http\Client\ClientInterface;
 
 class Github extends Connector
 {
+    use HasRequestCollection;
+
     protected $requests = [
         GetRepository::class,
     ];

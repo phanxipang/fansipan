@@ -11,8 +11,6 @@ Your request should extend the `Jenky\Atlas\Request` abstract class. After that,
 ```php
 <?php
 
-use GuzzleHttp\Client;
-
 class MyRequest extends Request
 {
     protected $method = 'POST';
@@ -34,6 +32,8 @@ Because connector contains your HTTP client instance and the middleware logic. I
 
 use Jenky\Atlas\Connector;
 use Jenky\Atlas\Request;
+use GuzzleHttp\Client;
+use Psr\Http\Client\ClientInterface;
 
 class MyConnector extends Connector
 {
