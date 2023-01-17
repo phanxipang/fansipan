@@ -49,7 +49,7 @@ class ConnectorTest extends TestCase
             return $next($request);
         });
 
-        $response = $connector->send(new GetHeadersRequest);
+        $response = $connector->send(new GetHeadersRequest());
 
         $this->assertTrue($response->ok());
         $this->assertSame('bar', $response->data('headers.X-Foo'));
