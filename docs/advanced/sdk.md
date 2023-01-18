@@ -84,7 +84,7 @@ $github = new Github('access-token');
 $github->send(new GetRepository('jenky', 'atlas'));
 
 // Or if you would like to do something with the request before sending it.
-$request = $tmdb->request(new GetRepository('jenky', 'atlas'));
+$request = $github->request(new GetRepository('jenky', 'atlas'));
 $request->headers()->with('X-Foo', 'baz');
 $request->send();
 ```

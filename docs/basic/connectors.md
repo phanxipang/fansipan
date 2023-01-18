@@ -39,12 +39,15 @@ Then you can start [using your connector from your request](requests.md#specify-
 ```php
 $connector = new GithubConnector(token: 'github-token');
 
-$connector->send(new GetUserReposRequest('jenky/atlas');
+$connector->send(new GetUserRepoRequest('jenky/atlas');
 // or
-$connector->request(new GetUserReposRequest('jenky/atlas'))->send();
+$connector->request(new GetUserRepoRequest('jenky/atlas'))->send();
 ```
 
 This allows you to have constructor arguments on the connector, perfect for API tokens or configuration and also utilizes the powerful [middleware pipeline](../advanced/middleware.md) feature.
 
 In addition, you can also bind your connector to [PSR-11](https://www.php-fig.org/psr/psr-11/) container so you don't have create a connector every time you want to send requests.
 
+## Advanced Usage
+
+Please visit the `Advanced` chapter to explore additional usage of connector.

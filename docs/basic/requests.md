@@ -26,6 +26,24 @@ class MyRequest extends Request
 
 Because connector contains your HTTP client instance and the middleware logic. Instead of using default connector, you can use your own connector by using `$connector` property.
 
++++ MyRequest.php
+```php
+<?php
+
+use Jenky\Atlas\Request;
+
+class MyRequest extends Request
+{
+    protected $connector = MyConnector::class;
+
+    protected $method = 'POST';
+
+    public function endpoint(): string
+    {
+        return '/anything';
+    }
+}
+```
 +++ MyConnector.php
 ```php
 <?php
@@ -46,24 +64,6 @@ class MyConnector extends Connector
     }
 }
 ```
-+++ MyRequest.php
-```php
-<?php
-
-use Jenky\Atlas\Request;
-
-class MyRequest extends Request
-{
-    protected $connector = MyConnector::class;
-
-    protected $method = 'POST';
-
-    public function endpoint(): string
-    {
-        return '/anything';
-    }
-}
-```
 +++
 
 Or if your appliation logic needs to overwrite the default `MyConnector` on the fly, you can do so by calling `withConnector` method before sending the request.
@@ -71,6 +71,8 @@ Or if your appliation logic needs to overwrite the default `MyConnector` on the 
 ```php
 $request = new MyRequest();
 $request->withConnector(OtherConnector::class)->send();
+// or using connector instance so you can pass the constructor arguments
+$request->withConnector(new OtherConnector())->send();
 ```
 
 ## Default Headers And Query Parameters
