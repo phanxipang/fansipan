@@ -60,9 +60,9 @@ class Response implements ArrayAccess
     /**
      * Get the decoded body of the response as an array or scalar value.
      *
-     * @return mixed
+     * @return array
      */
-    public function data()
+    public function data(): array
     {
         if (! $this->decoded) {
             $this->decoded = $this->decode();
