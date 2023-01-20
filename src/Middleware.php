@@ -26,8 +26,8 @@ class Middleware implements IteratorAggregate, Countable
     public function all(): array
     {
         if (! empty($this->except)) {
-            $middleware = array_filter($this->except, function ($item) {
-                return ! in_array($item[1] ?? null, $this->except);
+            $middleware = array_filter($this->middleware, function ($item) {
+                return ! in_array($item[1] ?? '', $this->except);
             });
 
             $this->except = [];

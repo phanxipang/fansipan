@@ -20,6 +20,7 @@ class ConnectorTest extends TestCase
         $this->assertCount(1, $connector->middleware());
 
         $connector->middleware()->push(function (Request $request, Closure $next): Response {
+            $request->headers()->with('Echo', 'Atlas');
             return $next($request);
         }, 'echo');
 
@@ -46,18 +47,25 @@ class ConnectorTest extends TestCase
         $this->assertSame('first', $middleware[0][1]);
         $this->assertSame('echo', $middleware[3][1]);
 
+        $connector->middleware()->remove('first');
+
+        $this->assertCount(4, $connector->middleware());
+
         $connector->middleware()->push(function (Request $request, Closure $next): Response {
             $request->headers()->with('X-Foo', 'bar');
 
             return $next($request);
         });
 
+        $connector->middleware()->without('echo');
+
         $response = $connector->send(new GetHeadersRequest());
 
         $this->assertTrue($response->ok());
         $this->assertSame('bar', $response->data()['headers']['X-Foo'] ?? null);
         $this->assertSame($id, $response->data()['headers']['X-Unique-Id'] ?? null);
-        $this->assertSame($id, $response->data()['headers']['X-Unique-Id'] ?? null);
+        $this->assertSame($id, $response->header('X-Unique-Id'));
+        $this->assertArrayNotHasKey('Echo', $response->data()['headers'] ?? []);
     }
 
     public function test_requests_can_be_called_via_magic_method()
