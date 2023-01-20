@@ -51,8 +51,8 @@ class RequestTest extends TestCase
         $response = $request->withConnector(Connector::class)->send();
 
         $this->assertTrue($response->ok());
-        $this->assertSame('bar', $response->data('headers', [])['X-Foo'] ?? null);
-        $this->assertSame('atlas', $response->data('headers', [])['X-From'] ?? null);
+        $this->assertSame('bar', $response->data()['headers']['X-Foo'] ?? null);
+        $this->assertSame('atlas', $response->data()['headers']['X-From'] ?? null);
     }
 
     public function test_cast_response_to_dto()
@@ -63,7 +63,7 @@ class RequestTest extends TestCase
 
         $this->assertTrue($response->ok());
         $this->assertInstanceOf(Uuid::class, $dto = $response->dto());
-        $this->assertSame($response->data('uuid'), $dto->uuid());
+        $this->assertSame($response->data()['uuid'] ?? null, $dto->uuid());
     }
 
     public function test_request_body()
@@ -94,11 +94,11 @@ class RequestTest extends TestCase
 
         $this->assertFalse($response->failed());
 
-        $data = $response->data('form', []);
+        $data = $response->data()['form'] ?? [];
 
         $this->assertSame('John', $data['name'] ?? null);
         $this->assertSame('john.doe@example.com', $data['email'] ?? null);
-        $this->assertArrayHasKey('img', $response->data('files', []));
+        $this->assertArrayHasKey('img', $response->data()['files'] ?? []);
     }
 
     public function test_response_xml_decoder()

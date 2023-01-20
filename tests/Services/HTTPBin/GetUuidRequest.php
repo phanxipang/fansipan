@@ -18,6 +18,6 @@ class GetUuidRequest extends Request implements DtoSerializable
 
     public function toDto(Response $response): object
     {
-        return new Uuid($response->data('uuid', ''));
+        return new Uuid($response->data()['uuid'] ?? '');
     }
 }

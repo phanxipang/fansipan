@@ -55,9 +55,9 @@ class ConnectorTest extends TestCase
         $response = $connector->send(new GetHeadersRequest());
 
         $this->assertTrue($response->ok());
-        $this->assertSame('bar', $response->data('headers.X-Foo'));
-        $this->assertSame($id, $response->data('headers.X-Unique-Id'));
-        $this->assertSame($id, $response->header('X-Unique-Id'));
+        $this->assertSame('bar', $response->data()['headers']['X-Foo'] ?? null);
+        $this->assertSame($id, $response->data()['headers']['X-Unique-Id'] ?? null);
+        $this->assertSame($id, $response->data()['headers']['X-Unique-Id'] ?? null);
     }
 
     public function test_requests_can_be_called_via_magic_method()
@@ -75,6 +75,6 @@ class ConnectorTest extends TestCase
         $response = $connector->dynamic()->delay(2)->send();
 
         $this->assertTrue($response->ok());
-        $this->assertSame('https://httpbin.org/delay/2', $response->data('url'));
+        $this->assertSame('https://httpbin.org/delay/2', $response->data()['url'] ?? null);
     }
 }

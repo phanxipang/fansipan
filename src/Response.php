@@ -6,7 +6,6 @@ namespace Jenky\Atlas;
 
 use ArrayAccess;
 use Closure;
-use Illuminate\Support\Traits\Macroable;
 use Jenky\Atlas\Exceptions\HttpException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
@@ -18,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Response implements ArrayAccess
 {
-    use Macroable {
+    use Traits\Macroable {
         __call as macroCall;
     }
 
@@ -250,11 +249,13 @@ class Response implements ArrayAccess
         $callback = func_get_args()[0] ?? null;
 
         if ($this->failed()) {
-            throw tap($this->toException(), function ($exception) use ($callback) {
-                if ($callback && is_callable($callback)) {
-                    $callback($this, $exception);
-                }
-            });
+            $exception = $this->toException();
+
+            if ($callback && is_callable($callback)) {
+                $callback($this, $exception);
+            }
+
+            throw $exception;
         }
 
         return $this;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Middleware;
 
 use Closure;
-use Illuminate\Support\Str;
 use Jenky\Atlas\Body\JsonDecoder;
 use Jenky\Atlas\Body\XmlDecoder;
 use Jenky\Atlas\Contracts\DecoderAwareInterface;
@@ -38,7 +37,7 @@ class SetResponseDecoder
      */
     protected function chooseDecoder(Request $request, Response $response)
     {
-        if (Str::contains($response->header('Content-Type'), 'json')) {
+        if (mb_strpos($response->header('Content-Type'), 'json') !== false) {
             return new JsonDecoder();
         }
 
