@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.727264727732">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.727499471557">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -31,12 +31,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.727264727732" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.727499471557" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.727264727732" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.727499471557" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.727264727732" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.727264727732" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.727499471557" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.727499471557" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -237,6 +237,26 @@ class MyRequest extends Request
 </doc-anchor-target>
 <p>Because connector contains your HTTP client instance and the middleware logic. Instead of using default connector, you can use your own connector by using <code v-pre>$connector</code> property.</p>
 <doc-tabs>
+<doc-tab id="myrequest-php">
+<template #title>MyRequest.php</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">&lt;?php
+
+use Jenky\Atlas\Request;
+
+class MyRequest extends Request
+{
+    protected $connector = MyConnector::class;
+
+    protected $method = 'POST';
+
+    public function endpoint(): string
+    {
+        return '/anything';
+    }
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
 <doc-tab id="myconnector-php">
 <template #title>MyConnector.php</template>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -259,31 +279,13 @@ class MyConnector extends Connector
 }</code></pre>
 </doc-codeblock></div>
 </doc-tab>
-<doc-tab id="myrequest-php">
-<template #title>MyRequest.php</template>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
-
-use Jenky\Atlas\Request;
-
-class MyRequest extends Request
-{
-    protected $connector = MyConnector::class;
-
-    protected $method = 'POST';
-
-    public function endpoint(): string
-    {
-        return '/anything';
-    }
-}</code></pre>
-</doc-codeblock></div>
-</doc-tab>
 </doc-tabs>
 <p>Or if your appliation logic needs to overwrite the default <code v-pre>MyConnector</code> on the fly, you can do so by calling <code v-pre>withConnector</code> method before sending the request.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">$request = new MyRequest();
-$request-&gt;withConnector(OtherConnector::class)-&gt;send();</code></pre>
+$request-&gt;withConnector(OtherConnector::class)-&gt;send();
+// or using connector instance so you can pass the constructor arguments
+$request-&gt;withConnector(new OtherConnector())-&gt;send();</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="default-headers-and-query-parameters">
     <h2>
