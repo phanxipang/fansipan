@@ -6,9 +6,9 @@ All requests will return an instance of `Jenky\Atlas\Response`, which is a decor
 
 ```php
 $response->body(): string;
-$response->data($key = null, $default = null): array|mixed;
+$response->data(): array;
 $response->status(): int;
-$response->failed(): bool;
+$response->ok(): bool;
 $response->successful(): bool;
 $response->failed(): bool;
 $response->header(string $header): ?string;
@@ -29,7 +29,7 @@ $response->throwIf($condition);
 
 ## Casting To Data Transfer Objects (DTOs)
 
-You may wish to cast the data you receive in an API response to a data transfer object (DTO).
+While working with API, you may wish to cast the data you receive in an API response to a data transfer object (DTO).
 
 ### Configuring
 
