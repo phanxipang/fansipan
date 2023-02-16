@@ -14,7 +14,6 @@ interface ConnectorInterface
     /**
      * Return the instance with provided HTTP client.
      *
-     * @param  \Psr\Http\Client\ClientInterface  $client
      * @return mixed
      */
     public function withClient(ClientInterface $client);
@@ -27,7 +26,6 @@ interface ConnectorInterface
     /**
      * Return the instance with provided pipeline.
      *
-     * @param  \Jenky\Atlas\Contracts\PipelineInterface  $pipeline
      * @return mixed
      */
     public function withPipeline(PipelineInterface $pipeline);
