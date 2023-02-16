@@ -37,7 +37,6 @@ interface PayloadInterface
     /**
      * Set value to the payload for given key.
      *
-     * @param  string  $key
      * @param  mixed  $value
      * @return mixed
      */
@@ -55,7 +54,6 @@ interface PayloadInterface
     /**
      * Delete an item from the payload by its unique key.
      *
-     * @param  string  $key
      * @return mixed
      */
     public function remove(string $key);

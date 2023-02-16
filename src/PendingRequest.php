@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use Http\Discovery\Psr17FactoryDiscovery;
 use InvalidArgumentException;
-use Psr\Http\Message\RequestInterface;
+use Jenky\Atlas\Contracts\ConnectorInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class PendingRequest
+final class PendingRequest
 {
     /**
      * @var \Jenky\Atlas\Request
      */
-    protected $request;
+    private $request;
 
     /**
      * @var \Jenky\Atlas\Connector
      */
-    protected $connector;
+    private $connector;
 
     /**
      * Create new pending request instance.
@@ -57,10 +56,19 @@ class PendingRequest
             ->then(function ($request) {
                 return $this->toResponse(
                     $this->connector->client()->sendRequest(
-                        $this->toPsrRequest()
+                        Util::request($request)
                     )
                 );
             });
+
+        /* return $this->toResponse($this->connector->pipeline()
+            ->send(Util::request($this->request))
+            ->through($this->gatherMiddleware())
+            ->then(function ($request) {
+                return $this->connector->client()
+                    ->sendRequest($request);
+            })
+        ); */
     }
 
     /**
@@ -88,25 +96,11 @@ class PendingRequest
     }
 
     /**
-     * Build the request URI.
-     */
-    protected function uri(): string
-    {
-        $uri = $this->request->endpoint();
-
-        if ($this->request->query()->isNotEmpty()) {
-            $uri .= '?'.http_build_query($this->request->query()->all());
-        }
-
-        return $uri;
-    }
-
-    /**
      * Create a connector instance.
      *
      * @throws \InvalidArgumentException
      */
-    protected function createConnector(): Connector
+    protected function createConnector(): ConnectorInterface
     {
         $connector = $this->request->connector();
 
@@ -121,27 +115,5 @@ class PendingRequest
         }
 
         return is_string($connector) ? new $connector() : $connector;
-    }
-
-    /**
-     * Create new PSR request instance.
-     */
-    protected function toPsrRequest(): RequestInterface
-    {
-        $request = Psr17FactoryDiscovery::findRequestFactory()->createRequest(
-            $this->request->method(), $this->uri()
-        );
-
-        if ($this->request->headers()->isNotEmpty()) {
-            foreach ($this->request->headers() as $name => $value) {
-                $request = $request->withHeader($name, $value);
-            }
-        }
-
-        return $request->withBody(
-            Psr17FactoryDiscovery::findStreamFactory()->createStream(
-                (string) $this->request->body()
-            )
-        );
     }
 }
