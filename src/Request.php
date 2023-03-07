@@ -13,7 +13,7 @@ abstract class Request
     /**
      * The connector instance.
      *
-     * @var null|\Jenky\Atlas\Connector
+     * @var null|class-string|\Jenky\Atlas\Contracts\ConnectorInterface
      */
     protected $connector;
 
@@ -90,7 +90,7 @@ abstract class Request
      */
     public function query(): Map
     {
-        if (is_null($this->query)) {
+        if (! $this->query instanceof Map) {
             $this->query = new Map($this->defaultQuery());
         }
 
@@ -102,7 +102,7 @@ abstract class Request
      */
     public function headers(): Map
     {
-        if (is_null($this->headers)) {
+        if (! $this->headers instanceof Map) {
             $this->headers = new Map($this->defaultHeaders());
         }
 
@@ -114,7 +114,7 @@ abstract class Request
      */
     public function body(): PayloadInterface
     {
-        if (is_null($this->body)) {
+        if (! $this->body instanceof Map) {
             $this->body = $this->definePayload();
         }
 
@@ -124,7 +124,7 @@ abstract class Request
     /**
      * Set the connector.
      *
-     * @param  string|\Jenky\Atlas\Connector  $connector
+     * @param  class-string|\Jenky\Atlas\Contracts\ConnectorInterface  $connector
      * @return $this
      */
     public function withConnector($connector)
@@ -137,7 +137,7 @@ abstract class Request
     /**
      * Get the connector.
      *
-     * @return null|string|\Jenky\Atlas\Connector
+     * @return null|class-string|\Jenky\Atlas\Contracts\ConnectorInterface
      */
     public function connector()
     {

@@ -11,7 +11,7 @@ use Jenky\Atlas\Contracts\DecoderAwareInterface;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
-class SetResponseDecoder
+final class SetResponseDecoder
 {
     public function __invoke(Request $request, Closure $next): Response
     {
@@ -35,7 +35,7 @@ class SetResponseDecoder
     /**
      * Choose the appropriate decoder.
      */
-    protected function chooseDecoder(Request $request, Response $response)
+    protected function chooseDecoder(Request $request, Response $response): ?callable
     {
         if (mb_strpos($response->header('Content-Type'), 'json') !== false) {
             return new JsonDecoder();

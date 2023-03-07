@@ -6,7 +6,7 @@ use Closure;
 use Jenky\Atlas\Contracts\PipelineInterface;
 use Throwable;
 
-class Pipeline implements PipelineInterface
+final class Pipeline implements PipelineInterface
 {
     /**
      * The object being passed through the pipeline.

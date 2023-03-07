@@ -8,7 +8,7 @@ use Closure;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
-class AttachContentTypeRequestHeader
+final class AttachContentTypeRequestHeader
 {
     public function __invoke(Request $request, Closure $next): Response
     {

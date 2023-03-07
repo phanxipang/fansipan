@@ -9,7 +9,7 @@ use Jenky\Atlas\Contracts\DtoSerializable;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
-class CastsResponseToDto
+final class CastsResponseToDto
 {
     public function __invoke(Request $request, Closure $next): Response
     {

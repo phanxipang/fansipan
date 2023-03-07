@@ -36,7 +36,10 @@
     "autoload": {
         "psr-4": {
             "Jenky\\Atlas\\": "src"
-        }
+        },
+        "classmap": [
+            "stubs"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -44,10 +47,18 @@
         }
     },
     "scripts": {
-        "analyse": "vendor/bin/phpstan analyse",
-        "cs": "vendor/bin/php-cs-fixer fix",
-        "test": "vendor/bin/phpunit",
-        "coverage": "vendor/bin/phpunit --coverage"
+        "analyse": [
+            "vendor/bin/phpstan analyse"
+        ],
+        "cs": [
+            "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix"
+        ],
+        "test": [
+            "vendor/bin/phpunit"
+        ],
+        "coverage": [
+            "vendor/bin/phpunit --coverage"
+        ]
     },
     "extra": {
         "branch-alias": {

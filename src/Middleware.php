@@ -10,10 +10,16 @@ use InvalidArgumentException;
 use IteratorAggregate;
 use Traversable;
 
-class Middleware implements IteratorAggregate, Countable
+final class Middleware implements IteratorAggregate, Countable
 {
+    /**
+     * @var array
+     */
     protected $middleware = [];
 
+    /**
+     * @var array
+     */
     protected $except = [];
 
     public function __construct(array $middleware = [])
@@ -38,6 +44,12 @@ class Middleware implements IteratorAggregate, Countable
         return $this->middleware;
     }
 
+    /**
+     * Push a middleware to stack.
+     *
+     * @param  callable|class-string  $middleware
+     * @return $this
+     */
     public function push($middleware, string $name = '')
     {
         $this->middleware[] = [$middleware, $name];
@@ -45,6 +57,12 @@ class Middleware implements IteratorAggregate, Countable
         return $this;
     }
 
+    /**
+     * Prepend a middleware to the top of the stack.
+     *
+     * @param  callable|class-string  $middleware
+     * @return $this
+     */
     public function prepend($middleware, string $name = '')
     {
         array_unshift($this->middleware, [$middleware, $name]);
@@ -52,16 +70,38 @@ class Middleware implements IteratorAggregate, Countable
         return $this;
     }
 
+    /**
+     * Add a middleware before another middleware by name.
+     *
+     * @param  callable|class-string  $middleware
+     * @return $this
+     */
     public function before(string $findName, $middleware, string $name = '')
     {
-        return $this->splice($findName, $name, $middleware, true);
+        $this->splice($findName, $name, $middleware, true);
+
+        return $this;
     }
 
+    /**
+     * Add a middleware after another middleware by name.
+     *
+     * @param  callable|class-string  $middleware
+     * @return $this
+     */
     public function after(string $findName, $middleware, string $name = '')
     {
-        return $this->splice($findName, $name, $middleware, false);
+        $this->splice($findName, $name, $middleware, false);
+
+        return $this;
     }
 
+    /**
+     * Temporary disable middleware.
+     *
+     * @param  array|string[]  $name
+     * @return $this
+     */
     public function without($name)
     {
         $this->except = is_array($name) ? $name : func_get_args();
@@ -69,6 +109,12 @@ class Middleware implements IteratorAggregate, Countable
         return $this;
     }
 
+    /**
+     * Remove a middleware by instance or name from the stack.
+     *
+     * @param  callable|string  $remove
+     * @return $this
+     */
     public function remove($remove)
     {
         $idx = is_callable($remove) ? 0 : 1;
@@ -92,11 +138,17 @@ class Middleware implements IteratorAggregate, Countable
         return count($this->middleware);
     }
 
+    /**
+     * Determine whether the parameters is empty.
+     */
     public function isEmpty(): bool
     {
         return ! $this->isNotEmpty();
     }
 
+    /**
+     * Determine whether the parameters is not empty.
+     */
     public function isNotEmpty(): bool
     {
         return $this->count() > 0;
@@ -113,7 +165,12 @@ class Middleware implements IteratorAggregate, Countable
         throw new InvalidArgumentException("Middleware not found: $name");
     }
 
-    private function splice(string $findName, string $name, $middleware, bool $before)
+    /**
+     * Splices a function into the middleware list at a specific position.
+     *
+     * @param  callable|class-string  $middleware
+     */
+    private function splice(string $findName, string $name, $middleware, bool $before): void
     {
         $idx = $this->findByName($findName);
         $tuple = [$middleware, $name];
@@ -131,7 +188,5 @@ class Middleware implements IteratorAggregate, Countable
             $replacement = [$this->middleware[$idx], $tuple];
             array_splice($this->middleware, $idx, 1, $replacement);
         }
-
-        return $this;
     }
 }

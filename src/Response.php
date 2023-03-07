@@ -258,11 +258,13 @@ class Response implements ArrayAccess
     /**
      * Throw an exception if a server or client error occurred and the given condition evaluates to true.
      *
+     * @param  \Closure|bool  $condition
+     *
      * @throws \Jenky\Atlas\Exceptions\HttpException
      */
     public function throwIf($condition): self
     {
-        $condition = $condition instanceof Closure ? $condition($this) : $condition;
+        $condition = $condition instanceof Closure ? $condition($this) : (bool) $condition;
 
         return $condition ? $this->throw(func_get_args()[1] ?? null) : $this;
     }

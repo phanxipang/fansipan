@@ -17,7 +17,7 @@ class XmlDecoder
         }
 
         return json_decode(
-            json_encode($xml), true
+            json_encode($xml) ?: '[]', true
         );
     }
 }

@@ -8,7 +8,7 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
 
-class Util
+final class Util
 {
     /**
      * Create a new PSR URI instance.
@@ -25,7 +25,7 @@ class Util
     }
 
     /**
-     * Create a new PSR request instance from given request
+     * Create a new PSR request instance from given request.
      *
      * @throws \Http\Discovery\Exception\NotFoundException
      * @throws \InvalidArgumentException

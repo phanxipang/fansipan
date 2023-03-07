@@ -16,7 +16,7 @@ final class PendingRequest
     private $request;
 
     /**
-     * @var \Jenky\Atlas\Connector
+     * @var \Jenky\Atlas\Contracts\ConnectorInterface
      */
     private $connector;
 

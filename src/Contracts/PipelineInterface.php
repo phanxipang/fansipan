@@ -12,23 +12,22 @@ interface PipelineInterface
      * Set the traveler object being sent on the pipeline.
      *
      * @param  mixed  $traveler
-     * @return $this
+     * @return mixed
      */
     public function send($traveler);
 
     /**
      * Set the stops of the pipeline.
      *
-     * @param  dynamic|array  $stops
-     * @return $this
+     * @return mixed
      */
-    public function through($stops);
+    public function through(array $stops);
 
     /**
      * Push additional pipes onto the pipeline.
      *
      * @param  array|mixed  $pipes
-     * @return $this
+     * @return mixed
      */
     public function pipe($pipes);
 

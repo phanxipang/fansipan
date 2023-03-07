@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Contracts;
 
-interface PayloadInterface
+interface PayloadInterface extends \Stringable
 {
     /**
      * Get the header content type value.
