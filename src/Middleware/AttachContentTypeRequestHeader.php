@@ -12,6 +12,10 @@ final class AttachContentTypeRequestHeader
 {
     public function __invoke(Request $request, Closure $next): Response
     {
+        if ($request->headers()->has('Content-Type')) {
+            return $next($request);
+        }
+
         if ($contentType = $request->body()->contentType()) {
             $request->headers()->with('Content-Type', $contentType);
         }

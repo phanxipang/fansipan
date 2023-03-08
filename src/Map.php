@@ -32,9 +32,17 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Determine whether parameter exists by given key name.
+     */
+    public function has(string $key): bool
+    {
+        return array_key_exists($key, $this->parameters);
+    }
+
+    /**
      * Set the parameters.
      *
-     * @param  string|array  $value
+     * @param  array  $value
      * @return $this
      *
      * @throws \UnexpectedValueException

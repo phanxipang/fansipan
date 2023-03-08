@@ -6,6 +6,7 @@ namespace Jenky\Atlas;
 
 use ArrayAccess;
 use Closure;
+use Jenky\Atlas\Contracts\DecoderInterface;
 use Jenky\Atlas\Exceptions\HttpException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
@@ -74,7 +75,7 @@ class Response implements ArrayAccess
     /**
      * Set the decoder.
      */
-    public function decoder(callable $decoder): void
+    public function setDecoder(DecoderInterface $decoder): void
     {
         $this->decoder = $decoder;
     }
@@ -84,11 +85,15 @@ class Response implements ArrayAccess
      */
     protected function decode(): array
     {
-        $decoder = $this->decoder ?: function (Response $response) {
+        if (! $this->decoder instanceof DecoderInterface) {
             return [];
-        };
+        }
 
-        return $decoder($this);
+        if (! $this->decoder->supports($this)) {
+            return [];
+        }
+
+        return $this->decoder->decode($this);
     }
 
     /**

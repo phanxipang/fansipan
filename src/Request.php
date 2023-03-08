@@ -6,7 +6,11 @@ namespace Jenky\Atlas;
 
 use InvalidArgumentException;
 use Jenky\Atlas\Body\FormPayload;
+use Jenky\Atlas\Contracts\DecoderInterface;
 use Jenky\Atlas\Contracts\PayloadInterface;
+use Jenky\Atlas\Decoder\ChainDecoder;
+use Jenky\Atlas\Decoder\JsonDecoder;
+use Jenky\Atlas\Decoder\XmlDecoder;
 
 abstract class Request
 {
@@ -142,6 +146,17 @@ abstract class Request
     public function connector()
     {
         return $this->connector;
+    }
+
+    /**
+     * Get the response decoder.
+     */
+    public function decoder(): DecoderInterface
+    {
+        return new ChainDecoder(
+            new JsonDecoder(),
+            new XmlDecoder()
+        );
     }
 
     /**
