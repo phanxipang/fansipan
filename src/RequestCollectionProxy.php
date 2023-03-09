@@ -37,11 +37,10 @@ class RequestCollectionProxy
      *
      * @param  mixed  $method
      * @param  array  $parameters
-     * @return \Jenky\Atlas\Request
      *
      * @throws \BadMethodCallException
      */
-    public function __call($method, $parameters)
+    public function __call($method, $parameters): PendingRequest
     {
         $request = $this->collection[$method] ?? null;
 
