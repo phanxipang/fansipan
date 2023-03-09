@@ -4,45 +4,30 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use InvalidArgumentException;
 use Jenky\Atlas\Contracts\ConnectorInterface;
 use Psr\Http\Message\ResponseInterface;
 
 final class PendingRequest
 {
     /**
-     * @var \Jenky\Atlas\Request
-     */
-    private $request;
-
-    /**
      * @var \Jenky\Atlas\Contracts\ConnectorInterface
      */
     private $connector;
 
     /**
-     * Create new pending request instance.
-     *
-     * @param  \Jenky\Atlas\Request  $request
-     * @return void
-     *
-     * @throws \InvalidArgumentException
+     * @var \Jenky\Atlas\Request
      */
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-        $this->connector = $this->createConnector();
-    }
+    private $request;
 
     /**
      * Create new pending request instance.
      *
-     * @param  \Jenky\Atlas\Request  $request
-     * @return static
+     * @throws \InvalidArgumentException
      */
-    public static function from(Request $request)
+    public function __construct(ConnectorInterface $connector, Request $request)
     {
-        return new static($request);
+        $this->connector = $connector;
+        $this->request = $request;
     }
 
     /**
@@ -74,7 +59,7 @@ final class PendingRequest
     /**
      * Decorates the PRS response.
      */
-    protected function toResponse(ResponseInterface $response): Response
+    private function toResponse(ResponseInterface $response): Response
     {
         return new Response($response);
     }
@@ -93,27 +78,5 @@ final class PendingRequest
         return array_filter(array_map(function ($item) {
             return $item[0] ?? null;
         }, $middleware->all()));
-    }
-
-    /**
-     * Create a connector instance.
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function createConnector(): ConnectorInterface
-    {
-        $connector = $this->request->connector();
-
-        if (is_null($connector)) {
-            return new Connector();
-        }
-
-        if (! is_subclass_of($connector, Connector::class, true)) {
-            throw new InvalidArgumentException(
-                sprintf('The connector must be a sub class of %s', Connector::class)
-            );
-        }
-
-        return is_string($connector) ? new $connector() : $connector;
     }
 }

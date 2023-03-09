@@ -15,8 +15,6 @@ class PostRequest extends Request
 
     private $email;
 
-    protected $connector = Connector::class;
-
     protected $method = 'POST';
 
     public function __construct(string $name, string $email)

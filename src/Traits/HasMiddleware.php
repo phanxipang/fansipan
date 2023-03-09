@@ -29,10 +29,6 @@ trait HasMiddleware
      */
     public function withPipeline(PipelineInterface $pipeline)
     {
-        // $this->pipeline = $pipeline;
-
-        // return $this;
-
         $clone = clone $this;
 
         $clone->pipeline = $pipeline;

@@ -18,24 +18,30 @@ use Jenky\Atlas\Tests\Services\HTTPBin\PostRequest;
 
 class RequestTest extends TestCase
 {
+    /**
+     * @var \Jenky\Atlas\Tests\Services\HTTPBin\Connector
+     */
+    private $connector;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->connector = new Connector();
+    }
+
     public function test_sending_request_directly()
     {
-        $request = new GetHeadersRequest();
+        $request = new EchoRequest();
 
-        $this->expectException(\Exception::class);
-
-        $request->send();
-
-        $response = $request->withConnector(Connector::class)->send();
+        $response = $request->send();
 
         $this->assertTrue($response->ok());
     }
 
     public function test_sending_request_from_connector()
     {
-        $connector = new Connector();
-
-        $response = $connector->send(new GetHeadersRequest());
+        $response = $this->connector->send(new GetHeadersRequest());
 
         $this->assertTrue($response->ok());
     }
@@ -48,7 +54,7 @@ class RequestTest extends TestCase
             ->with('Accept', 'application/json')
             ->with('X-Foo', 'bar');
 
-        $response = $request->withConnector(Connector::class)->send();
+        $response = $this->connector->send($request);
 
         $this->assertTrue($response->ok());
         $this->assertSame('bar', $response->data()['headers']['X-Foo'] ?? null);
@@ -59,7 +65,7 @@ class RequestTest extends TestCase
     {
         $request = new GetUuidRequest();
 
-        $response = $request->withConnector(Connector::class)->send();
+        $response = $this->connector->send($request);
 
         $this->assertTrue($response->ok());
         $this->assertInstanceOf(Uuid::class, $dto = $response->dto());
@@ -70,13 +76,11 @@ class RequestTest extends TestCase
     {
         $request = new PostAnythingRequest();
 
-        $request->withConnector(Connector::class);
-
         $request->body()
             ->with('hello', 'world')
             ->merge(['foo' => 'bar'], ['buzz' => 'quiz']);
 
-        $response = $request->send();
+        $response = $this->connector->send($request);
 
         $this->assertTrue($response->ok());
         $this->assertSame('bar', $response['json']['foo'] ?? null);
@@ -90,7 +94,7 @@ class RequestTest extends TestCase
         $request->body()
             ->with('img', new Multipart(__DIR__.'/fixtures/1x1.png'));
 
-        $response = $request->send();
+        $response = $this->connector->send($request);
 
         $this->assertFalse($response->failed());
 
@@ -105,7 +109,7 @@ class RequestTest extends TestCase
     {
         $request = new GetXmlRequest();
 
-        $response = $request->send();
+        $response = $this->connector->send($request);
 
         $this->assertTrue($response->ok());
 
@@ -119,10 +123,10 @@ class RequestTest extends TestCase
 
         $this->expectException(HttpException::class);
 
-        $request->send()->throwIf(function (Response $response) {
+        $this->connector->send($request)->throwIf(function (Response $response) {
             return $response->failed();
         });
 
-        $request->withStatus(200)->send()->throwIf(true);
+        $this->connector->send($request->withStatus(200))->throwIf(true);
     }
 }

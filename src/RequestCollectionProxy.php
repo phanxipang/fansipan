@@ -57,6 +57,6 @@ class RequestCollectionProxy
             );
         }
 
-        return $this->connector->request(new $request(...$parameters));
+        return new PendingRequest($this->connector, new $request(...$parameters));
     }
 }

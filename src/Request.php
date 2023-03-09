@@ -15,13 +15,6 @@ use Jenky\Atlas\Decoder\XmlDecoder;
 abstract class Request
 {
     /**
-     * The connector instance.
-     *
-     * @var null|class-string|\Jenky\Atlas\Contracts\ConnectorInterface
-     */
-    protected $connector;
-
-    /**
      * @var \Jenky\Atlas\Map
      */
     private $headers;
@@ -126,29 +119,6 @@ abstract class Request
     }
 
     /**
-     * Set the connector.
-     *
-     * @param  class-string|\Jenky\Atlas\Contracts\ConnectorInterface  $connector
-     * @return $this
-     */
-    public function withConnector($connector)
-    {
-        $this->connector = $connector;
-
-        return $this;
-    }
-
-    /**
-     * Get the connector.
-     *
-     * @return null|class-string|\Jenky\Atlas\Contracts\ConnectorInterface
-     */
-    public function connector()
-    {
-        return $this->connector;
-    }
-
-    /**
      * Get the response decoder.
      */
     public function decoder(): DecoderInterface
@@ -157,13 +127,5 @@ abstract class Request
             new JsonDecoder(),
             new XmlDecoder()
         );
-    }
-
-    /**
-     * Send the request.
-     */
-    public function send(): Response
-    {
-        return PendingRequest::from($this)->send();
     }
 }

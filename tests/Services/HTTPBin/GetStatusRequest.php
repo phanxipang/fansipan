@@ -8,8 +8,6 @@ use Jenky\Atlas\Request;
 
 class GetStatusRequest extends Request
 {
-    protected $connector = Connector::class;
-
     private $status;
 
     public function __construct(int $status = 200)

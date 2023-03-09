@@ -28,7 +28,7 @@ class Response implements ArrayAccess
     protected $response;
 
     /**
-     * @var callable
+     * @var \Jenky\Atlas\Contracts\DecoderInterface
      */
     protected $decoder;
 

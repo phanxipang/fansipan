@@ -6,6 +6,7 @@ namespace Jenky\Atlas\Traits;
 
 use BadMethodCallException;
 use InvalidArgumentException;
+use Jenky\Atlas\PendingRequest;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\RequestCollectionProxy;
 
@@ -53,12 +54,12 @@ trait HasRequestCollection
             return new RequestCollectionProxy($this, $this->requests($request));
         }
 
-        if (! is_a($request, Request::class, true)) {
+        if (! is_subclass_of($request, Request::class)) {
             throw new InvalidArgumentException(
                 sprintf('%s must be instance of %s', $request, Request::class)
             );
         }
 
-        return $this->request(new $request(...$parameters));
+        return new PendingRequest($this, new $request(...$parameters));
     }
 }
