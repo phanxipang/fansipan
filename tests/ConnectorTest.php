@@ -11,9 +11,9 @@ use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
 
-class ConnectorTest extends TestCase
+final class ConnectorTest extends TestCase
 {
-    public function test_middleware()
+    public function test_middleware(): void
     {
         $connector = new Connector();
 
@@ -68,7 +68,7 @@ class ConnectorTest extends TestCase
         $this->assertArrayNotHasKey('Echo', $response->data()['headers'] ?? []);
     }
 
-    public function test_requests_can_be_called_via_magic_method()
+    public function test_requests_can_be_called_via_magic_method(): void
     {
         $connector = new Connector();
 

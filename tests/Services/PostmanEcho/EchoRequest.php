@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests;
+namespace Jenky\Atlas\Tests\Services\PostmanEcho;
 
 use Jenky\Atlas\ConnectorlessRequest;
 

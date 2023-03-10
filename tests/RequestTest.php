@@ -15,8 +15,9 @@ use Jenky\Atlas\Tests\Services\HTTPBin\GetUuidRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetXmlRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\PostAnythingRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\PostRequest;
+use Jenky\Atlas\Tests\Services\PostmanEcho\EchoRequest;
 
-class RequestTest extends TestCase
+final class RequestTest extends TestCase
 {
     /**
      * @var \Jenky\Atlas\Tests\Services\HTTPBin\Connector
@@ -30,7 +31,7 @@ class RequestTest extends TestCase
         $this->connector = new Connector();
     }
 
-    public function test_sending_request_directly()
+    public function test_sending_request_directly(): void
     {
         $request = new EchoRequest();
 
@@ -39,14 +40,14 @@ class RequestTest extends TestCase
         $this->assertTrue($response->ok());
     }
 
-    public function test_sending_request_from_connector()
+    public function test_sending_request_from_connector(): void
     {
         $response = $this->connector->send(new GetHeadersRequest());
 
         $this->assertTrue($response->ok());
     }
 
-    public function test_request_headers()
+    public function test_request_headers(): void
     {
         $request = new GetHeadersRequest();
 
@@ -61,7 +62,7 @@ class RequestTest extends TestCase
         $this->assertSame('atlas', $response->data()['headers']['X-From'] ?? null);
     }
 
-    public function test_cast_response_to_dto()
+    public function test_cast_response_to_dto(): void
     {
         $request = new GetUuidRequest();
 
@@ -72,7 +73,7 @@ class RequestTest extends TestCase
         $this->assertSame($response->data()['uuid'] ?? null, $dto->uuid());
     }
 
-    public function test_request_body()
+    public function test_request_body(): void
     {
         $request = new PostAnythingRequest();
 
@@ -88,7 +89,7 @@ class RequestTest extends TestCase
         $this->assertSame('world', $response['json']['hello'] ?? null);
     }
 
-    public function test_request_multipart()
+    public function test_request_multipart(): void
     {
         $request = new PostRequest('John', 'john.doe@example.com');
         $request->body()
@@ -105,7 +106,7 @@ class RequestTest extends TestCase
         $this->assertArrayHasKey('img', $response->data()['files'] ?? []);
     }
 
-    public function test_response_xml_decoder()
+    public function test_response_xml_decoder(): void
     {
         $request = new GetXmlRequest();
 
@@ -117,7 +118,7 @@ class RequestTest extends TestCase
         $this->assertCount(2, $data['slide']);
     }
 
-    public function test_response_exception()
+    public function test_response_exception(): void
     {
         $request = new GetStatusRequest(400);
 
@@ -128,5 +129,10 @@ class RequestTest extends TestCase
         });
 
         $this->connector->send($request->withStatus(200))->throwIf(true);
+    }
+
+    public function test_response_with_custom_decoder(): void
+    {
+        //
     }
 }
