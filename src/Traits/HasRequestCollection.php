@@ -6,7 +6,6 @@ namespace Jenky\Atlas\Traits;
 
 use BadMethodCallException;
 use InvalidArgumentException;
-use Jenky\Atlas\PendingRequest;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\RequestCollectionProxy;
 
@@ -60,6 +59,6 @@ trait HasRequestCollection
             );
         }
 
-        return new PendingRequest($this, new $request(...$parameters));
+        return $this->request(new $request(...$parameters));
     }
 }
