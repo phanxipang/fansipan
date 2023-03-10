@@ -12,24 +12,20 @@ interface PipelineInterface
      * Set the traveler object being sent on the pipeline.
      *
      * @param  mixed  $traveler
-     * @return mixed
      */
-    public function send($traveler);
+    public function send($traveler): self;
 
     /**
      * Set the stops of the pipeline.
-     *
-     * @return mixed
      */
-    public function through(array $stops);
+    public function through(iterable $stops): self;
 
     /**
      * Push additional pipes onto the pipeline.
      *
      * @param  array|mixed  $pipes
-     * @return mixed
      */
-    public function pipe($pipes);
+    public function pipe($pipes): self;
 
     /**
      * Run the pipeline with a final destination callback.
