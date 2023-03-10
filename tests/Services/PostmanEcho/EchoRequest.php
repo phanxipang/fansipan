@@ -4,12 +4,22 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests\Services\PostmanEcho;
 
-use Jenky\Atlas\ConnectorlessRequest;
+use Jenky\Atlas\Request;
 
-class EchoRequest extends ConnectorlessRequest
+final class EchoRequest extends Request
 {
+    /**
+     * @var string
+     */
+    protected $method;
+
+    public function __construct(string $method = 'get')
+    {
+        $this->method = mb_strtolower($method);
+    }
+
     public function endpoint(): string
     {
-        return 'postman-echo.com/get';
+        return $this->method;
     }
 }

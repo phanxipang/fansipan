@@ -6,7 +6,7 @@ namespace Jenky\Atlas\Tests\Services\HTTPBin;
 
 use Jenky\Atlas\Request;
 
-class GetStatusRequest extends Request
+final class GetStatusRequest extends Request
 {
     private $status;
 

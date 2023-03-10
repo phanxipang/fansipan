@@ -15,7 +15,7 @@ use Jenky\Atlas\Tests\Services\HTTPBin\GetUuidRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetXmlRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\PostAnythingRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\PostRequest;
-use Jenky\Atlas\Tests\Services\PostmanEcho\EchoRequest;
+use Jenky\Atlas\Tests\Services\PostmanEcho\CurrentUtcRequest;
 
 final class RequestTest extends TestCase
 {
@@ -33,7 +33,7 @@ final class RequestTest extends TestCase
 
     public function test_sending_request_directly(): void
     {
-        $request = new EchoRequest();
+        $request = new CurrentUtcRequest();
 
         $response = $request->send();
 

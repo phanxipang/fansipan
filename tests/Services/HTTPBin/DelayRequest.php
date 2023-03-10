@@ -6,7 +6,7 @@ namespace Jenky\Atlas\Tests\Services\HTTPBin;
 
 use Jenky\Atlas\Request;
 
-class DelayRequest extends Request
+final class DelayRequest extends Request
 {
     private $delay = 0;
 

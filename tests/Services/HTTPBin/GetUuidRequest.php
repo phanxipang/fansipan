@@ -6,7 +6,7 @@ namespace Jenky\Atlas\Tests\Services\HTTPBin;
 
 use Jenky\Atlas\Request;
 
-class GetUuidRequest extends Request
+final class GetUuidRequest extends Request
 {
     public function endpoint(): string
     {

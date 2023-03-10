@@ -10,6 +10,7 @@ use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
+use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
 
 final class ConnectorTest extends TestCase
 {
@@ -84,5 +85,19 @@ final class ConnectorTest extends TestCase
 
         $this->assertTrue($response->ok());
         $this->assertSame('https://httpbin.org/delay/2', $response->data()['url'] ?? null);
+    }
+
+    public function test_requests_without_magic_method(): void
+    {
+        $echo = new EchoConnector();
+
+        $this->assertTrue($echo->get()->ok());
+        $this->assertTrue($echo->post()->ok());
+
+        $this->assertSame(200, $echo->cookies()->get()->status());
+
+        $response = $echo->cookies()->set(['foo' => 'bar']);
+
+        $this->assertTrue($response->redirect());
     }
 }
