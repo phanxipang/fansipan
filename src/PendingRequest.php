@@ -73,7 +73,6 @@ final class PendingRequest
 
         $middleware->prepend(Middleware\AttachContentTypeRequestHeader::class, 'body_format_content_type');
         $middleware->after('body_format_content_type', Middleware\SetResponseDecoder::class, 'response_decoder');
-        $middleware->push(Middleware\CastsResponseToDto::class, 'dto');
 
         return array_filter(array_map(function ($item) {
             return $item[0] ?? null;

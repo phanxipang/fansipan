@@ -27,7 +27,6 @@ interface PipelineInterface
      * Push additional pipes onto the pipeline.
      *
      * @param  array|mixed  $pipes
-     *
      * @return $this
      */
     public function pipe($pipes);

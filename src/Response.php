@@ -12,8 +12,6 @@ use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @method mixed dto()
- *
  * @mixin \Psr\Http\Message\ResponseInterface
  */
 class Response implements ArrayAccess
@@ -30,21 +28,15 @@ class Response implements ArrayAccess
     /**
      * @var \Jenky\Atlas\Contracts\DecoderInterface
      */
-    protected $decoder;
+    private $decoder;
 
     /**
      * The decoded response.
      *
      * @var array
      */
-    protected $decoded;
+    private $decoded;
 
-    /**
-     * Create new response instance.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface  $response
-     * @return void
-     */
     public function __construct(ResponseInterface $response)
     {
         $this->response = $response;
@@ -83,7 +75,7 @@ class Response implements ArrayAccess
     /**
      * Decode the response body.
      */
-    protected function decode(): array
+    private function decode(): array
     {
         if (! $this->decoder instanceof DecoderInterface) {
             return [];

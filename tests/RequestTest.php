@@ -68,7 +68,7 @@ class RequestTest extends TestCase
         $response = $this->connector->send($request);
 
         $this->assertTrue($response->ok());
-        $this->assertInstanceOf(Uuid::class, $dto = $response->dto());
+        $this->assertInstanceOf(Uuid::class, $dto = Uuid::fromResponse($response));
         $this->assertSame($response->data()['uuid'] ?? null, $dto->uuid());
     }
 
