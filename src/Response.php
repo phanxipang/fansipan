@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @mixin \Psr\Http\Message\ResponseInterface
  */
-class Response implements ArrayAccess
+final class Response implements ArrayAccess
 {
     use Traits\Macroable {
         __call as macroCall;
@@ -23,7 +23,7 @@ class Response implements ArrayAccess
     /**
      * @var \Psr\Http\Message\ResponseInterface
      */
-    protected $response;
+    private $response;
 
     /**
      * @var \Jenky\Atlas\Contracts\DecoderInterface

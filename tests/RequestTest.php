@@ -130,9 +130,4 @@ final class RequestTest extends TestCase
 
         $this->connector->send($request->withStatus(200))->throwIf(true);
     }
-
-    public function test_response_with_custom_decoder(): void
-    {
-        //
-    }
 }

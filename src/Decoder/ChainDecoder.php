@@ -24,6 +24,11 @@ final class ChainDecoder implements DecoderInterface
         return ! empty($this->decoders);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \LogicException
+     */
     public function decode(Response $response): array
     {
         foreach ($this->decoders as $decoder) {
@@ -32,6 +37,6 @@ final class ChainDecoder implements DecoderInterface
             }
         }
 
-        return [];
+        throw new \LogicException('Unable to decode the response body.');
     }
 }
