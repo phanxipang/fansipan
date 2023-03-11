@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Decoder;
 
 use Jenky\Atlas\Contracts\DecoderInterface;
+use Jenky\Atlas\Exceptions\NotDecodableException;
 use Jenky\Atlas\Response;
 
 final class ChainDecoder implements DecoderInterface
@@ -27,7 +28,7 @@ final class ChainDecoder implements DecoderInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \LogicException
+     * @throws \Jenky\Atlas\Exceptions\NotDecodableException
      */
     public function decode(Response $response): array
     {
@@ -37,6 +38,6 @@ final class ChainDecoder implements DecoderInterface
             }
         }
 
-        throw new \LogicException('Unable to decode the response body.');
+        throw new NotDecodableException('Unable to decode the response body.');
     }
 }
