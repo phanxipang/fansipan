@@ -58,7 +58,7 @@ final class ConnectorTest extends TestCase
             return $next($request);
         });
 
-        $connector->middleware()->without('echo');
+        $connector->middleware()->remove('echo');
 
         $response = $connector->send(new GetHeadersRequest());
 

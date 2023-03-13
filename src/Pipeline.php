@@ -37,11 +37,11 @@ final class Pipeline implements PipelineInterface
     /**
      * Set the array of pipes.
      */
-    public function through(iterable $stops): self
+    public function through(iterable $pipes): self
     {
         $clone = clone $this;
 
-        $clone->pipes = $stops instanceof \Traversable ? iterator_to_array($stops) : $stops;
+        $clone->pipes = $pipes instanceof \Traversable ? iterator_to_array($pipes) : $pipes;
 
         return $clone;
     }

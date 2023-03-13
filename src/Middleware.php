@@ -15,12 +15,7 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * @var array
      */
-    protected $middleware = [];
-
-    /**
-     * @var array
-     */
-    protected $except = [];
+    private $middleware = [];
 
     public function __construct(array $middleware = [])
     {
@@ -31,26 +26,27 @@ final class Middleware implements IteratorAggregate, Countable
 
     public function all(): array
     {
-        if (! empty($this->except)) {
-            $middleware = array_filter($this->middleware, function ($item) {
-                return ! in_array($item[1] ?? '', $this->except);
-            });
-
-            $this->except = [];
-
-            return $middleware;
-        }
-
         return $this->middleware;
+    }
+
+    /**
+     * Unshift a middleware to the bottom of the stack.
+     *
+     * @param  callable|class-string  $middleware
+     */
+    public function unshift($middleware, ?string $name = null): self
+    {
+        array_unshift($this->middleware, [$middleware, $name]);
+
+        return $this;
     }
 
     /**
      * Push a middleware to stack.
      *
      * @param  callable|class-string  $middleware
-     * @return $this
      */
-    public function push($middleware, string $name = '')
+    public function push($middleware, string $name = ''): self
     {
         $this->middleware[] = [$middleware, $name];
 
@@ -61,9 +57,8 @@ final class Middleware implements IteratorAggregate, Countable
      * Prepend a middleware to the top of the stack.
      *
      * @param  callable|class-string  $middleware
-     * @return $this
      */
-    public function prepend($middleware, string $name = '')
+    public function prepend($middleware, string $name = ''): self
     {
         array_unshift($this->middleware, [$middleware, $name]);
 
@@ -74,9 +69,8 @@ final class Middleware implements IteratorAggregate, Countable
      * Add a middleware before another middleware by name.
      *
      * @param  callable|class-string  $middleware
-     * @return $this
      */
-    public function before(string $findName, $middleware, string $name = '')
+    public function before(string $findName, $middleware, string $name = ''): self
     {
         $this->splice($findName, $name, $middleware, true);
 
@@ -87,24 +81,10 @@ final class Middleware implements IteratorAggregate, Countable
      * Add a middleware after another middleware by name.
      *
      * @param  callable|class-string  $middleware
-     * @return $this
      */
-    public function after(string $findName, $middleware, string $name = '')
+    public function after(string $findName, $middleware, string $name = ''): self
     {
         $this->splice($findName, $name, $middleware, false);
-
-        return $this;
-    }
-
-    /**
-     * Temporary disable middleware.
-     *
-     * @param  array|string[]  $name
-     * @return $this
-     */
-    public function without($name)
-    {
-        $this->except = is_array($name) ? $name : func_get_args();
 
         return $this;
     }
@@ -113,9 +93,8 @@ final class Middleware implements IteratorAggregate, Countable
      * Remove a middleware by instance or name from the stack.
      *
      * @param  callable|string  $remove
-     * @return $this
      */
-    public function remove($remove)
+    public function remove($remove): self
     {
         $idx = is_callable($remove) ? 0 : 1;
         $this->middleware = array_values(array_filter(
