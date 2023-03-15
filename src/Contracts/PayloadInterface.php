@@ -22,7 +22,7 @@ interface PayloadInterface extends \Stringable
      * Set the payload value.
      *
      * @param  string|array  $value
-     * @return mixed
+     * @return static
      */
     public function set($value);
 
@@ -30,7 +30,7 @@ interface PayloadInterface extends \Stringable
      * Merge the data to the payload.
      *
      * @param  mixed  $values
-     * @return mixed
+     * @return static
      */
     public function merge(...$values);
 
@@ -38,7 +38,7 @@ interface PayloadInterface extends \Stringable
      * Set value to the payload for given key.
      *
      * @param  mixed  $value
-     * @return mixed
+     * @return static
      */
     public function with(string $key, $value);
 
@@ -47,14 +47,14 @@ interface PayloadInterface extends \Stringable
      *
      * @param  mixed  $value
      * @param  null|string  $key
-     * @return mixed
+     * @return static
      */
     public function push($value, ?string $key = null);
 
     /**
      * Delete an item from the payload by its unique key.
      *
-     * @return mixed
+     * @return static
      */
     public function remove(string $key);
 

@@ -15,14 +15,8 @@ class HttpException extends RuntimeException implements ClientExceptionInterface
      *
      * @var \Jenky\Atlas\Response
      */
-    public $response;
+    private $response;
 
-    /**
-     * Create a new exception instance.
-     *
-     * @param  \Jenky\Atlas\Response  $response
-     * @return void
-     */
     public function __construct(Response $response)
     {
         parent::__construct($this->prepareMessage($response), $response->status());
@@ -31,10 +25,15 @@ class HttpException extends RuntimeException implements ClientExceptionInterface
     }
 
     /**
+     * Get the response.
+     */
+    public function response(): Response
+    {
+        return $this->response;
+    }
+
+    /**
      * Prepare the exception message.
-     *
-     * @param  \Jenky\Atlas\Response  $response
-     * @return string
      */
     protected function prepareMessage(Response $response): string
     {
