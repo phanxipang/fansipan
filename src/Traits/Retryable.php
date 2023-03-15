@@ -21,7 +21,7 @@ trait Retryable
             ->remove('retry_request')
             ->unshift(new RetryRequest(
                 new RetryContext($maxRetries, $throw),
-                $retryStrategy ?? $this->defaultRetryStrategy(),
+                $retryStrategy ?? $this->defaultRetryStrategy()
             ), 'retry_request');
 
         return $clone;
