@@ -301,7 +301,7 @@ $response = $connector->send($request);
 
 ### Sending Request without Connector
 
-While Atlas's typical setup of a connector and requests is great, sometimes all you need is to make a single request to a service. For scenarios like these, you may create a "`ConnectorlessRequest`" instead of making a connector and a single request. This saves you from having to create additional classes.
+While the typical setup of a connector and requests is great, sometimes all you need is to make a single request to a service. For scenarios like these, you may create a "`ConnectorlessRequest`" instead of making a connector and a single request. This saves you from having to create additional classes.
 
 !!!danger
 It is NOT recommended to send your requests without connector. Be aware of the [downsides](#downsides).

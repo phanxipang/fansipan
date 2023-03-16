@@ -20,7 +20,21 @@ graph TD
 
 ```
 
-## Create Request
+## Create a Connector
+
+In order to send a request. First, you should create a `Connector` class that extends `Jenky\Atlas\Connector` class.
+
+```php
+<?php
+
+use Jenky\Atlas\Connector as BaseConnector;
+
+class Connector extends BaseConnector
+{
+}
+```
+
+## Create a Request
 
 Let's say you want to send a request to `https://httpbin.org/headers`. Create `GetHeadersRequest` class that extends the `Jenky\Atlas\Request` abstract class and set the uri in `endpoint` public method. That's all.
 
@@ -38,11 +52,14 @@ class GetHeadersRequest extends Request
 }
 ```
 
+## Send the Request
+
 Now you should be able to send the request:
 
 ```php
+$connector = new Connector();
 $request = new GetHeadersRequest();
-$response = $request->send();
+$response = $connector->send($request);
 ```
 
 ## Inspect the response
