@@ -64,11 +64,11 @@ final class RetryException extends \RuntimeException
         return $this->delay;
     }
 
-    public function fatal(): bool
+    public function retryable(): bool
     {
-        $fatal = $this->context->maxRetries() < $this->context->attempts();
+        $stop = $this->context->maxRetries() < $this->context->attempts();
 
-        if ($fatal && $this->context->throwException()) {
+        if ($stop && $this->context->throwable()) {
             throw new RequestRetryFailedException(
                 sprintf('Maximum %d retries reached.', $this->context->maxRetries()),
                 0,
@@ -76,6 +76,6 @@ final class RetryException extends \RuntimeException
             );
         }
 
-        return $fatal;
+        return ! $stop;
     }
 }

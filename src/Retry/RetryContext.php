@@ -44,7 +44,7 @@ final class RetryContext
         return $this->attempts;
     }
 
-    public function throwException(): bool
+    public function throwable(): bool
     {
         return $this->throw;
     }
