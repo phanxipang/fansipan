@@ -60,9 +60,9 @@
             "vendor/bin/phpunit --coverage"
         ],
         "check": [
+            "@cs --dry-run",
             "@analyse",
-            "@test",
-            "@cs --dry-run"
+            "@test"
         ]
     },
     "extra": {

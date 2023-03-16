@@ -37,12 +37,12 @@ abstract class Connector implements ConnectorInterface
      */
     private function sendAndRetry(Request $request): Response
     {
-        beginning:
+        /* beginning:
 
         try {
             return $this->request($request)->send();
         } catch (RetryException $e) {
-            if ($e->fatal()) {
+            if (! $e->retryable()) {
                 return $e->response();
             }
 
@@ -53,6 +53,22 @@ abstract class Connector implements ConnectorInterface
             }
 
             goto beginning;
-        }
+        } */
+
+        do {
+            try {
+                return $this->request($request)->send();
+            } catch (RetryException $e) {
+                if (! $e->retryable()) {
+                    return $e->response();
+                }
+
+                $delay = $e->delay();
+
+                if ($delay > 0) {
+                    usleep($delay * 1000);
+                }
+            }
+        } while (true);
     }
 }
