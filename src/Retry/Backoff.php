@@ -9,7 +9,7 @@ use Jenky\Atlas\Contracts\DelayStrategyInterface;
 class Backoff implements DelayStrategyInterface
 {
     /**
-     * @var array
+     * @var int[]
      */
     private $backoff;
 
