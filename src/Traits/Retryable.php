@@ -32,6 +32,6 @@ trait Retryable
      */
     protected function defaultRetryStrategy(): RetryStrategyInterface
     {
-        return new GenericRetryStrategy(new Delay(1000));
+        return new GenericRetryStrategy(new Delay(1000, 2.0));
     }
 }
