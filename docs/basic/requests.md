@@ -22,59 +22,6 @@ class MyRequest extends Request
 }
 ```
 
-## Specify The Connector
-
-Because connector contains your HTTP client instance and the middleware logic. Instead of using default connector, you can use your own connector by using `$connector` property.
-
-+++ MyRequest.php
-```php
-<?php
-
-use Jenky\Atlas\Request;
-
-class MyRequest extends Request
-{
-    protected $connector = MyConnector::class;
-
-    protected $method = 'POST';
-
-    public function endpoint(): string
-    {
-        return '/anything';
-    }
-}
-```
-+++ MyConnector.php
-```php
-<?php
-
-use Jenky\Atlas\Connector;
-use Jenky\Atlas\Request;
-use GuzzleHttp\Client;
-use Psr\Http\Client\ClientInterface;
-
-class MyConnector extends Connector
-{
-    public function defineClient(): ClientInterface
-    {
-        return new Client([
-            'base_uri' => 'https://httpbin.org',
-            'timeout' => 10,
-        ]);
-    }
-}
-```
-+++
-
-Or if your appliation logic needs to overwrite the default `MyConnector` on the fly, you can do so by calling `withConnector` method before sending the request.
-
-```php
-$request = new MyRequest();
-$request->withConnector(OtherConnector::class)->send();
-// or using connector instance so you can pass the constructor arguments
-$request->withConnector(new OtherConnector())->send();
-```
-
 ## Default Headers And Query Parameters
 
 Some requests require specific headers or query parameters to be sent. To define default headers on your request, you can extend the `defaultHeaders` method.  For query parameters you can use `defaultQuery` method. These methods expect a keyed array to be returned.
@@ -337,3 +284,53 @@ $request = new UpdateUserRequest(123, [
     'age' => 25,
 ]);
 ```
+
+## Sending Requests
+
+Once you have the request instance, you can send it via connector like this:
+
+```php
+$connector = new MyConnector();
+$request = new MyRequest();
+
+$request->query()
+    ->with('page', 2);
+
+$response = $connector->send($request);
+```
+
+### Sending Request without Connector
+
+While Atlas's typical setup of a connector and requests is great, sometimes all you need is to make a single request to a service. For scenarios like these, you may create a "`ConnectorlessRequest`" instead of making a connector and a single request. This saves you from having to create additional classes.
+
+!!!danger
+It is NOT recommended to send your requests without connector. Be aware of the [downsides](#downsides).
+!!!
+
+Create a request class, but instead of extending `Jenky\Atlas\Request`, you should extend `Jenky\Atlas\ConnectorlessRequest`. Next, just define everything else like you would a normal request. Make sure to include the full URL of the service you are integrating with.
+
+```php
+<?php
+
+use Jenky\Atlas\ConnectorlessRequest;
+
+class GetUsersRequest extends ConnectorlessRequest
+{
+    public function resolveEndpoint(): string
+    {
+        return 'https://jsonplaceholder.typicode.com/users';
+    }
+}
+```
+
+As you don't have a connector for this request, you can use the `send` method directly on the request instance. This method works exactly the same as it would on the connector.
+
+```php
+$request = new GetUsersRequest();
+$response = $request->send();
+```
+
+#### Downsides
+- Not being able to have constructor arguments on your connector.
+- Not retryable.
+- Unable to add/remove middleware.
