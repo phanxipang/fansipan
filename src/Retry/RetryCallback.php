@@ -28,6 +28,9 @@ final class RetryCallback implements RetryStrategyInterface
         $this->delay = $delay;
     }
 
+    /**
+     * Determines if the retries should actually be attempted.
+     */
     public static function when(Closure $callback, int $delay = 1000, float $multiplier = 1.0): self
     {
         return new self($callback, function (RetryContext $context) use ($delay, $multiplier) {
