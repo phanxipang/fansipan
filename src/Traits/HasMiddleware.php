@@ -13,7 +13,7 @@ trait HasMiddleware
     /**
      * The pipeline instance.
      *
-     * @var \Illuminate\Contracts\Pipeline\Pipeline
+     * @var \Jenky\Atlas\Contracts\PipelineInterface
      */
     private $pipeline;
 
@@ -29,9 +29,11 @@ trait HasMiddleware
      */
     public function withPipeline(PipelineInterface $pipeline)
     {
-        $this->pipeline = $pipeline;
+        $clone = clone $this;
 
-        return $this;
+        $clone->pipeline = $pipeline;
+
+        return $clone;
     }
 
     /**
@@ -39,7 +41,7 @@ trait HasMiddleware
      */
     public function pipeline(): PipelineInterface
     {
-        if (is_null($this->pipeline)) {
+        if (! $this->pipeline instanceof PipelineInterface) {
             $this->pipeline = $this->definePipeline();
         }
 
@@ -59,7 +61,7 @@ trait HasMiddleware
      */
     public function middleware(): Middleware
     {
-        if (is_null($this->middleware)) {
+        if (! $this->middleware instanceof Middleware) {
             $this->middleware = new Middleware($this->defaultMiddleware());
         }
 

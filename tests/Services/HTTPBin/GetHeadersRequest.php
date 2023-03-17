@@ -6,7 +6,7 @@ namespace Jenky\Atlas\Tests\Services\HTTPBin;
 
 use Jenky\Atlas\Request;
 
-class GetHeadersRequest extends Request
+final class GetHeadersRequest extends Request
 {
     public function endpoint(): string
     {

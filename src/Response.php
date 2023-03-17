@@ -6,16 +6,15 @@ namespace Jenky\Atlas;
 
 use ArrayAccess;
 use Closure;
+use Jenky\Atlas\Contracts\DecoderInterface;
 use Jenky\Atlas\Exceptions\HttpException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @method mixed dto()
- *
  * @mixin \Psr\Http\Message\ResponseInterface
  */
-class Response implements ArrayAccess
+final class Response implements ArrayAccess
 {
     use Traits\Macroable {
         __call as macroCall;
@@ -24,26 +23,20 @@ class Response implements ArrayAccess
     /**
      * @var \Psr\Http\Message\ResponseInterface
      */
-    protected $response;
+    private $response;
 
     /**
-     * @var callable
+     * @var \Jenky\Atlas\Contracts\DecoderInterface
      */
-    protected $decoder;
+    private $decoder;
 
     /**
      * The decoded response.
      *
      * @var array
      */
-    protected $decoded;
+    private $decoded;
 
-    /**
-     * Create new response instance.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface  $response
-     * @return void
-     */
     public function __construct(ResponseInterface $response)
     {
         $this->response = $response;
@@ -60,9 +53,9 @@ class Response implements ArrayAccess
     /**
      * Get the decoded body of the response as an array or scalar value.
      *
-     * @return mixed
+     * @return array
      */
-    public function data()
+    public function data(): array
     {
         if (! $this->decoded) {
             $this->decoded = $this->decode();
@@ -74,7 +67,7 @@ class Response implements ArrayAccess
     /**
      * Set the decoder.
      */
-    public function decoder(callable $decoder): void
+    public function setDecoder(DecoderInterface $decoder): void
     {
         $this->decoder = $decoder;
     }
@@ -82,13 +75,17 @@ class Response implements ArrayAccess
     /**
      * Decode the response body.
      */
-    protected function decode(): array
+    private function decode(): array
     {
-        $decoder = $this->decoder ?: function (Response $response) {
+        if (! $this->decoder instanceof DecoderInterface) {
             return [];
-        };
+        }
 
-        return $decoder($this);
+        if (! $this->decoder->supports($this)) {
+            return [];
+        }
+
+        return $this->decoder->decode($this);
     }
 
     /**
@@ -258,11 +255,13 @@ class Response implements ArrayAccess
     /**
      * Throw an exception if a server or client error occurred and the given condition evaluates to true.
      *
+     * @param  \Closure|bool  $condition
+     *
      * @throws \Jenky\Atlas\Exceptions\HttpException
      */
     public function throwIf($condition): self
     {
-        $condition = $condition instanceof Closure ? $condition($this) : $condition;
+        $condition = $condition instanceof Closure ? $condition($this) : (bool) $condition;
 
         return $condition ? $this->throw(func_get_args()[1] ?? null) : $this;
     }

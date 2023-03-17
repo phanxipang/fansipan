@@ -8,7 +8,7 @@ use Closure;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
-class Interceptor
+final class Interceptor
 {
     /**
      * Add an request interceptor.

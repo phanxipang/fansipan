@@ -5,25 +5,70 @@ declare(strict_types=1);
 namespace Jenky\Atlas;
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Contracts\RetryableInterface;
+use Jenky\Atlas\Exceptions\RetryException;
 
-class Connector implements ConnectorInterface
+abstract class Connector implements ConnectorInterface
 {
     use Traits\HasClient;
     use Traits\HasMiddleware;
 
     /**
-     * Assign connector to given request.
+     * Create a new pending request.
      */
-    public function request(Request $request): Request
+    protected function request(Request $request): PendingRequest
     {
-        return $request->withConnector($this);
+        return new PendingRequest($this, $request);
+    }
+
+    public function send(Request $request): Response
+    {
+        if ($this instanceof RetryableInterface) {
+            return $this->sendAndRetry($request);
+        }
+
+        return $this->request($request)->send();
     }
 
     /**
-     * Send the request.
+     * Send the request and retries if it fails.
+     *
+     * @throws \Jenky\Atlas\Exceptions\RequestRetryFailedException
      */
-    public function send(Request $request): Response
+    private function sendAndRetry(Request $request): Response
     {
-        return PendingRequest::from($this->request($request))->send();
+        /* beginning:
+
+        try {
+            return $this->request($request)->send();
+        } catch (RetryException $e) {
+            if (! $e->retryable()) {
+                return $e->response();
+            }
+
+            $delay = $e->delay();
+
+            if ($delay > 0) {
+                usleep($delay * 1000);
+            }
+
+            goto beginning;
+        } */
+
+        do {
+            try {
+                return $this->request($request)->send();
+            } catch (RetryException $e) {
+                if (! $e->retryable()) {
+                    return $e->response();
+                }
+
+                $delay = $e->delay();
+
+                if ($delay > 0) {
+                    usleep($delay * 1000);
+                }
+            }
+        } while (true);
     }
 }

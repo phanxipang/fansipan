@@ -7,15 +7,13 @@ namespace Jenky\Atlas\Tests\Services\HTTPBin;
 use Jenky\Atlas\Body\AsMultipart;
 use Jenky\Atlas\Request;
 
-class PostRequest extends Request
+final class PostRequest extends Request
 {
     use AsMultipart;
 
     private $name;
 
     private $email;
-
-    protected $connector = Connector::class;
 
     protected $method = 'POST';
 

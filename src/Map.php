@@ -13,6 +13,9 @@ use UnexpectedValueException;
 
 class Map implements ArrayAccess, IteratorAggregate, Countable
 {
+    /**
+     * @var array
+     */
     protected $parameters = [];
 
     public function __construct(array $parameters = [])
@@ -20,11 +23,30 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
         $this->parameters = $parameters;
     }
 
+    /**
+     * Get the parameters.
+     */
     public function all(): array
     {
         return $this->parameters;
     }
 
+    /**
+     * Determine whether parameter exists by given key name.
+     */
+    public function has(string $key): bool
+    {
+        return array_key_exists($key, $this->parameters);
+    }
+
+    /**
+     * Set the parameters.
+     *
+     * @param  array  $value
+     * @return $this
+     *
+     * @throws \UnexpectedValueException
+     */
     public function set($value)
     {
         $this->assertArray($value);
@@ -34,6 +56,12 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
         return $this;
     }
 
+    /**
+     * Set the value for given key.
+     *
+     * @param  mixed  $value
+     * @return $this
+     */
     public function with(string $key, $value)
     {
         $this->parameters[$key] = $value;
@@ -41,6 +69,14 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
         return $this;
     }
 
+    /**
+     * Push the value to parameters.
+     *
+     * @param  mixed  $value
+     * @return $this
+     *
+     * @throws \UnexpectedValueException
+     */
     public function push($value, ?string $key = null)
     {
         if (! $key) {
@@ -58,6 +94,11 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
         return $this->with($key, $array);
     }
 
+    /**
+     * Remove value from parameters by given key.
+     *
+     * @return $this
+     */
     public function remove(string $key)
     {
         unset($this->attributes[$key]);
@@ -65,6 +106,12 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
         return $this;
     }
 
+    /**
+     * Merge the given values to the parameters.
+     *
+     * @param  array  ...$values
+     * @return $this
+     */
     public function merge(...$values)
     {
         $this->parameters = array_replace_recursive(
@@ -86,16 +133,29 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
         return count($this->parameters);
     }
 
+    /**
+     * Determine whether the parameters is empty.
+     */
     public function isEmpty(): bool
     {
         return ! $this->isNotEmpty();
     }
 
+    /**
+     * Determine whether the parameters is not empty.
+     */
     public function isNotEmpty(): bool
     {
         return $this->count() > 0;
     }
 
+    /**
+     * Assert the value is array.
+     *
+     * @param  mixed  $value
+     *
+     * @throws \UnexpectedValueException
+     */
     protected function assertArray($value): void
     {
         if (! is_array($value)) {

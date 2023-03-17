@@ -6,11 +6,10 @@ parameters:
         - src
 
     # The level 9 is the highest level
-    level: 5
+    level: 7
 
     tmpDir: build/phpstan
 
     checkMissingIterableValueType: false
-
-    ignoreErrors:
-        - '#Unsafe usage of new static#'
+    checkGenericClassInNonGenericObjectType: false
+    treatPhpDocTypesAsCertain: false

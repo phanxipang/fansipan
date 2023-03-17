@@ -7,7 +7,7 @@ namespace Jenky\Atlas\Body;
 use Jenky\Atlas\Contracts\PayloadInterface;
 use LogicException;
 
-class RawPayload implements PayloadInterface
+final class RawPayload implements PayloadInterface
 {
     /**
      * @var string

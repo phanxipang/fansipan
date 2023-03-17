@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Closure;
+use Jenky\Atlas\Exceptions\RequestRetryFailedException;
 use Jenky\Atlas\Middleware\Interceptor;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
+use Jenky\Atlas\Retry\RetryCallback;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
+use Jenky\Atlas\Tests\Services\HTTPBin\GetStatusRequest;
+use Jenky\Atlas\Tests\Services\HTTPBin\RetryableConnector;
+use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
 
-class ConnectorTest extends TestCase
+final class ConnectorTest extends TestCase
 {
-    public function test_middleware()
+    public function test_middleware(): void
     {
         $connector = new Connector();
 
@@ -57,7 +62,7 @@ class ConnectorTest extends TestCase
             return $next($request);
         });
 
-        $connector->middleware()->without('echo');
+        $connector->middleware()->remove('echo');
 
         $response = $connector->send(new GetHeadersRequest());
 
@@ -68,7 +73,7 @@ class ConnectorTest extends TestCase
         $this->assertArrayNotHasKey('Echo', $response->data()['headers'] ?? []);
     }
 
-    public function test_requests_can_be_called_via_magic_method()
+    public function test_requests_can_be_called_via_magic_method(): void
     {
         $connector = new Connector();
 
@@ -84,5 +89,41 @@ class ConnectorTest extends TestCase
 
         $this->assertTrue($response->ok());
         $this->assertSame('https://httpbin.org/delay/2', $response->data()['url'] ?? null);
+    }
+
+    public function test_requests_without_magic_method(): void
+    {
+        $echo = new EchoConnector();
+
+        $this->assertTrue($echo->get()->ok());
+        $this->assertTrue($echo->post()->ok());
+
+        $this->assertSame(200, $echo->cookies()->get()->status());
+
+        $response = $echo->cookies()->set(['foo' => 'bar']);
+
+        $this->assertTrue($response->redirect());
+    }
+
+    public function test_retryable_request(): void
+    {
+        $connector = new RetryableConnector();
+
+        $this->expectException(RequestRetryFailedException::class);
+        $this->expectExceptionMessage('Maximum 3 retries reached.');
+
+        $connector->retry()->send(new GetStatusRequest(503));
+    }
+
+    public function test_retryalbe_request_with_custom_strategy(): void
+    {
+        $connector = new RetryableConnector();
+
+        $this->expectException(RequestRetryFailedException::class);
+        $this->expectExceptionMessage('Maximum 2 retries reached.');
+
+        $connector->retry(2, RetryCallback::when(function (Request $request, Response $response) {
+            return true;
+        }, 1000, 2.0))->send(new GetStatusRequest(502));
     }
 }

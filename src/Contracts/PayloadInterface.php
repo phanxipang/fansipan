@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Contracts;
 
-interface PayloadInterface
+interface PayloadInterface extends \Stringable
 {
     /**
      * Get the header content type value.
@@ -22,7 +22,7 @@ interface PayloadInterface
      * Set the payload value.
      *
      * @param  string|array  $value
-     * @return mixed
+     * @return static
      */
     public function set($value);
 
@@ -30,16 +30,15 @@ interface PayloadInterface
      * Merge the data to the payload.
      *
      * @param  mixed  $values
-     * @return mixed
+     * @return static
      */
     public function merge(...$values);
 
     /**
      * Set value to the payload for given key.
      *
-     * @param  string  $key
      * @param  mixed  $value
-     * @return mixed
+     * @return static
      */
     public function with(string $key, $value);
 
@@ -48,15 +47,14 @@ interface PayloadInterface
      *
      * @param  mixed  $value
      * @param  null|string  $key
-     * @return mixed
+     * @return static
      */
     public function push($value, ?string $key = null);
 
     /**
      * Delete an item from the payload by its unique key.
      *
-     * @param  string  $key
-     * @return mixed
+     * @return static
      */
     public function remove(string $key);
 
