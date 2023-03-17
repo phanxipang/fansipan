@@ -32,7 +32,7 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Unshift a middleware to the bottom of the stack.
      *
-     * @param  callable|class-string  $middleware
+     * @param  callable(Request, \Closure): Response|class-string  $middleware
      */
     public function unshift($middleware, ?string $name = null): self
     {
@@ -44,7 +44,7 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Push a middleware to stack.
      *
-     * @param  callable|class-string  $middleware
+     * @param  callable(Request, \Closure): Response|class-string  $middleware
      */
     public function push($middleware, string $name = ''): self
     {
@@ -56,7 +56,7 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Prepend a middleware to the top of the stack.
      *
-     * @param  callable|class-string  $middleware
+     * @param  callable(Request, \Closure): Response|class-string  $middleware
      */
     public function prepend($middleware, string $name = ''): self
     {
@@ -68,7 +68,7 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Add a middleware before another middleware by name.
      *
-     * @param  callable|class-string  $middleware
+     * @param  callable(Request, \Closure): Response|class-string  $middleware
      */
     public function before(string $findName, $middleware, string $name = ''): self
     {
@@ -80,7 +80,7 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Add a middleware after another middleware by name.
      *
-     * @param  callable|class-string  $middleware
+     * @param  callable(Request, \Closure): Response|class-string  $middleware
      */
     public function after(string $findName, $middleware, string $name = ''): self
     {
@@ -92,7 +92,7 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Remove a middleware by instance or name from the stack.
      *
-     * @param  callable|string  $remove
+     * @param  callable(Request, \Closure): Response|string  $remove
      */
     public function remove($remove): self
     {

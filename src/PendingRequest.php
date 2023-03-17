@@ -71,8 +71,8 @@ final class PendingRequest
     {
         $middleware = $this->connector->middleware();
 
-        $middleware->prepend(Middleware\AttachContentTypeRequestHeader::class, 'body_format_content_type');
-        $middleware->after('body_format_content_type', Middleware\SetResponseDecoder::class, 'response_decoder');
+        $middleware->prepend(new Middleware\AttachContentTypeRequestHeader(), 'body_format_content_type');
+        $middleware->after('body_format_content_type', new Middleware\SetResponseDecoder(), 'response_decoder');
 
         return array_filter(array_map(function ($item) {
             return $item[0] ?? null;
