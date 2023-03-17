@@ -31,6 +31,14 @@ abstract class Connector implements ConnectorInterface
     }
 
     /**
+     * @return static
+     */
+    public function fake($responseFactory = null)
+    {
+        return $this->withClient(new Mock\MockClient($responseFactory));
+    }
+
+    /**
      * Send the request and retries if it fails.
      *
      * @throws \Jenky\Atlas\Exceptions\RequestRetryFailedException
