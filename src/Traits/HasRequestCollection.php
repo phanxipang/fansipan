@@ -53,7 +53,7 @@ trait HasRequestCollection
             return new RequestCollectionProxy($this, $this->requests($request));
         }
 
-        if (! is_a($request, Request::class, true)) {
+        if (! is_subclass_of($request, Request::class)) {
             throw new InvalidArgumentException(
                 sprintf('%s must be instance of %s', $request, Request::class)
             );

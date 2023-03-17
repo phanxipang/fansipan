@@ -6,7 +6,11 @@ From the [Quick start](../getting-started/quickstart.md#create-request), you can
 
 ## Writing Connectors
 
-All connectors extends `Jenky\Atlas\Connector` class. Within the `defineClient` method, you should create your HTTP own client.
+All connectors extends `Jenky\Atlas\Connector` class.
+
+### Use Custom HTTP Client
+
+Within the `defineClient` method, you should create your HTTP own client
 
 ```php
 <?php
@@ -28,20 +32,20 @@ class MyConnector extends Connector
 }
 ```
 
-!!!danger
-`defineClient` method must return `Psr\Http\Client\ClientInterface` implementation.
-!!!
+Sometimes, as an end user, you can't use `defineClient` method. However you can override the client by using `withClient` method
 
-Then you can start [using your connector from your request](requests.md#specify-the-connector). This approach was very minimalist, but it introduced complexity and friction for the developer because you have to define a connector class on every request that you make.
+```php
+$connector = (new MyConnector())->withClient(
+    new Client()
+);
+```
 
-**It is recommended to send your requests through a connector like this:**
+Then you can start [sending your request](requests.md#making-requests).
 
 ```php
 $connector = new GithubConnector(token: 'github-token');
 
 $connector->send(new GetUserRepoRequest('jenky/atlas');
-// or
-$connector->request(new GetUserRepoRequest('jenky/atlas'))->send();
 ```
 
 This allows you to have constructor arguments on the connector, perfect for API tokens or configuration and also utilizes the powerful [middleware pipeline](../advanced/middleware.md) feature.

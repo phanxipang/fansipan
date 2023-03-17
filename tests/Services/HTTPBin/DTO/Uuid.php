@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests\Services\HTTPBin\DTO;
 
+use Jenky\Atlas\Response;
+
 class Uuid
 {
     protected $uuid;
@@ -16,5 +18,10 @@ class Uuid
     public function uuid(): string
     {
         return $this->uuid;
+    }
+
+    public static function fromResponse(Response $response): self
+    {
+        return new self($response->data()['uuid'] ?? '');
     }
 }

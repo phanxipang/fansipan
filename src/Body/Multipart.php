@@ -53,6 +53,7 @@ class Multipart implements MultipartInterface
     /**
      * Analyse the part.
      *
+     * @param  mixed  $part
      * @throws \RuntimeException
      * @throws \UnexpectedValueException
      */
@@ -84,6 +85,7 @@ class Multipart implements MultipartInterface
     /**
      * Create a stream for given part.
      *
+     * @param  mixed  $content
      * @throws \UnexpectedValueException
      */
     protected function createStream($content): StreamInterface

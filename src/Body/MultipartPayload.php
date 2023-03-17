@@ -9,7 +9,7 @@ use Jenky\Atlas\Contracts\MultipartInterface;
 use Jenky\Atlas\Contracts\PayloadInterface;
 use Jenky\Atlas\Map;
 
-class MultipartPayload extends Map implements PayloadInterface
+final class MultipartPayload extends Map implements PayloadInterface
 {
     /**
      * @var string
@@ -60,6 +60,8 @@ class MultipartPayload extends Map implements PayloadInterface
 
     /**
      * Build a single part.
+     *
+     * @param  mixed  $value
      */
     private function part(string $name, $value): string
     {

@@ -51,7 +51,7 @@ $github = new Github('access-token');
 
 ## Sending request
 
-When you have created the request, all that developers would need to do is run it! You can use the `send` method to send a request straight away, or the `request` method to instantiate the request.
+When you have created the request, all that developers would need to do is to instantiate and send the request on the connector.
 
 ```php
 <?php
@@ -84,105 +84,109 @@ $github = new Github('access-token');
 $github->send(new GetRepository('jenky', 'atlas'));
 
 // Or if you would like to do something with the request before sending it.
-$request = $github->request(new GetRepository('jenky', 'atlas'));
+$request = new GetRepository('jenky', 'atlas');
 $request->headers()->with('X-Foo', 'baz');
-$request->send();
+
+$response = $connector->send($request);
 ```
 
-## Using Request Collection
+With this method, it’s really simple to build your SDK. All you would need to do is create all the requests and then document them in your `README`. Developers using your SDK can just instantiate your SDK and then use the `send` methods.
 
-Alternatively, you can define request classes and groups of requests on your connector class by using the `$requests` property to define requests. By using this method, you will have to register your API routes, but then developers can use methods to make API calls. To enable request collection for a connector, add the `Jenky\Atlas\Traits\HasRequestCollection` trait to the connector:
+### Sending Requests With Methods
+
+Sometimes you may want to make it easy for the developer to find all the methods that they need to call the API through your SDK. You can create methods on your connector which send an API request or you could write a "resource" class that contains lots of requests.
+
++++ Definition
+```php
+<?php
+
+use Jenky\Atlas\Connector;
+
+class Github extends Connector
+{
+    // { ... }
+
+    public function allUserRepos(string $name, int $page = 1): Response
+    {
+        return $this->send(new GetUserRepositories($name, $page));
+    }
+}
+```
++++ Usage
+```php
+$github = new Github('access-token');
+
+$github->allUserRepos('jenky');
+```
++++
+
+## Using Request Resources
+
+The resource pattern can help you combine your SDK requests into simple groups that are easy for the developer to find and consume. The tutorial below will guide you through creating a resource class however you should customise it to your SDK.
+
+### Creating a Resource
+
+Let's start by creating a `OrganizationResource` class. This class should contain a constructor that passes in an instance of `Jenky\Atlas\Contracts\ConnectorInterface` and additional constructor arguments that you need for all request grouped under the resource.
 
 ```php
 <?php
 
-use GuzzleHttp\Client;
-use Jenky\Atlas\Connector;
-use Jenky\Atlas\Traits\HasRequestCollection;
-use Psr\Http\Client\ClientInterface;
+use Jenky\Atlas\Contracts\ConnectorInterface;
 
-class Github extends Connector
+class OrganizationResource
 {
-    use HasRequestCollection;
+    private ConnectorInterface $connector;
 
-    protected $requests = [
-        GetRepository::class,
-    ];
+    private string $org;
 
-    // ...
+    public function __construct(protected ConnectorInterface $connector, string $org)
+    {
+        $this->connector = $connector;
+        $this->org = $org;
+    }
+
+    public function repos(int $page = 1): Response
+    {
+        return $this->connector->send(new GetRepositories($this->org, $page));
+    }
+
+    public function repo(string $repo): Response
+    {
+        return $this->connector->send(new GetRepository($this->org, $repo));
+    }
 }
 ```
 
-```php
-$github = new Github('access-token');
+### Defining a Resource On Your Connector
 
-$request = $github->getRepository('jenky', 'atlas'));
-$response = $request->send();
-```
-
-The connector will create a "magic" method for the request based on its name in `camelCase`. For example, our registered `GetRepository` class will now have a method for it on the connector called `getRepository()`. When you call this method, `GetRepository` class will be instantiated.
-
-### Customising The Request Methods
-
-Sometimes you may want to use your own method names for requests on your connector. If you would like to do this, just add a key for the request to rename the method.
+Now we'll define a method on the connector which returns this resource class. Don't forget to pass the connector's instance (`$this`) into the resource.
 
 ```php
 <?php
 
-use GuzzleHttp\Client;
 use Jenky\Atlas\Connector;
-use Psr\Http\Client\ClientInterface;
 
 class Github extends Connector
 {
-    protected $requests = [
-        'get_repo' => GetRepository::class,
-    ];
+    // { ... }
 
-    // ...
+    public function org(string $org): OrganizationResource
+    {
+        return new OrganizationResource($this, $org);
+    }
 }
 ```
 
-```php
-$github = new Github('access-token');
+### Using the Resource
 
-$response = $github->get_repo('jenky', 'atlas'))->send();
-```
-
-### Groupping Requests
-
-You can also have many requests in an SDK, each separated into their own groups. For example, a "repos" group and a "orgs" group containing different requests.
-
-Your requests now will be nested in a key that represents group name which also a method to access that group from the connector.
+Now all our users have to do is access the `org()` method on the SDK class to get access to all the various requests that our SDK has to offer.
 
 ```php
 <?php
 
-use GuzzleHttp\Client;
-use Jenky\Atlas\Connector;
-use Psr\Http\Client\ClientInterface;
-
-class Github extends Connector
-{
-    protected $requests = [
-        'repos' => [
-            'get' => GetRepository::class,
-            'create' => PostRepository::class,
-        ],
-        'orgs' => [
-            'repos' => ListOrgRepositories::class,
-        ],
-        Octocat::class,
-    ];
-
-    // ...
-}
-```
-
-```php
 $github = new Github('access-token');
 
-$request = $github->repos()->get('jenky', 'atlas')); // GetRepository
+$repos = $github->org('github')->repos();
 
-$request = $github->orgs()->repos('github')); // ListOrgRepositories
+$docs = $github->org('github')->repo('docs');
 ```

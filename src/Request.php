@@ -6,17 +6,14 @@ namespace Jenky\Atlas;
 
 use InvalidArgumentException;
 use Jenky\Atlas\Body\FormPayload;
+use Jenky\Atlas\Contracts\DecoderInterface;
 use Jenky\Atlas\Contracts\PayloadInterface;
+use Jenky\Atlas\Decoder\ChainDecoder;
+use Jenky\Atlas\Decoder\JsonDecoder;
+use Jenky\Atlas\Decoder\XmlDecoder;
 
 abstract class Request
 {
-    /**
-     * The connector instance.
-     *
-     * @var null|\Jenky\Atlas\Connector
-     */
-    protected $connector;
-
     /**
      * @var \Jenky\Atlas\Map
      */
@@ -90,7 +87,7 @@ abstract class Request
      */
     public function query(): Map
     {
-        if (is_null($this->query)) {
+        if (! $this->query instanceof Map) {
             $this->query = new Map($this->defaultQuery());
         }
 
@@ -102,7 +99,7 @@ abstract class Request
      */
     public function headers(): Map
     {
-        if (is_null($this->headers)) {
+        if (! $this->headers instanceof Map) {
             $this->headers = new Map($this->defaultHeaders());
         }
 
@@ -114,7 +111,7 @@ abstract class Request
      */
     public function body(): PayloadInterface
     {
-        if (is_null($this->body)) {
+        if (! $this->body instanceof Map) {
             $this->body = $this->definePayload();
         }
 
@@ -122,33 +119,13 @@ abstract class Request
     }
 
     /**
-     * Set the connector.
-     *
-     * @param  string|\Jenky\Atlas\Connector  $connector
-     * @return $this
+     * Get the response decoder.
      */
-    public function withConnector($connector)
+    public function decoder(): DecoderInterface
     {
-        $this->connector = $connector;
-
-        return $this;
-    }
-
-    /**
-     * Get the connector.
-     *
-     * @return null|string|\Jenky\Atlas\Connector
-     */
-    public function connector()
-    {
-        return $this->connector;
-    }
-
-    /**
-     * Send the request.
-     */
-    public function send(): Response
-    {
-        return PendingRequest::from($this)->send();
+        return new ChainDecoder(
+            new JsonDecoder(),
+            new XmlDecoder()
+        );
     }
 }

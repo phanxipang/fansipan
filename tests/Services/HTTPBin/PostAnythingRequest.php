@@ -7,7 +7,7 @@ namespace Jenky\Atlas\Tests\Services\HTTPBin;
 use Jenky\Atlas\Body\AsJson;
 use Jenky\Atlas\Request;
 
-class PostAnythingRequest extends Request
+final class PostAnythingRequest extends Request
 {
     use AsJson;
 

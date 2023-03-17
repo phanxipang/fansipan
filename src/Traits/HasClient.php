@@ -21,9 +21,11 @@ trait HasClient
      */
     public function withClient(ClientInterface $client)
     {
-        $this->client = $client;
+        $clone = clone $this;
 
-        return $this;
+        $clone->client = $client;
+
+        return $clone;
     }
 
     /**
@@ -31,7 +33,7 @@ trait HasClient
      */
     public function client(): ClientInterface
     {
-        if (is_null($this->client)) {
+        if (! $this->client instanceof ClientInterface) {
             $this->client = $this->defineClient();
         }
 

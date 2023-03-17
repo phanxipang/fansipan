@@ -4,46 +4,30 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use Http\Discovery\Psr17FactoryDiscovery;
-use InvalidArgumentException;
-use Psr\Http\Message\RequestInterface;
+use Jenky\Atlas\Contracts\ConnectorInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class PendingRequest
+final class PendingRequest
 {
+    /**
+     * @var \Jenky\Atlas\Contracts\ConnectorInterface
+     */
+    private $connector;
+
     /**
      * @var \Jenky\Atlas\Request
      */
-    protected $request;
-
-    /**
-     * @var \Jenky\Atlas\Connector
-     */
-    protected $connector;
+    private $request;
 
     /**
      * Create new pending request instance.
-     *
-     * @param  \Jenky\Atlas\Request  $request
-     * @return void
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(Request $request)
+    public function __construct(ConnectorInterface $connector, Request $request)
     {
+        $this->connector = $connector;
         $this->request = $request;
-        $this->connector = $this->createConnector();
-    }
-
-    /**
-     * Create new pending request instance.
-     *
-     * @param  \Jenky\Atlas\Request  $request
-     * @return static
-     */
-    public static function from(Request $request)
-    {
-        return new static($request);
     }
 
     /**
@@ -57,16 +41,25 @@ class PendingRequest
             ->then(function ($request) {
                 return $this->toResponse(
                     $this->connector->client()->sendRequest(
-                        $this->toPsrRequest()
+                        Util::request($request)
                     )
                 );
             });
+
+        /* return $this->toResponse($this->connector->pipeline()
+            ->send(Util::request($this->request))
+            ->through($this->gatherMiddleware())
+            ->then(function ($request) {
+                return $this->connector->client()
+                    ->sendRequest($request);
+            })
+        ); */
     }
 
     /**
      * Decorates the PRS response.
      */
-    protected function toResponse(ResponseInterface $response): Response
+    private function toResponse(ResponseInterface $response): Response
     {
         return new Response($response);
     }
@@ -78,70 +71,11 @@ class PendingRequest
     {
         $middleware = $this->connector->middleware();
 
-        $middleware->prepend(Middleware\AttachContentTypeRequestHeader::class, 'body_format_content_type');
-        $middleware->after('body_format_content_type', Middleware\SetResponseDecoder::class, 'response_decoder');
-        $middleware->push(Middleware\CastsResponseToDto::class, 'dto');
+        $middleware->prepend(new Middleware\AttachContentTypeRequestHeader(), 'body_format_content_type');
+        $middleware->after('body_format_content_type', new Middleware\SetResponseDecoder(), 'response_decoder');
 
         return array_filter(array_map(function ($item) {
             return $item[0] ?? null;
         }, $middleware->all()));
-    }
-
-    /**
-     * Build the request URI.
-     */
-    protected function uri(): string
-    {
-        $uri = $this->request->endpoint();
-
-        if ($this->request->query()->isNotEmpty()) {
-            $uri .= '?'.http_build_query($this->request->query()->all());
-        }
-
-        return $uri;
-    }
-
-    /**
-     * Create a connector instance.
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function createConnector(): Connector
-    {
-        $connector = $this->request->connector();
-
-        if (is_null($connector)) {
-            return new Connector();
-        }
-
-        if (! is_subclass_of($connector, Connector::class, true)) {
-            throw new InvalidArgumentException(
-                sprintf('The connector must be a sub class of %s', Connector::class)
-            );
-        }
-
-        return is_string($connector) ? new $connector() : $connector;
-    }
-
-    /**
-     * Create new PSR request instance.
-     */
-    protected function toPsrRequest(): RequestInterface
-    {
-        $request = Psr17FactoryDiscovery::findRequestFactory()->createRequest(
-            $this->request->method(), $this->uri()
-        );
-
-        if ($this->request->headers()->isNotEmpty()) {
-            foreach ($this->request->headers() as $name => $value) {
-                $request = $request->withHeader($name, $value);
-            }
-        }
-
-        return $request->withBody(
-            Psr17FactoryDiscovery::findStreamFactory()->createStream(
-                (string) $this->request->body()
-            )
-        );
     }
 }

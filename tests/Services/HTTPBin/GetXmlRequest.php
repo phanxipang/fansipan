@@ -6,7 +6,7 @@ namespace Jenky\Atlas\Tests\Services\HTTPBin;
 
 use Jenky\Atlas\Request;
 
-class GetXmlRequest extends Request
+final class GetXmlRequest extends Request
 {
     protected $connector = Connector::class;
 

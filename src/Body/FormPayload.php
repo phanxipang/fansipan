@@ -7,7 +7,7 @@ namespace Jenky\Atlas\Body;
 use Jenky\Atlas\Contracts\PayloadInterface;
 use Jenky\Atlas\Map;
 
-class FormPayload extends Map implements PayloadInterface
+final class FormPayload extends Map implements PayloadInterface
 {
     /**
      * Get the header content type value.

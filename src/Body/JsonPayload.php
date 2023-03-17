@@ -7,7 +7,7 @@ namespace Jenky\Atlas\Body;
 use Jenky\Atlas\Contracts\PayloadInterface;
 use Jenky\Atlas\Map;
 
-class JsonPayload extends Map implements PayloadInterface
+final class JsonPayload extends Map implements PayloadInterface
 {
     /**
      * Get the header content type value.
@@ -22,6 +22,6 @@ class JsonPayload extends Map implements PayloadInterface
      */
     public function __toString()
     {
-        return json_encode($this->all());
+        return json_encode($this->all()) ?: '';
     }
 }
