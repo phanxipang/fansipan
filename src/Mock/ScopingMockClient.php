@@ -21,20 +21,15 @@ class ScopingMockClient implements ClientInterface
      */
     private $conditionalResponses = [];
 
-    /**
-     * @param  array<string, mixed> $responses
-     */
-    public function __construct(array $responses)
+    public function __construct(iterable $responses)
     {
         $this->setResponses($responses);
     }
 
     /**
      * Set the responses.
-     *
-     * @param  array<string, mixed> $responses
      */
-    public function setResponses(array $responses): void
+    public function setResponses(iterable $responses): void
     {
         foreach ($responses as $key => $response) {
             if (! is_string($key)) {
