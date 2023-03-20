@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Http\Discovery\Psr17FactoryDiscovery;
+use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
+use Jenky\Atlas\Mock\ScopingMockClient;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
 
 final class MockTest extends TestCase
@@ -24,8 +26,9 @@ final class MockTest extends TestCase
 
     public function test_fake_default_response(): void
     {
-        $connector = (new EchoConnector())
-            ->fake();
+        $client = new MockClient();
+
+        $connector = (new EchoConnector())->withClient($client);
 
         $response = $connector->post();
 
@@ -34,8 +37,9 @@ final class MockTest extends TestCase
 
     public function test_fake_failed_response(): void
     {
-        $connector = (new EchoConnector())
-            ->fake($this->responseFactory->createResponse(500));
+        $client = new MockClient($this->responseFactory->createResponse(500));
+
+        $connector = (new EchoConnector())->withClient($client);
 
         $response = $connector->get();
 
@@ -48,12 +52,13 @@ final class MockTest extends TestCase
 
     public function test_fake_sequence_responses(): void
     {
-        $connector = (new EchoConnector())
-            ->fake([
-                MockResponse::make(['ok' => true]),
-                MockResponse::make(['error' => 'Unauthenticated'], 401),
-                $this->responseFactory->createResponse(502),
-            ]);
+        $client = new MockClient([
+            MockResponse::create(['ok' => true]),
+            MockResponse::create(['error' => 'Unauthenticated'], 401),
+            $this->responseFactory->createResponse(502),
+        ]);
+
+        $connector = (new EchoConnector())->withClient($client);
 
         $request1 = $connector->get();
         $request2 = $connector->post();
@@ -65,5 +70,18 @@ final class MockTest extends TestCase
         $this->assertSame('Unauthenticated', $request2->data()['error']);
 
         $this->assertTrue($connector->get()->serverError());
+    }
+
+    public function test_fake_conditional_responses(): void
+    {
+        $client = new ScopingMockClient([
+            'cookies*' => MockResponse::create('', 400),
+            '*' => MockResponse::create('', 200),
+        ]);
+
+        $connector = (new EchoConnector())->withClient($client);
+
+        $this->assertSame(200, $connector->get()->status());
+        $this->assertTrue($connector->cookies()->get()->clientError());
     }
 }

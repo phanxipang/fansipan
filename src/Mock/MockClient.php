@@ -11,6 +11,9 @@ use Psr\Http\Message\ResponseInterface;
 
 class MockClient implements ClientInterface
 {
+    /**
+     * @var null|\Psr\Http\Message\ResponseInterface
+     */
     private $defaultResponse;
 
     /**
@@ -19,7 +22,7 @@ class MockClient implements ClientInterface
     private $responses;
 
     /**
-     * @param  null|iterable|\Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[] $responses
+     * @param  null|iterable|\Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[] $responseFactory
      */
     public function __construct($responseFactory = null)
     {
@@ -31,6 +34,11 @@ class MockClient implements ClientInterface
         return ! $this->defaultResponse instanceof ResponseInterface;
     }
 
+    /**
+     * Set the response factory.
+     *
+     * @param  null|iterable|\Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[] $responseFactory
+     */
     public function setResponseFactory($responseFactory = null): void
     {
         if (is_null($responseFactory)) {
@@ -63,7 +71,7 @@ class MockClient implements ClientInterface
         $uri = $request->getUri();
 
         if (! $this->responses->valid()) {
-            throw new \InvalidArgumentException('The response factory iterator passed to Mock Client is empty.');
+            throw new \OutOfRangeException('The response factory iterator passed to Mock Client is empty.');
         }
 
         $responseFactory = $this->responses->current();
