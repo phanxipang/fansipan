@@ -12,9 +12,9 @@ use Psr\Http\Message\ResponseInterface;
 class ScopingMockClient implements ClientInterface
 {
     /**
-     * @var null|\Psr\Http\Message\ResponseInterface
+     * @var null|iterable|\Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[]
      */
-    private $defaultResponse;
+    private $defaultResponse = null;
 
     /**
      * @var array<string, mixed>
@@ -52,9 +52,7 @@ class ScopingMockClient implements ClientInterface
      */
     public function addResponse(string $condition, $response): void
     {
-        if ($condition === '*' &&
-            (is_null($response) || $response instanceof ResponseInterface)
-        ) {
+        if ($condition === '*') {
             $this->defaultResponse = $response;
         } else {
             $this->conditionalResponses[$condition] = $response;
