@@ -41,7 +41,7 @@ final class PendingRequest
             ->then(function ($request) {
                 return $this->toResponse(
                     $this->connector->client()->sendRequest(
-                        Util::request($request)
+                        Util::request($request, $this->connector->baseUri())
                     )
                 );
             });

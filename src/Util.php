@@ -11,6 +11,113 @@ use Psr\Http\Message\UriInterface;
 final class Util
 {
     /**
+     * Removes dot segments from a path and returns the new path.
+     *
+     * @see http://tools.ietf.org/html/rfc3986#section-5.2.4
+     */
+    public static function removeDotSegments(string $path): string
+    {
+        if ($path === '' || $path === '/') {
+            return $path;
+        }
+
+        $results = [];
+        $segments = explode('/', $path);
+        foreach ($segments as $segment) {
+            if ($segment === '..') {
+                array_pop($results);
+            } elseif ($segment !== '.') {
+                $results[] = $segment;
+            }
+        }
+
+        $newPath = implode('/', $results);
+
+        if ($path[0] === '/' && (! isset($newPath[0]) || $newPath[0] !== '/')) {
+            // Re-add the leading slash if necessary for cases like "/.."
+            $newPath = '/'.$newPath;
+        } elseif ($newPath !== '' && ($segment === '.' || $segment === '..')) {
+            // Add the trailing slash if necessary
+            // If newPath is not empty, then $segment must be set and is the last segment from the foreach
+            $newPath .= '/';
+        }
+
+        return $newPath;
+    }
+
+    /**
+     * Converts the relative URI into a new URI that is resolved against the base URI.
+     *
+     * @see http://tools.ietf.org/html/rfc3986#section-5.2
+     */
+    public static function absoluteUri(UriInterface $base, UriInterface $relative): UriInterface
+    {
+        if ((string) $relative === '') {
+            return $base;
+        }
+
+        if ($relative->getScheme() != '') {
+            return $relative->withPath(self::removeDotSegments($relative->getPath()));
+        }
+
+        if ($relative->getAuthority() != '') {
+            $targetAuthority = $relative->getAuthority();
+            $targetPath = self::removeDotSegments($relative->getPath());
+            $targetQuery = $relative->getQuery();
+        } else {
+            $targetAuthority = $base->getAuthority();
+            if ($relative->getPath() === '') {
+                $targetPath = $base->getPath();
+                $targetQuery = $relative->getQuery() != '' ? $relative->getQuery() : $base->getQuery();
+            } else {
+                if ($relative->getPath()[0] === '/') {
+                    $targetPath = $relative->getPath();
+                } else {
+                    if ($targetAuthority != '' && $base->getPath() === '') {
+                        $targetPath = '/'.$relative->getPath();
+                    } else {
+                        $lastSlashPos = strrpos($base->getPath(), '/');
+                        if ($lastSlashPos === false) {
+                            $targetPath = $relative->getPath();
+                        } else {
+                            $targetPath = substr($base->getPath(), 0, $lastSlashPos + 1).$relative->getPath();
+                        }
+                    }
+                }
+                $targetPath = self::removeDotSegments($targetPath);
+                $targetQuery = $relative->getQuery();
+            }
+        }
+
+        $uri = '';
+        $scheme = $base->getScheme();
+
+        if ($scheme != '') {
+            $uri .= $scheme.':';
+        }
+
+        if ($targetAuthority != '' || $scheme === 'file') {
+            $uri .= '//'.$targetAuthority;
+        }
+
+        if ($targetAuthority != '' && $targetPath != '' && $targetPath[0] != '/') {
+            $targetPath = '/'.$targetPath;
+        }
+
+        $uri .= $targetPath;
+
+        if ($targetQuery != '') {
+            $uri .= '?'.$targetQuery;
+        }
+
+        if ($relative->getFragment() != '') {
+            $uri .= '#'.$relative->getFragment();
+        }
+
+        return self::uri($uri);
+    }
+
+    /**
      * Create a new PSR URI instance.
      *
      * @throws \Http\Discovery\Exception\NotFoundException
@@ -30,14 +137,16 @@ final class Util
      * @throws \Http\Discovery\Exception\NotFoundException
      * @throws \InvalidArgumentException
      */
-    public static function request(Request $request): RequestInterface
+    public static function request(Request $request, ?string $baseUri = null): RequestInterface
     {
+        $uri = self::uri(
+            $request->endpoint(), $request->query()->all()
+        );
+
         $psrRequest = Psr17FactoryDiscovery::findRequestFactory()
             ->createRequest(
                 $request->method(),
-                static::uri(
-                    $request->endpoint(), $request->query()->all()
-                )
+                $baseUri ? self::absoluteUri(self::uri($baseUri), $uri) : $uri
             );
 
         if ($request->headers()->isNotEmpty()) {
@@ -50,43 +159,5 @@ final class Util
             Psr17FactoryDiscovery::findStreamFactory()
                 ->createStream((string) $request->body())
         );
-    }
-
-    /**
-     * Determine if a given string matches a given pattern.
-     *
-     * @param string|iterable<string> $pattern
-     * @param string $value
-     * @return bool
-     */
-    public static function stringIs($pattern, string $value): bool
-    {
-        if (! is_iterable($pattern)) {
-            $pattern = [$pattern];
-        }
-
-        foreach ($pattern as $pattern) {
-            $pattern = (string) $pattern;
-
-            // If the given value is an exact match we can of course return true right
-            // from the beginning. Otherwise, we will translate asterisks and do an
-            // actual pattern match against the two strings to see if they match.
-            if ($pattern === $value) {
-                return true;
-            }
-
-            $pattern = preg_quote($pattern, '#');
-
-            // Asterisks are translated into zero-or-more regular expression wildcards
-            // to make it convenient to check if the strings starts with the given
-            // pattern such as "library/*", making any string check convenient.
-            $pattern = str_replace('\*', '.*', $pattern);
-
-            if (preg_match('#^'.$pattern.'\z#u', $value) === 1) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
