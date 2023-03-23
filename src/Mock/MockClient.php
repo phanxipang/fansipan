@@ -11,6 +11,8 @@ use Psr\Http\Message\ResponseInterface;
 
 class MockClient implements ClientInterface
 {
+    use AssertTrait;
+
     /**
      * @var null|\Psr\Http\Message\ResponseInterface
      */
@@ -29,6 +31,9 @@ class MockClient implements ClientInterface
         $this->setResponseFactory($responseFactory);
     }
 
+    /**
+     * Determine whether request is sequential.
+     */
     private function isSequential(): bool
     {
         return ! $this->defaultResponse instanceof ResponseInterface;
@@ -55,7 +60,7 @@ class MockClient implements ClientInterface
         }
 
         if (! $responseFactory instanceof \Iterator) {
-            throw new \InvalidArgumentException('...');
+            throw new \InvalidArgumentException('Unable to create a response factory');
         }
 
         $this->responses = $responseFactory;
@@ -64,6 +69,8 @@ class MockClient implements ClientInterface
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         if (! $this->isSequential()) {
+            $this->record($request, $this->defaultResponse);
+
             return $this->defaultResponse;
         }
 
@@ -81,6 +88,8 @@ class MockClient implements ClientInterface
         if (! $response instanceof ResponseInterface) {
             throw new \InvalidArgumentException(sprintf('The response factory passed to Mock Client must return/yield an instance of Psr\Http\Message\ResponseInterface, "%s" given.', get_debug_type($response)));
         }
+
+        $this->record($request, $response);
 
         return $response;
     }

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Mock;
 
-use Jenky\Atlas\Util;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class ScopingMockClient implements ClientInterface
 {
+    use AssertTrait;
+
     /**
      * @var null|iterable|\Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[]
      */
@@ -56,27 +57,29 @@ class ScopingMockClient implements ClientInterface
 
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        foreach ($this->conditionalResponses as $uri => $response) {
-            if ($this->matchesUri($uri, (string) $request->getUri())) {
-                return $this->createMockClient($response)
-                    ->sendRequest($request);
+        foreach ($this->conditionalResponses as $uri => $responseFactory) {
+            if (Uri::matches($uri, (string) $request->getUri())) {
+                return $this->sendAndRecord($request, $responseFactory);
             }
         }
 
-        return $this->createMockClient($this->defaultResponse)
-            ->sendRequest($request);
+        return $this->sendAndRecord($request, $this->defaultResponse);
     }
 
     /**
-     * Match the given uri pattern.
+     * @param  null|iterable|\Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[] $response
+     *
+     * @throws \OutOfRangeException
+     * @throws \InvalidArgumentException
      */
-    private function matchesUri(string $pattern, string $value): bool
+    private function sendAndRecord(RequestInterface $request, $response): ResponseInterface
     {
-        $quoted = preg_quote('*', '/');
+        $response = $this->createMockClient($response)
+            ->sendRequest($request);
 
-        $prepare = '*'.preg_replace('/^(?:'.$quoted.')+/u', '', $pattern);
+        $this->record($request, $response);
 
-        return Util::stringIs($prepare, $value);
+        return $response;
     }
 
     /**

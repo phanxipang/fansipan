@@ -8,7 +8,10 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
 use Jenky\Atlas\Mock\ScopingMockClient;
+use Jenky\Atlas\Mock\Uri;
+use Jenky\Atlas\Tests\Services\JsonPlaceholder\UserRequest;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
+use Psr\Http\Message\RequestInterface;
 
 final class MockTest extends TestCase
 {
@@ -70,12 +73,15 @@ final class MockTest extends TestCase
         $this->assertSame('Unauthenticated', $request2->data()['error']);
 
         $this->assertTrue($connector->get()->serverError());
+
+        $client->assertSent('/get');
     }
 
     public function test_fake_conditional_responses(): void
     {
         $client = new ScopingMockClient([
-            'cookies*' => MockResponse::create('', 400),
+            'jsonplaceholder.typicode.com/users/*' => MockResponse::fixture(__DIR__.'/fixtures/user.json'),
+            'postman-echo.com/cookies*' => MockResponse::create('', 400),
             '*' => MockResponse::create('', 200),
         ]);
 
@@ -83,5 +89,17 @@ final class MockTest extends TestCase
 
         $this->assertSame(200, $connector->get()->status());
         $this->assertTrue($connector->cookies()->get()->clientError());
+
+        $client->assertSent(function (RequestInterface $request): bool {
+            return $request->getMethod() === 'GET' && Uri::matches('/cookies', (string) $request->getUri());
+        });
+
+        $client->assertNotSent('/users/*');
+
+        $response = (new UserRequest(1))->send();
+
+        $this->assertTrue($response->ok());
+        $this->assertSame('Leanne Graham', $response->data()['name'] ?? '');
+        $this->assertSame('Bret', $response->data()['username'] ?? '');
     }
 }

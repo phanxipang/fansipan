@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 
-final class MockResponse
+class MockResponse
 {
     /**
      * Create a new response instance.
@@ -52,6 +52,12 @@ final class MockResponse
         return $response->withBody($body(Psr17FactoryDiscovery::findStreamFactory()));
     }
 
+    /**
+     * Create new response from a file.
+     *
+     * @throws \Http\Discovery\Exception\NotFoundException
+     * @throws \InvalidArgumentException
+     */
     public static function fixture(string $filename, int $status = 200, array $headers = []): ResponseInterface
     {
         return static::create(function (StreamFactoryInterface $factory) use ($filename) {
