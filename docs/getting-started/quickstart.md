@@ -24,6 +24,8 @@ graph TD
 
 In order to send a request. First, you should create a `Connector` class that extends `Jenky\Atlas\Connector` class.
 
+You may also set the request base uri by using `baseUri()` method. When a relative URI is provided to in request `endpoint()` method, the connector will combine the base URI with the relative URI using the rules described in [RFC 3986, section 5.2](https://www.rfc-editor.org/rfc/rfc3986#section-5.2).
+
 ```php
 <?php
 
@@ -31,6 +33,10 @@ use Jenky\Atlas\Connector as BaseConnector;
 
 class Connector extends BaseConnector
 {
+    public function baseUri(): ?string
+    {
+        return 'https://mydomain.com/api';
+    }
 }
 ```
 
@@ -48,6 +54,9 @@ class GetHeadersRequest extends Request
     public function endpoint(): string
     {
         return 'https://httpbin.org/headers';
+
+        // If your connector has define base URI then it can be
+        return '/headers';
     }
 }
 ```
