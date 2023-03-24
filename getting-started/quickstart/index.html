@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.732962016177">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.732985992214">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -31,13 +31,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.732962016177" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.732985992214" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.732962016177" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.732985992214" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.732962016177" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.732962016177" defer></script>
-    <script id="mermaid-js" type="text/javascript" src="../../resources/js/mermaid.js?v=2.4.0" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.732985992214" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.732985992214" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -211,29 +210,14 @@
 </doc-anchor-target>
 <p>In this quickstart, we&#x27;ll guide you through the most important functionalities of the package and how to use them.</p>
 <p>First, you should <a href="../installation/">install the package</a>.</p>
-<doc-anchor-target id="flow-diagram">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#flow-diagram">#</doc-anchor-trigger>
-        <span>Flow Diagram</span>
-    </h2>
-</doc-anchor-target>
-<div class="overflow-hidden mb-6 py-4 dark:px-5 dark:bg-white rounded-md"><pre class="mermaid w-full">graph TD
-    A([Request created]) --&gt;|&quot;send()&quot;| B(Pending Request created)
-    B --&gt; C{Has custom connector}
-    C --&gt;|Use custom connector| D(Connector created)
-    C --&gt;|Use default connector| D
-    B --&gt; E[Build request uri] --&gt;|Create PRS-7 request| F(PRS-7 request created)
-    D --&gt;|&quot;send()&quot;| H[Gather middleware] --&gt; M[Pipe request and response] --&gt; I(PRS-18 client created)
-    I --- F --&gt; K(PSR-7 response created) --&gt; L([Response created])
-</pre></div>
 <doc-anchor-target id="create-a-connector">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#create-a-connector">#</doc-anchor-trigger>
         <span>Create a Connector</span>
     </h2>
 </doc-anchor-target>
-<p>In order to send a request. First, you should create a <code v-pre>Connector</code> class that extends <code v-pre>Jenky\Atlas\Connector</code> class.</p>
-<p>You may also set the request base uri by using <code v-pre>baseUri()</code> method. When a relative URI is provided to in request <code v-pre>endpoint()</code> method, the connector will combine the base URI with the relative URI using the rules described in <a href="https://www.rfc-editor.org/rfc/rfc3986#section-5.2">RFC 3986, section 5.2</a>.</p>
+<p>In order to send a request. You should create a <code v-pre>Connector</code> class that extends <code v-pre>Jenky\Atlas\Connector</code> class.</p>
+<p>Additionally, you can set the request base URI by utilizing the <code v-pre>baseUri</code> method. If a relative URI is specified in the request <code v-pre>endpoint</code> method, the connector will merge the base URI with the relative URI, following the guidelines outlined in <a href="https://www.rfc-editor.org/rfc/rfc3986#section-5.2">RFC 3986, section 5.2</a>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">&lt;?php
 
@@ -247,10 +231,10 @@ class Connector extends BaseConnector
     }
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="create-a-request">
+<doc-anchor-target id="creating-request">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#create-a-request">#</doc-anchor-trigger>
-        <span>Create a Request</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#creating-request">#</doc-anchor-trigger>
+        <span>Creating Request</span>
     </h2>
 </doc-anchor-target>
 <p>Let&#x27;s say you want to send a request to <code v-pre>https://httpbin.org/headers</code>. Create <code v-pre>GetHeadersRequest</code> class that extends the <code v-pre>Jenky\Atlas\Request</code> abstract class and set the uri in <code v-pre>endpoint</code> public method. That&#x27;s all.</p>
@@ -265,15 +249,15 @@ class GetHeadersRequest extends Request
     {
         return 'https://httpbin.org/headers';
 
-        // If your connector has define base URI then it can be
+        // If your connector has a defined base URI, then it can be
         return '/headers';
     }
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="send-the-request">
+<doc-anchor-target id="sending-request">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#send-the-request">#</doc-anchor-trigger>
-        <span>Send the Request</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#sending-request">#</doc-anchor-trigger>
+        <span>Sending Request</span>
     </h2>
 </doc-anchor-target>
 <p>Now you should be able to send the request:</p>
@@ -282,10 +266,10 @@ class GetHeadersRequest extends Request
 $request = new GetHeadersRequest();
 $response = $connector-&gt;send($request);</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="inspect-the-response">
+<doc-anchor-target id="inspecting-response">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#inspect-the-response">#</doc-anchor-trigger>
-        <span>Inspect the response</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#inspecting-response">#</doc-anchor-trigger>
+        <span>Inspecting response</span>
     </h2>
 </doc-anchor-target>
 <p>The request above will return an instance of <code v-pre>Jenky\Atlas\Response</code>, which provides a variety of methods that may be used to inspect the response:</p>
@@ -298,7 +282,7 @@ $data = $response-&gt;data();
 
 // Perform your application logic.</code></pre>
 </doc-codeblock></div>
-<p>You may wonder where is the client or how can I customize it? Be sure to explore the next chapter about <a href="../../basic/connectors/">connectors</a>, <a href="../../basic/requests/">requests</a> and <a href="../../basic/responses/">responses</a> to find out more.</p>
+<p>You may be wondering where to find the HTTP client or how to customize it. In order to learn more about this topic, be sure to explore the next chapter, which delves into <a href="../../basic/connectors/">connectors</a>, <a href="../../basic/requests/">requests</a> and <a href="../../basic/responses/">responses</a>.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -371,6 +355,6 @@ $data = $response-&gt;data();
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "Quickstart", level: 2, icon: "file", hasPrism: true, hasMermaid: true, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "Quickstart", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>
