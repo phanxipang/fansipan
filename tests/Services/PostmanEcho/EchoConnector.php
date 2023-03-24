@@ -12,10 +12,15 @@ use Psr\Http\Client\ClientInterface;
 
 final class EchoConnector extends Connector
 {
+    public function baseUri(): ?string
+    {
+        return 'https://postman-echo.com/';
+    }
+
     protected function defineClient(): ClientInterface
     {
         return new Client([
-            'base_uri' => 'https://postman-echo.com/',
+            'base_uri' => $this->baseUri(),
             'allow_redirects' => true,
         ]);
     }

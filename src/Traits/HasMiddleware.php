@@ -26,6 +26,8 @@ trait HasMiddleware
 
     /**
      * Set the pipeline instance.
+     *
+     * @return static
      */
     public function withPipeline(PipelineInterface $pipeline)
     {

@@ -41,19 +41,10 @@ final class PendingRequest
             ->then(function ($request) {
                 return $this->toResponse(
                     $this->connector->client()->sendRequest(
-                        Util::request($request)
+                        Util::request($request, $this->connector->baseUri())
                     )
                 );
             });
-
-        /* return $this->toResponse($this->connector->pipeline()
-            ->send(Util::request($this->request))
-            ->through($this->gatherMiddleware())
-            ->then(function ($request) {
-                return $this->connector->client()
-                    ->sendRequest($request);
-            })
-        ); */
     }
 
     /**

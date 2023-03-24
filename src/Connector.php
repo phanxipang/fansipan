@@ -13,6 +13,11 @@ abstract class Connector implements ConnectorInterface
     use Traits\HasClient;
     use Traits\HasMiddleware;
 
+    public function baseUri(): ?string
+    {
+        return null;
+    }
+
     /**
      * Create a new pending request.
      */

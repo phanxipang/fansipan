@@ -12,6 +12,11 @@ use Psr\Http\Client\ClientInterface;
 interface ConnectorInterface
 {
     /**
+     * Get the base uri for the HTTP client.
+     */
+    public function baseUri(): ?string;
+
+    /**
      * Return the instance with provided HTTP client.
      *
      * @return mixed
