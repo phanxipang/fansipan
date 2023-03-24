@@ -24,11 +24,11 @@ class MockClient implements ClientInterface
     private $responses;
 
     /**
-     * @param  null|iterable|\Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[] $responseFactory
+     * @param  null|iterable|callable[]|ResponseInterface|ResponseInterface[] $response
      */
-    public function __construct($responseFactory = null)
+    public function __construct($response = null)
     {
-        $this->setResponseFactory($responseFactory);
+        $this->setResponse($response);
     }
 
     /**
@@ -42,28 +42,28 @@ class MockClient implements ClientInterface
     /**
      * Set the response factory.
      *
-     * @param  null|iterable|\Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[] $responseFactory
+     * @param  null|iterable|callable[]|ResponseInterface|ResponseInterface[] $response
      */
-    public function setResponseFactory($responseFactory = null): void
+    public function setResponse($response = null): void
     {
-        if (is_null($responseFactory)) {
-            $responseFactory = Psr17FactoryDiscovery::findResponseFactory()->createResponse();
+        if (is_null($response)) {
+            $response = Psr17FactoryDiscovery::findResponseFactory()->createResponse();
         }
 
-        if ($responseFactory instanceof ResponseInterface) {
-            $this->defaultResponse = $responseFactory;
+        if ($response instanceof ResponseInterface) {
+            $this->defaultResponse = $response;
             return;
         }
 
-        if (is_array($responseFactory)) {
-            $responseFactory = new \ArrayIterator($responseFactory);
+        if (is_array($response)) {
+            $response = new \ArrayIterator($response);
         }
 
-        if (! $responseFactory instanceof \Iterator) {
-            throw new \InvalidArgumentException('Unable to create a response factory');
+        if (! $response instanceof \Iterator) {
+            throw new \InvalidArgumentException('Unable to create response for MockClient');
         }
 
-        $this->responses = $responseFactory;
+        $this->responses = $response;
     }
 
     public function sendRequest(RequestInterface $request): ResponseInterface
@@ -78,7 +78,7 @@ class MockClient implements ClientInterface
         $uri = $request->getUri();
 
         if (! $this->responses->valid()) {
-            throw new \OutOfRangeException('The response factory iterator passed to Mock Client is empty.');
+            throw new \OutOfRangeException('The response iterator passed to Mock Client is empty.');
         }
 
         $responseFactory = $this->responses->current();
@@ -86,7 +86,7 @@ class MockClient implements ClientInterface
         $this->responses->next();
 
         if (! $response instanceof ResponseInterface) {
-            throw new \InvalidArgumentException(sprintf('The response factory passed to Mock Client must return/yield an instance of Psr\Http\Message\ResponseInterface, "%s" given.', get_debug_type($response)));
+            throw new \InvalidArgumentException(sprintf('The response passed to Mock Client must return/yield an instance of Psr\Http\Message\ResponseInterface, "%s" given.', get_debug_type($response)));
         }
 
         $this->record($request, $response);

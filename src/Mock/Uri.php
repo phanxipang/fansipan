@@ -15,7 +15,7 @@ final class Uri
     {
         $quoted = preg_quote('*', '/');
 
-        $pattern = '*'.preg_replace('/^(?:'.$quoted.')+/u', '', $pattern);
+        $pattern = '*'.preg_replace('/^(?:'.$quoted.')+/u', '', $pattern); // @phpstan-ignore-line
 
         if (! is_iterable($pattern)) {
             $pattern = [$pattern];
