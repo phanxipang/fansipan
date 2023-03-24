@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests\Services\HTTPBin;
 
-use GuzzleHttp\Client;
 use Jenky\Atlas\Connector as BaseConnector;
 use Jenky\Atlas\Traits\HasRequestCollection;
-use Psr\Http\Client\ClientInterface;
 
 final class Connector extends BaseConnector
 {
@@ -21,11 +19,9 @@ final class Connector extends BaseConnector
         ],
     ];
 
-    protected function defineClient(): ClientInterface
+    public function baseUri(): ?string
     {
-        return new Client([
-            'base_uri' => 'https://httpbin.org',
-        ]);
+        return 'https://httpbin.org';
     }
 
     protected function defaultMiddleware(): array
