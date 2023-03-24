@@ -8,7 +8,7 @@ You can install the package via composer:
 composer require jenky/atlas
 ```
 
-You should have at least a package that provides [PSR-7, PSR-17 and PSR-18 implementation](./requirements.md). Here are few suggestions:
+You should have at least one package that offers implementation for [PSR-7, PSR-17 and PSR-18](./requirements.md). Here are a few recommendations:
 
 - [Guzzle](https://github.com/guzzle/guzzle) · PSR-7, PSR-17 and PSR-18
 - [Symfony HTTP Client](https://symfony.com/doc/current/http_client.html#psr-18-and-psr-17) · PSR-17 and PSR-18
