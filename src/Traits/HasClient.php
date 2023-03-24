@@ -18,6 +18,8 @@ trait HasClient
 
     /**
      * Set the HTTP client instance.
+     *
+     * @return static
      */
     public function withClient(ClientInterface $client)
     {

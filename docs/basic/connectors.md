@@ -2,7 +2,7 @@
 order: 500
 ---
 
-From the [Quick start](../getting-started/quickstart.md#create-request), you can send the request immediately without a HTTP client. However in real world use cases, typically you need to customize your HTTP client with options such as custom authorization header, timeout, etc...
+From the [Quick start](../getting-started/quickstart.md#making-requests), you can send the request immediately without a HTTP client. However in real world use cases, typically you need to customize your HTTP client with options such as custom authorization header, timeout, etc...
 
 ## Writing Connectors
 
