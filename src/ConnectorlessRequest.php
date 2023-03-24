@@ -9,7 +9,7 @@ abstract class ConnectorlessRequest extends Request
     /**
      * Send the request.
      */
-    public function send(): Response
+    final public function send(): Response
     {
         return (new NullConnector())->send($this);
     }
