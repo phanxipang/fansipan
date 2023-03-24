@@ -45,15 +45,6 @@ final class PendingRequest
                     )
                 );
             });
-
-        /* return $this->toResponse($this->connector->pipeline()
-            ->send(Util::request($this->request))
-            ->through($this->gatherMiddleware())
-            ->then(function ($request) {
-                return $this->connector->client()
-                    ->sendRequest($request);
-            })
-        ); */
     }
 
     /**
