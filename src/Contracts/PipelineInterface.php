@@ -26,10 +26,9 @@ interface PipelineInterface
     /**
      * Push additional pipes onto the pipeline.
      *
-     * @param  array|mixed  $pipes
      * @return static
      */
-    public function pipe($pipes);
+    public function pipe(callable ...$pipes);
 
     /**
      * Run the pipeline with a final destination callback.

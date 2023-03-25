@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
-use Closure;
 use Jenky\Atlas\Middleware\Interceptor;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
@@ -20,7 +19,7 @@ final class ConnectorTest extends TestCase
 
         $this->assertCount(1, $connector->middleware());
 
-        $connector->middleware()->push(function (Request $request, Closure $next): Response {
+        $connector->middleware()->push(function (Request $request, callable $next): Response {
             $request->headers()->with('Echo', 'Atlas');
             return $next($request);
         }, 'echo');
@@ -37,7 +36,7 @@ final class ConnectorTest extends TestCase
             $response->withHeader('X-Unique-Id', $id);
         }));
 
-        $connector->middleware()->prepend(function (Request $request, Closure $next): Response {
+        $connector->middleware()->prepend(function (Request $request, callable $next): Response {
             return $next($request);
         }, 'first');
 
@@ -52,7 +51,7 @@ final class ConnectorTest extends TestCase
 
         $this->assertCount(4, $connector->middleware());
 
-        $connector->middleware()->push(function (Request $request, Closure $next): Response {
+        $connector->middleware()->push(function (Request $request, callable $next): Response {
             $request->headers()->with('X-Foo', 'bar');
 
             return $next($request);

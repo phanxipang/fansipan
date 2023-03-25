@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Exceptions\RequestRetryFailedException;
+use Jenky\Atlas\Mock\MockClient;
+use Jenky\Atlas\Mock\MockResponse;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 use Jenky\Atlas\Retry\RetryCallback;
@@ -26,7 +28,10 @@ final class RetryingRequestTest extends TestCase
 
     public function test_retryalbe_request_with_custom_strategy(): void
     {
-        $connector = new RetryableConnector();
+        $client = new MockClient(
+            MockResponse::create('', 502)
+        );
+        $connector = (new RetryableConnector())->withClient($client);
 
         $this->expectException(RequestRetryFailedException::class);
         $this->expectExceptionMessage('Maximum 2 retries reached.');
@@ -34,5 +39,7 @@ final class RetryingRequestTest extends TestCase
         $connector->retry(2, RetryCallback::when(function (Request $request, Response $response) {
             return true;
         }, 1000, 2.0))->send(new GetStatusRequest(502));
+
+        $client->assertSentCount(2);
     }
 }
