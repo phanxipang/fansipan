@@ -4,18 +4,15 @@ Additional middleware can be written to perform a variety of tasks. For example,
 
 ## Defining Middleware
 
-To create a new middleware, create a new class and put your logic inside `__invoke` method:
+To create a new middleware, create a new `callable` class and put your logic inside `__invoke` method:
 
 ```php
-<?php
-
-use Closure;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
 class AttachContentTypeRequestHeader
 {
-    public function __invoke(Request $request, Closure $next): Response
+    public function __invoke(Request $request, callable $next): Response
     {
         if ($contentType = $request->body()->contentType()) {
             $request->headers()->with('Content-Type', $contentType);
@@ -31,13 +28,11 @@ In this middleware, we will add a content type header to the request depends on 
 Middleware also can be a `Closure`:
 
 ```php
-
-use Closure;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
 function attach_content_type(string $contentType): Closure {
-    return function (Request $request, Closure $next): Response {
+    return function (Request $request, callable $next): Response {
         $request->headers()->with('Content-Type', $contentType);
 
         return $next($request);
@@ -54,15 +49,12 @@ You must call the `$next` callback with the `$request` to pass the request deepe
 Of course, a middleware can perform tasks before or after sending the request. For example, the following middleware would perform some task **before** the request is sent by the client:
 
 ```php
-<?php
-
-use Closure;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
 class BeforeMiddleware
 {
-    public function __invoke(Request $request, Closure $next): Response
+    public function __invoke(Request $request, callable $next): Response
     {
         // Perform action
 
@@ -74,15 +66,12 @@ class BeforeMiddleware
 However, this middleware would perform its task **after** the request is sent:
 
 ```php
-<?php
-
-use Closure;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
 class AfterMiddleware
 {
-    public function __invoke(Request $request, Closure $next): Response
+    public function __invoke(Request $request, callable $next): Response
     {
         $response = $next($request);
 
@@ -100,8 +89,6 @@ class AfterMiddleware
 To register default middleware, list the middleware class in the `defaultMiddleware` method of your connector class.
 
 ```php
-<?php
-
 use Jenky\Atlas\Connector as BaseConnector;
 
 class Connector extends BaseConnector
@@ -109,7 +96,7 @@ class Connector extends BaseConnector
     protected function defaultMiddleware(): array
     {
         return [
-            Middleware\AddCustomHeader::class,
+            new Middleware\AddCustomHeader(),
         ];
     }
 }
