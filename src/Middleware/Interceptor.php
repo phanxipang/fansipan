@@ -15,7 +15,7 @@ final class Interceptor
      */
     public static function request(Closure $callback): Closure
     {
-        return function (Request $request, Closure $next) use ($callback): Response {
+        return function (Request $request, callable $next) use ($callback): Response {
             $callback($request);
 
             return $next($request);
@@ -27,7 +27,7 @@ final class Interceptor
      */
     public static function response(Closure $callback): Closure
     {
-        return function (Request $request, Closure $next) use ($callback): Response {
+        return function (Request $request, callable $next) use ($callback): Response {
             $response = $next($request);
 
             $callback($response);

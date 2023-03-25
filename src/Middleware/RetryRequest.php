@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Middleware;
 
-use Closure;
 use Jenky\Atlas\Contracts\RetryStrategyInterface;
 use Jenky\Atlas\Exceptions\RetryException;
 use Jenky\Atlas\Request;
@@ -29,7 +28,7 @@ final class RetryRequest
         $this->retryStrategy = $retryStrategy;
     }
 
-    public function __invoke(Request $request, Closure $next): Response
+    public function __invoke(Request $request, callable $next): Response
     {
         $this->context->attempting();
 

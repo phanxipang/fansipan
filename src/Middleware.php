@@ -32,9 +32,9 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Unshift a middleware to the bottom of the stack.
      *
-     * @param  callable(Request, \Closure): Response|class-string  $middleware
+     * @param  callable(Request, callable): Response $middleware
      */
-    public function unshift($middleware, ?string $name = null): self
+    public function unshift(callable $middleware, ?string $name = null): self
     {
         array_unshift($this->middleware, [$middleware, $name]);
 
@@ -44,9 +44,9 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Push a middleware to stack.
      *
-     * @param  callable(Request, \Closure): Response|class-string  $middleware
+     * @param  callable(Request, callable): Response $middleware
      */
-    public function push($middleware, string $name = ''): self
+    public function push(callable $middleware, string $name = ''): self
     {
         $this->middleware[] = [$middleware, $name];
 
@@ -56,9 +56,9 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Prepend a middleware to the top of the stack.
      *
-     * @param  callable(Request, \Closure): Response|class-string  $middleware
+     * @param  callable(Request, callable): Response $middleware
      */
-    public function prepend($middleware, string $name = ''): self
+    public function prepend(callable $middleware, string $name = ''): self
     {
         array_unshift($this->middleware, [$middleware, $name]);
 
@@ -68,9 +68,9 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Add a middleware before another middleware by name.
      *
-     * @param  callable(Request, \Closure): Response|class-string  $middleware
+     * @param  callable(Request, callable): Response $middleware
      */
-    public function before(string $findName, $middleware, string $name = ''): self
+    public function before(string $findName, callable $middleware, string $name = ''): self
     {
         $this->splice($findName, $name, $middleware, true);
 
@@ -80,9 +80,9 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Add a middleware after another middleware by name.
      *
-     * @param  callable(Request, \Closure): Response|class-string  $middleware
+     * @param  callable(Request, callable): Response $middleware
      */
-    public function after(string $findName, $middleware, string $name = ''): self
+    public function after(string $findName, callable $middleware, string $name = ''): self
     {
         $this->splice($findName, $name, $middleware, false);
 
@@ -92,7 +92,7 @@ final class Middleware implements IteratorAggregate, Countable
     /**
      * Remove a middleware by instance or name from the stack.
      *
-     * @param  callable(Request, \Closure): Response|string  $remove
+     * @param  callable(Request, callable): Response|string  $remove
      */
     public function remove($remove): self
     {
