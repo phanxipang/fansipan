@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.732985992214">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.733068777022">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -31,12 +31,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.732985992214" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.733068777022" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.732985992214" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.733068777022" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.732985992214" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.732985992214" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.733068777022" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.733068777022" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -216,17 +216,14 @@
         <span>Defining Middleware</span>
     </h2>
 </doc-anchor-target>
-<p>To create a new middleware, create a new class and put your logic inside <code v-pre>__invoke</code> method:</p>
+<p>To create a new middleware, create a new <code v-pre>callable</code> class and put your logic inside <code v-pre>__invoke</code> method:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
-
-use Closure;
-use Jenky\Atlas\Request;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
 class AttachContentTypeRequestHeader
 {
-    public function __invoke(Request $request, Closure $next): Response
+    public function __invoke(Request $request, callable $next): Response
     {
         if ($contentType = $request-&gt;body()-&gt;contentType()) {
             $request-&gt;headers()-&gt;with('Content-Type', $contentType);
@@ -239,13 +236,11 @@ class AttachContentTypeRequestHeader
 <p>In this middleware, we will add a content type header to the request depends on the body type.</p>
 <p>Middleware also can be a <code v-pre>Closure</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">
-use Closure;
-use Jenky\Atlas\Request;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
 function attach_content_type(string $contentType): Closure {
-    return function (Request $request, Closure $next): Response {
+    return function (Request $request, callable $next): Response {
         $request-&gt;headers()-&gt;with('Content-Type', $contentType);
 
         return $next($request);
@@ -276,15 +271,12 @@ function attach_content_type(string $contentType): Closure {
 </doc-anchor-target>
 <p>Of course, a middleware can perform tasks before or after sending the request. For example, the following middleware would perform some task <strong>before</strong> the request is sent by the client:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
-
-use Closure;
-use Jenky\Atlas\Request;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
 class BeforeMiddleware
 {
-    public function __invoke(Request $request, Closure $next): Response
+    public function __invoke(Request $request, callable $next): Response
     {
         // Perform action
 
@@ -294,15 +286,12 @@ class BeforeMiddleware
 </doc-codeblock></div>
 <p>However, this middleware would perform its task <strong>after</strong> the request is sent:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
-
-use Closure;
-use Jenky\Atlas\Request;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 
 class AfterMiddleware
 {
-    public function __invoke(Request $request, Closure $next): Response
+    public function __invoke(Request $request, callable $next): Response
     {
         $response = $next($request);
 
@@ -326,16 +315,14 @@ class AfterMiddleware
 </doc-anchor-target>
 <p>To register default middleware, list the middleware class in the <code v-pre>defaultMiddleware</code> method of your connector class.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
-
-use Jenky\Atlas\Connector as BaseConnector;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Connector as BaseConnector;
 
 class Connector extends BaseConnector
 {
     protected function defaultMiddleware(): array
     {
         return [
-            Middleware\AddCustomHeader::class,
+            new Middleware\AddCustomHeader(),
         ];
     }
 }</code></pre>
