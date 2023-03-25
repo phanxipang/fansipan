@@ -19,6 +19,7 @@ interface PipelineInterface
     /**
      * Set the stops of the pipeline.
      *
+     * @param  iterable<callable> $pipes
      * @return static
      */
     public function through(iterable $pipes);
@@ -33,7 +34,6 @@ interface PipelineInterface
     /**
      * Run the pipeline with a final destination callback.
      *
-     * @param  \Closure  $destination
      * @return mixed
      */
     public function then(Closure $destination);

@@ -49,9 +49,6 @@ final class Pipeline implements PipelineInterface
         return $clone;
     }
 
-    /**
-     * Run the pipeline with a final destination callback.
-     */
     public function then(Closure $destination)
     {
         $pipeline = array_reduce(
