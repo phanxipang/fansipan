@@ -17,7 +17,7 @@ final class EchoConnector extends Connector
         return 'https://postman-echo.com/';
     }
 
-    protected function defineClient(): ClientInterface
+    protected function defaultClient(): ClientInterface
     {
         return new Client([
             'base_uri' => $this->baseUri(),

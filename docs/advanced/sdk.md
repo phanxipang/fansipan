@@ -25,7 +25,7 @@ class Github extends Connector
         $this->version = $version;
     }
 
-    protected function defineClient(): ClientInterface
+    protected function defaultClient(): ClientInterface
     {
         return new Client([
             'base_uri' => 'https://api.github.com',

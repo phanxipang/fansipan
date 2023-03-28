@@ -36,7 +36,7 @@ trait HasClient
     public function client(): ClientInterface
     {
         if (! $this->client instanceof ClientInterface) {
-            $this->client = $this->defineClient();
+            $this->client = $this->defaultClient();
         }
 
         return $this->client;
@@ -45,7 +45,7 @@ trait HasClient
     /**
      * Define the default HTTP client instance.
      */
-    protected function defineClient(): ClientInterface
+    protected function defaultClient(): ClientInterface
     {
         return Psr18ClientDiscovery::find();
     }
