@@ -90,6 +90,20 @@ final class Middleware implements IteratorAggregate, Countable
     }
 
     /**
+     * Check if a middleware is existing from the stack.
+     *
+     * @param  callable(Request, callable): Response|string  $middleware
+     */
+    public function has($middleware): bool
+    {
+        $idx = is_callable($middleware) ? 0 : 1;
+
+        return count(array_filter($this->middleware, function ($tuple) use ($idx, $middleware) {
+            return $tuple[$idx] === $middleware;
+        })) > 0;
+    }
+
+    /**
      * Remove a middleware by instance or name from the stack.
      *
      * @param  callable(Request, callable): Response|string  $remove
