@@ -7,7 +7,7 @@ namespace Jenky\Atlas\Tests\Services\HTTPBin;
 use Jenky\Atlas\Connector as BaseConnector;
 use Jenky\Atlas\Traits\HasRequestCollection;
 
-final class Connector extends BaseConnector
+class Connector extends BaseConnector
 {
     use HasRequestCollection;
 
