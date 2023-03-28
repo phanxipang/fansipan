@@ -44,7 +44,7 @@ trait HasMiddleware
     public function pipeline(): PipelineInterface
     {
         if (! $this->pipeline instanceof PipelineInterface) {
-            $this->pipeline = $this->definePipeline();
+            $this->pipeline = $this->defaultPipeline();
         }
 
         return $this->pipeline;
@@ -53,7 +53,7 @@ trait HasMiddleware
     /**
      * Define the default pipeline instance.
      */
-    protected function definePipeline(): PipelineInterface
+    protected function defaultPipeline(): PipelineInterface
     {
         return new Pipeline();
     }

@@ -10,7 +10,7 @@ All connectors extends the `Jenky\Atlas\Connector` abstract class which implemen
 
 ### Use Custom HTTP Client
 
-Within the `defineClient` method, you should create your HTTP own client
+Within the `defaultClient` method, you should create your HTTP own client
 
 ```php
 <?php
@@ -22,7 +22,7 @@ use Psr\Http\Client\ClientInterface;
 
 class MyConnector extends Connector
 {
-    public function defineClient(): ClientInterface
+    public function defaultClient(): ClientInterface
     {
         return new Client([
             'base_uri' => 'https://httpbin.org',
@@ -32,7 +32,7 @@ class MyConnector extends Connector
 }
 ```
 
-Sometimes, as an end user, you can't use `defineClient` method. However you can override the client by using `withClient` method
+Sometimes, as an end user, you can't use `defaultClient` method. However you can override the client by using `withClient` method
 
 ```php
 $connector = (new MyConnector())->withClient(
