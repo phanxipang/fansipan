@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Traits;
 
 use Jenky\Atlas\Contracts\PoolInterface;
-use Jenky\Atlas\Pool\AmphpPool;
+use Jenky\Atlas\Pool\AmpPool;
 use Jenky\Atlas\Pool\ReactPool;
 use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
@@ -42,7 +42,7 @@ trait Poolable
                     && function_exists('React\\Async\\await')
                     && function_exists('React\\Async\\parallel');
             },
-            AmphpPool::class => function (): bool {
+            AmpPool::class => function (): bool {
                 return function_exists('Amp\\async')
                     && function_exists('Amp\\Future\awaitAll');
             },

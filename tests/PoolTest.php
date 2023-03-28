@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Mock\MockClient;
-use Jenky\Atlas\Pool\AmphpPool;
+use Jenky\Atlas\Pool\AmpPool;
 use Jenky\Atlas\Pool\ReactPool;
 use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
@@ -54,7 +54,7 @@ final class PoolTest extends TestCase
             function () use ($connector): Response {
                 return $connector->send(new GetUuidRequest());
             },
-        ], $amp = new AmphpPool());
+        ], $amp = new AmpPool());
 
         $this->assertSame($amp, $pool);
         $this->assertCount(3, $pool->send());

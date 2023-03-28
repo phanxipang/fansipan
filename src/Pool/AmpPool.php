@@ -9,7 +9,7 @@ use Amp\Future;
 
 use Jenky\Atlas\Contracts\PoolInterface;
 
-final class AmphpPool implements PoolInterface
+final class AmpPool implements PoolInterface
 {
     /**
      * @var array<array-key, \Amp\Future>
