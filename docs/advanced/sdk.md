@@ -7,13 +7,11 @@ label: SDK
 ## Creating SDK Connector
 
 ```php
-<?php
-
 use GuzzleHttp\Client;
 use Jenky\Atlas\Connector;
 use Psr\Http\Client\ClientInterface;
 
-class Github extends Connector
+final class Github extends Connector
 {
     private $token;
 
@@ -54,11 +52,9 @@ $github = new Github('access-token');
 When you have created the request, all that developers would need to do is to instantiate and send the request on the connector.
 
 ```php
-<?php
-
 use Jenky\Atlas\Request;
 
-class GetRepository extends Request
+final class GetRepository extends Request
 {
     private $owner;
 
@@ -98,11 +94,9 @@ Sometimes you may want to make it easy for the developer to find all the methods
 
 +++ Definition
 ```php
-<?php
-
 use Jenky\Atlas\Connector;
 
-class Github extends Connector
+final class Github extends Connector
 {
     // { ... }
 
@@ -133,13 +127,13 @@ Let's start by creating a `OrganizationResource` class. This class should contai
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
 
-class OrganizationResource
+final class OrganizationResource
 {
     private ConnectorInterface $connector;
 
     private string $org;
 
-    public function __construct(protected ConnectorInterface $connector, string $org)
+    public function __construct(ConnectorInterface $connector, string $org)
     {
         $this->connector = $connector;
         $this->org = $org;

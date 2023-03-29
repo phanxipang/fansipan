@@ -4,7 +4,7 @@ Additional middleware can be written to perform a variety of tasks. For example,
 
 ## Defining Middleware
 
-To create a new middleware, create a new `callable` class and put your logic inside `__invoke` method:
+To create a new middleware, create a new Invokable class and put your logic inside `__invoke` method:
 
 ```php
 use Jenky\Atlas\Request;
