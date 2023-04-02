@@ -25,17 +25,17 @@ class Multipart implements MultipartInterface
     /**
      * @var \Psr\Http\Message\StreamInterface
      */
-    protected $stream;
+    private $stream;
 
     /**
      * @var bool
      */
-    protected $isFile = false;
+    private $isFile = false;
 
     /**
      * @var null|string
      */
-    protected $filename = null;
+    private $filename = null;
 
     /**
      * Create new multipart instance.
@@ -88,7 +88,7 @@ class Multipart implements MultipartInterface
      * @param  mixed  $content
      * @throws \UnexpectedValueException
      */
-    protected function createStream($content): StreamInterface
+    private function createStream($content): StreamInterface
     {
         if (is_resource($content)) {
             return $this->streamFactory->createStreamFromResource($content);
