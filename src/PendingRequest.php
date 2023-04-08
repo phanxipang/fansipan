@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas;
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Exceptions\RetryException;
 use Psr\Http\Message\ResponseInterface;
 
 final class PendingRequest
@@ -14,29 +15,18 @@ final class PendingRequest
      */
     private $connector;
 
-    /**
-     * @var \Jenky\Atlas\Request
-     */
-    private $request;
-
-    /**
-     * Create new pending request instance.
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function __construct(ConnectorInterface $connector, Request $request)
+    public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
-        $this->request = $request;
     }
 
     /**
      * Send the request through connector middleware.
      */
-    public function send(): Response
+    public function send(Request $request): Response
     {
         return $this->connector->pipeline()
-            ->send($this->request)
+            ->send($request)
             ->through($this->gatherMiddleware())
             ->then(function ($request) {
                 return $this->toResponse(
@@ -45,6 +35,43 @@ final class PendingRequest
                     )
                 );
             });
+    }
+
+    public function sendAndRetry(Request $request): Response
+    {
+        /* beginning:
+
+        try {
+            return $this->send($request);
+        } catch (RetryException $e) {
+            if (! $e->retryable()) {
+                return $e->response();
+            }
+
+            $delay = $e->delay();
+
+            if ($delay > 0) {
+                usleep($delay * 1000);
+            }
+
+            goto beginning;
+        } */
+
+        do {
+            try {
+                return $this->send($request);
+            } catch (RetryException $e) {
+                if (! $e->retryable()) {
+                    return $e->response();
+                }
+
+                $delay = $e->delay();
+
+                if ($delay > 0) {
+                    usleep($delay * 1000);
+                }
+            }
+        } while (true);
     }
 
     /**
@@ -58,7 +85,7 @@ final class PendingRequest
     /**
      * Gather all the middleware from the connector instance.
      */
-    protected function gatherMiddleware(): array
+    private function gatherMiddleware(): array
     {
         $middleware = $this->connector->middleware();
 

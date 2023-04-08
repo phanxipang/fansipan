@@ -72,15 +72,15 @@ final class ConnectorTest extends TestCase
     {
         $connector = new Connector();
 
-        $response = $connector->getHeadersRequest()->send();
+        $response = $connector->getHeadersRequest();
 
         $this->assertTrue($response->ok());
 
-        $response = $connector->dynamic()->uuid()->send();
+        $response = $connector->dynamic()->uuid();
 
         $this->assertTrue($response->ok());
 
-        $response = $connector->dynamic()->delay(2)->send();
+        $response = $connector->dynamic()->delay(2);
 
         $this->assertTrue($response->ok());
         $this->assertSame('https://httpbin.org/delay/2', $response->data()['url'] ?? null);
