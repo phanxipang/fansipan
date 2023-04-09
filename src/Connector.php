@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jenky\Atlas;
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Contracts\RetryableInterface;
 
 abstract class Connector implements ConnectorInterface
 {
@@ -19,10 +18,6 @@ abstract class Connector implements ConnectorInterface
 
     public function send(Request $request): Response
     {
-        $pendingRequest = new PendingRequest($this);
-
-        return $this instanceof RetryableInterface
-            ? $pendingRequest->sendAndRetry($request)
-            : $pendingRequest->send($request);
+        return (new PendingRequest($this))->send($request);
     }
 }

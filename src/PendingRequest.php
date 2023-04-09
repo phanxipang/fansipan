@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas;
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Contracts\RetryableInterface;
 use Jenky\Atlas\Exceptions\RetryException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -25,6 +26,13 @@ final class PendingRequest
      */
     public function send(Request $request): Response
     {
+        return $this->connector instanceof RetryableInterface
+            ? $this->sendAndRetryRequest($request)
+            : $this->sendRequest($request);
+    }
+
+    private function sendRequest(Request $request): Response
+    {
         return $this->connector->pipeline()
             ->send($request)
             ->through($this->gatherMiddleware())
@@ -37,12 +45,12 @@ final class PendingRequest
             });
     }
 
-    public function sendAndRetry(Request $request): Response
+    private function sendAndRetryRequest(Request $request): Response
     {
         /* beginning:
 
         try {
-            return $this->send($request);
+            return $this->sendRequest($request);
         } catch (RetryException $e) {
             if (! $e->retryable()) {
                 return $e->response();
@@ -59,7 +67,7 @@ final class PendingRequest
 
         do {
             try {
-                return $this->send($request);
+                return $this->sendRequest($request);
             } catch (RetryException $e) {
                 if (! $e->retryable()) {
                     return $e->response();
