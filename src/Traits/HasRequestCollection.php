@@ -59,6 +59,6 @@ trait HasRequestCollection
             );
         }
 
-        return $this->request(new $request(...$parameters));
+        return $this->send(new $request(...$parameters));
     }
 }

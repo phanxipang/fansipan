@@ -40,7 +40,7 @@ class RequestCollectionProxy
      *
      * @throws \BadMethodCallException
      */
-    public function __call($method, $parameters): PendingRequest
+    public function __call($method, $parameters): Response
     {
         $request = $this->collection[$method] ?? null;
 
@@ -56,6 +56,6 @@ class RequestCollectionProxy
             );
         }
 
-        return new PendingRequest($this->connector, new $request(...$parameters));
+        return $this->connector->send(new $request(...$parameters));
     }
 }
