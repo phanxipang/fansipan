@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Jenky\Atlas;
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Contracts\PipelineInterface;
 use Jenky\Atlas\Contracts\RetryableInterface;
 use Jenky\Atlas\Exceptions\RetryException;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
 
 final class PendingRequest
 {
@@ -16,9 +17,15 @@ final class PendingRequest
      */
     private $connector;
 
-    public function __construct(ConnectorInterface $connector)
+    /**
+     * @var \Jenky\Atlas\Contracts\PipelineInterface
+     */
+    private $pipeline;
+
+    public function __construct(ConnectorInterface $connector, ?PipelineInterface $pipeline = null)
     {
         $this->connector = $connector;
+        $this->pipeline = $pipeline ?? new Pipeline();
     }
 
     /**
@@ -33,16 +40,13 @@ final class PendingRequest
 
     private function sendRequest(Request $request): Response
     {
-        return $this->connector->pipeline()
-            ->send($request)
+        $response = $this->pipeline->send(Util::request($request, $this->connector->baseUri()))
             ->through($this->gatherMiddleware())
-            ->then(function ($request) {
-                return $this->toResponse(
-                    $this->connector->client()->sendRequest(
-                        Util::request($request, $this->connector->baseUri())
-                    )
-                );
+            ->then(function (RequestInterface $request) {
+                return $this->connector->client()->sendRequest($request);
             });
+
+        return new Response($response, $request->decoder());
     }
 
     private function sendAndRetryRequest(Request $request): Response
@@ -53,7 +57,7 @@ final class PendingRequest
             return $this->sendRequest($request);
         } catch (RetryException $e) {
             if (! $e->retryable()) {
-                return $e->response();
+                return new Response($e->response(), $request->decoder());
             }
 
             $delay = $e->delay();
@@ -70,7 +74,8 @@ final class PendingRequest
                 return $this->sendRequest($request);
             } catch (RetryException $e) {
                 if (! $e->retryable()) {
-                    return $e->response();
+                    // return $e->response();
+                    return new Response($e->response(), $request->decoder());
                 }
 
                 $delay = $e->delay();
@@ -83,25 +88,12 @@ final class PendingRequest
     }
 
     /**
-     * Decorates the PRS response.
-     */
-    private function toResponse(ResponseInterface $response): Response
-    {
-        return new Response($response);
-    }
-
-    /**
      * Gather all the middleware from the connector instance.
      */
     private function gatherMiddleware(): array
     {
-        $middleware = $this->connector->middleware();
-
-        $middleware->prepend(new Middleware\AttachContentTypeRequestHeader(), 'body_format_content_type');
-        $middleware->after('body_format_content_type', new Middleware\SetResponseDecoder(), 'response_decoder');
-
         return array_filter(array_map(function ($item) {
             return $item[0] ?? null;
-        }, $middleware->all()));
+        }, $this->connector->middleware()->all()));
     }
 }

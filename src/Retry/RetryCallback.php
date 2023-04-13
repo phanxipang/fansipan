@@ -7,8 +7,8 @@ namespace Jenky\Atlas\Retry;
 use Closure;
 use Jenky\Atlas\Contracts\DelayStrategyInterface;
 use Jenky\Atlas\Contracts\RetryStrategyInterface;
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 final class RetryCallback implements RetryStrategyInterface
 {
@@ -54,7 +54,7 @@ final class RetryCallback implements RetryStrategyInterface
         return $clone;
     }
 
-    public function shouldRetry(Request $request, Response $response): bool
+    public function shouldRetry(RequestInterface $request, ResponseInterface $response): bool
     {
         return ($this->when)($request, $response);
     }

@@ -6,9 +6,9 @@ namespace Jenky\Atlas\Middleware;
 
 use Jenky\Atlas\Contracts\RetryStrategyInterface;
 use Jenky\Atlas\Exceptions\RetryException;
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
 use Jenky\Atlas\Retry\RetryContext;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 final class RetryRequest
 {
@@ -28,7 +28,10 @@ final class RetryRequest
         $this->retryStrategy = $retryStrategy;
     }
 
-    public function __invoke(Request $request, callable $next): Response
+    /**
+     * @throws \Jenky\Atlas\Exceptions\RetryException
+     */
+    public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
         $this->context->attempting();
 
@@ -49,9 +52,9 @@ final class RetryRequest
     /**
      * Get the delay from Retry-After header if present.
      */
-    private function getDelayFromHeaders(Response $response): ?int
+    private function getDelayFromHeaders(ResponseInterface $response): ?int
     {
-        $after = $response->header('Retry-After');
+        $after = $response->getHeaderLine('Retry-After');
 
         if ($after) {
             if (is_numeric($after)) {

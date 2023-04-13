@@ -19,7 +19,7 @@ interface ConnectorInterface
     /**
      * Return the instance with provided HTTP client.
      *
-     * @return mixed
+     * @return static
      */
     public function withClient(ClientInterface $client);
 
@@ -27,18 +27,6 @@ interface ConnectorInterface
      * Get the HTTP client instance.
      */
     public function client(): ClientInterface;
-
-    /**
-     * Return the instance with provided pipeline.
-     *
-     * @return mixed
-     */
-    public function withPipeline(PipelineInterface $pipeline);
-
-    /**
-     * Get the pipeline instance.
-     */
-    public function pipeline(): PipelineInterface;
 
     /**
      * Get the middleware instance.

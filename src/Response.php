@@ -26,7 +26,7 @@ final class Response implements ArrayAccess
     private $response;
 
     /**
-     * @var \Jenky\Atlas\Contracts\DecoderInterface
+     * @var null|\Jenky\Atlas\Contracts\DecoderInterface
      */
     private $decoder;
 
@@ -37,9 +37,10 @@ final class Response implements ArrayAccess
      */
     private $decoded;
 
-    public function __construct(ResponseInterface $response)
+    public function __construct(ResponseInterface $response, ?DecoderInterface $decoder = null)
     {
         $this->response = $response;
+        $this->decoder = $decoder;
     }
 
     /**
@@ -62,14 +63,6 @@ final class Response implements ArrayAccess
         }
 
         return $this->decoded;
-    }
-
-    /**
-     * Set the decoder.
-     */
-    public function setDecoder(DecoderInterface $decoder): void
-    {
-        $this->decoder = $decoder;
     }
 
     /**
