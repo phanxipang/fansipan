@@ -76,11 +76,11 @@ final class Response implements ArrayAccess
             return [];
         }
 
-        if (! $this->decoder->supports($this)) {
+        if (! $this->decoder->supports($this->response)) {
             return [];
         }
 
-        return $this->decoder->decode($this);
+        return $this->decoder->decode($this->response);
     }
 
     /**

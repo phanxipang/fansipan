@@ -6,7 +6,7 @@ namespace Jenky\Atlas\Decoder;
 
 use Jenky\Atlas\Contracts\DecoderInterface;
 use Jenky\Atlas\Exceptions\NotDecodableException;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\ResponseInterface;
 
 final class ChainDecoder implements DecoderInterface
 {
@@ -20,7 +20,7 @@ final class ChainDecoder implements DecoderInterface
         $this->decoders = $decoders;
     }
 
-    public function supports(Response $request): bool
+    public function supports(ResponseInterface $request): bool
     {
         return ! empty($this->decoders);
     }
@@ -30,7 +30,7 @@ final class ChainDecoder implements DecoderInterface
      *
      * @throws \Jenky\Atlas\Exceptions\NotDecodableException
      */
-    public function decode(Response $response): array
+    public function decode(ResponseInterface $response): array
     {
         foreach ($this->decoders as $decoder) {
             if ($decoder->supports($response)) {

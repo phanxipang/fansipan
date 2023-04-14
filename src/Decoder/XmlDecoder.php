@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Decoder;
 
 use Jenky\Atlas\Contracts\DecoderInterface;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\ResponseInterface;
 
 final class XmlDecoder implements DecoderInterface
 {
-    public function supports(Response $response): bool
+    public function supports(ResponseInterface $response): bool
     {
-        return $response->header('Content-Type') === 'application/xml';
+        return $response->getHeaderLine('Content-Type') === 'application/xml';
     }
 
-    public function decode(Response $response): array
+    public function decode(ResponseInterface $response): array
     {
-        $xml = simplexml_load_string($response->body());
+        $xml = simplexml_load_string((string) $response->getBody());
 
         if (! $xml) {
             return [];
