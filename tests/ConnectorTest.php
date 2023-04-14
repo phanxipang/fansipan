@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Middleware\Interceptor;
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 final class ConnectorTest extends TestCase
 {
@@ -19,24 +19,23 @@ final class ConnectorTest extends TestCase
 
         $this->assertCount(1, $connector->middleware());
 
-        $connector->middleware()->push(function (Request $request, callable $next): Response {
-            $request->headers()->with('Echo', 'Atlas');
-            return $next($request);
+        $connector->middleware()->push(function (RequestInterface $request, callable $next) {
+            return $next($request->withHeader('Echo', 'Atlas'));
         }, 'echo');
 
         $this->assertCount(2, $connector->middleware());
 
         $id = uniqid();
 
-        $connector->middleware()->before('echo', Interceptor::request(function (Request $request) use ($id) {
-            $request->headers()->with('X-Unique-Id', $id);
+        $connector->middleware()->before('echo', Interceptor::request(function (RequestInterface $request) use ($id) {
+            return $request->withHeader('X-Unique-Id', $id);
         }));
 
-        $connector->middleware()->after('echo', Interceptor::response(function (Response $response) use ($id) {
-            $response->withHeader('X-Unique-Id', $id);
+        $connector->middleware()->after('echo', Interceptor::response(function (ResponseInterface $response) use ($id) {
+            return $response->withHeader('X-Unique-Id', $id);
         }));
 
-        $connector->middleware()->prepend(function (Request $request, callable $next): Response {
+        $connector->middleware()->prepend(function (RequestInterface $request, callable $next) {
             return $next($request);
         }, 'first');
 
@@ -51,10 +50,8 @@ final class ConnectorTest extends TestCase
 
         $this->assertCount(4, $connector->middleware());
 
-        $connector->middleware()->push(function (Request $request, callable $next): Response {
-            $request->headers()->with('X-Foo', 'bar');
-
-            return $next($request);
+        $connector->middleware()->push(function (RequestInterface $request, callable $next) {
+            return $next($request->withHeader('X-Foo', 'bar'));
         });
 
         $connector->middleware()->remove('echo');

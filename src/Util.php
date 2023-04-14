@@ -149,6 +149,11 @@ final class Util
                 $baseUri ? self::absoluteUri(self::uri($baseUri), $uri) : $uri
             );
 
+        if (! $request->headers()->has('Content-Type') &&
+            ($contentType = $request->body()->contentType())) {
+            $request->headers()->with('Content-Type', $contentType);
+        }
+
         if ($request->headers()->isNotEmpty()) {
             foreach ($request->headers() as $name => $value) {
                 $psrRequest = $psrRequest->withHeader($name, $value);

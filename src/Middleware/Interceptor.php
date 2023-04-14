@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Middleware;
 
 use Closure;
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\RequestInterface;
 
 final class Interceptor
 {
@@ -15,10 +14,8 @@ final class Interceptor
      */
     public static function request(Closure $callback): Closure
     {
-        return function (Request $request, callable $next) use ($callback): Response {
-            $callback($request);
-
-            return $next($request);
+        return function (RequestInterface $request, callable $next) use ($callback) {
+            return $next($callback($request));
         };
     }
 
@@ -27,12 +24,8 @@ final class Interceptor
      */
     public static function response(Closure $callback): Closure
     {
-        return function (Request $request, callable $next) use ($callback): Response {
-            $response = $next($request);
-
-            $callback($response);
-
-            return $response;
+        return function (RequestInterface $request, callable $next) use ($callback) {
+            return $callback($next($request));
         };
     }
 }

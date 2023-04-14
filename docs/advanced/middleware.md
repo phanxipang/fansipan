@@ -4,21 +4,24 @@ Additional middleware can be written to perform a variety of tasks. For example,
 
 ## Defining Middleware
 
-To create a new middleware, create a new `callable` class and put your logic inside `__invoke` method:
+To create a new middleware, create a new Invokable class and put your logic inside `__invoke` method:
 
 ```php
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class AttachContentTypeRequestHeader
 {
-    public function __invoke(Request $request, callable $next): Response
-    {
-        if ($contentType = $request->body()->contentType()) {
-            $request->headers()->with('Content-Type', $contentType);
-        }
+    private $contentType;
 
-        return $next($request);
+    public function __construct(string $contentType)
+    {
+        $this->contentType = $contentType;
+    }
+
+    public function __invoke(RequestInterface $request, callable $next): ResponseInterface
+    {
+        return $next($request->withHeader('Content-Type', $this->contentType));
     }
 }
 ```
@@ -28,14 +31,12 @@ In this middleware, we will add a content type header to the request depends on 
 Middleware also can be a `Closure`:
 
 ```php
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 function attach_content_type(string $contentType): Closure {
-    return function (Request $request, callable $next): Response {
-        $request->headers()->with('Content-Type', $contentType);
-
-        return $next($request);
+    return function (RequestInterface $request, callable $next): ResponseInterface {
+        return $next($request->withHeader('Content-Type', $contentType));
     };
 }
 ```
@@ -49,12 +50,12 @@ You must call the `$next` callback with the `$request` to pass the request deepe
 Of course, a middleware can perform tasks before or after sending the request. For example, the following middleware would perform some task **before** the request is sent by the client:
 
 ```php
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class BeforeMiddleware
 {
-    public function __invoke(Request $request, callable $next): Response
+    public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
         // Perform action
 
@@ -66,12 +67,12 @@ class BeforeMiddleware
 However, this middleware would perform its task **after** the request is sent:
 
 ```php
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class AfterMiddleware
 {
-    public function __invoke(Request $request, callable $next): Response
+    public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
         $response = $next($request);
 
@@ -114,10 +115,10 @@ Creating a middleware that modifies a request is made much simpler using the `Je
 
 ```php
 use Jenky\Atlas\Middleware\Interceptor;
-use Jenky\Atlas\Request;
+use Psr\Http\Message\RequestInterface;
 
-$connector->middleware()->push(Interceptor::request(function (Request $request): void {
-    $request->headers()->with('X-Foo', 'bar');
+$connector->middleware()->push(Interceptor::request(function (RequestInterface $request) {
+    return $request->withHeader('X-Foo', 'bar');
 }));
 ```
 
@@ -125,11 +126,10 @@ Modifying a response is also much simpler using the `Jenky\Atlas\Middleware\Inte
 
 ```php
 use Jenky\Atlas\Middleware\Interceptor;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\ResponseInterface;
 
-$connector->middleware()->push(Interceptor::response(function (Response $response): void {
-    // Log the response using PSR-3 logger
-    $logger->info('Response received: ', $response->data());
+$connector->middleware()->push(Interceptor::response(function (ResponseInterface $response) {
+    return $response->withHeader('X-Foo', 'bar');
 }));
 ```
 
@@ -137,18 +137,18 @@ You can give middleware a name, which allows you to add middleware before other 
 
 ```php
 // Add a middleware with a name
-$connector->middleware()->push(Interceptor::request(function (Request $request): void {
-    $request->headers()->with('X-Foo', 'bar');
+$connector->middleware()->push(Interceptor::request(function (RequestInterface $request) {
+    return $request->withHeader('X-Foo', 'bar');
 }), 'add_foo');
 
 // Add a middleware before a named middleware (unshift before).
-$connector->middleware()->before('add_foo', Interceptor::request(function (Request $request): void {
-    $request->headers()->with('X-Baz', 'qux');
+$connector->middleware()->before('add_foo', Interceptor::request(function (RequestInterface $request) {
+    return $request->withHeader('X-Baz', 'qux');
 }), 'add_baz');
 
 // Add a middleware after a named middleware (pushed after).
-$connector->middleware()->before('add_baz', Interceptor::request(function (Request $request): void {
-    $request->headers()->with('X-Lorem', 'Ipsum');
+$connector->middleware()->before('add_baz', Interceptor::request(function (RequestInterface $request) {
+    return $request->withHeader('X-Lorem', 'Ipsum');
 }));
 
 // Remove a middleware by name

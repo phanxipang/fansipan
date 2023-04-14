@@ -6,8 +6,8 @@ namespace Jenky\Atlas\Retry;
 
 use Jenky\Atlas\Contracts\DelayStrategyInterface;
 use Jenky\Atlas\Contracts\RetryStrategyInterface;
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 final class GenericRetryStrategy implements RetryStrategyInterface
 {
@@ -43,16 +43,16 @@ final class GenericRetryStrategy implements RetryStrategyInterface
         $this->statusCodes = $statusCodes;
     }
 
-    public function shouldRetry(Request $request, Response $response): bool
+    public function shouldRetry(RequestInterface $request, ResponseInterface $response): bool
     {
-        $status = $response->status();
+        $status = $response->getStatusCode();
 
         if (in_array($status, $this->statusCodes, true)) {
             return true;
         }
 
         if (isset($this->statusCodes[$status]) && is_array($this->statusCodes[$status])) {
-            return in_array(mb_strtoupper($request->method()), $this->statusCodes[$status], true);
+            return in_array(mb_strtoupper($request->getMethod()), $this->statusCodes[$status], true);
         }
 
         return false;

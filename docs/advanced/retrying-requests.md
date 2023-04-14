@@ -6,7 +6,7 @@ Sometimes you may deal with APIs that fail frequently because of network issues 
 
 ## Getting Started
 
-In order to retry a failed requests, your connector must implements `Jenky\Atlas\Contracts\RetryableInterface` interface and optionally add `Jenky\Atlas\Traits\Retryable` trait to the connector. The `retry` method accepts the maximum number of times the request should be attempted and a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.
+In order to retry a failed requests, your connector must implements `Jenky\Atlas\Contracts\RetryableInterface` interface and optionally add `Jenky\Atlas\Traits\Retryable` trait to the connector to fullfil the contract interface. The `retry` method accepts the maximum number of times the request should be attempted and a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.
 
 +++ Definition
 ```php
@@ -39,11 +39,11 @@ If needed, you may pass a second argument to the `retry` method. The second argu
 
 ```php
 use Jenky\Atlas\Retry\RetryCallback;
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-$connector->retry(3, RetryCallback::when(function (Request $request, Response $response) {
-    return $response->serverError();
+$connector->retry(3, RetryCallback::when(function (RequestInterface $request, ResponseInterface $response) {
+    return $response->getStatusCode() >= 500;
 }))->send(new MyRequest());
 ```
 
@@ -53,8 +53,10 @@ You may also pass second and third arguments to the `RetryCallback::when()` meth
 
 ```php
 use Jenky\Atlas\Retry\RetryCallback;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-$connector->retry(3, RetryCallback::when(function (Request $request, Response $response) {
+$connector->retry(3, RetryCallback::when(function (RequestInterface $request, ResponseInterface $response) {
     // Your logic here
 }, delay: 1000, multiplier: 2.0))->send(new MyRequest());
 ```
@@ -66,8 +68,10 @@ Instead of using an interval delay or calculated exponential delay, you may easi
 ```php
 use Jenky\Atlas\Retry\Backoff;
 use Jenky\Atlas\Retry\RetryCallback;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-$connector->retry(3, RetryCallback::when(function (Request $request, Response $response) {
+$connector->retry(3, RetryCallback::when(function (RequestInterface $request, ResponseInterface $response) {
     // Your logic here
 })->withDelay(new Backoff([1, 3, 10])))->send(new MyRequest());
 ```
