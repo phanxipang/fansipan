@@ -22,11 +22,25 @@ use Psr\Http\Client\ClientInterface;
 
 class MyConnector extends Connector
 {
+    private $token;
+
+    public function __construct(string $token)
+    {
+        $this->token = $token;
+    }
+
+    public function baseUri(): ?string
+    {
+        return 'https://my-service.api';
+    }
+
     public function defaultClient(): ClientInterface
     {
         return new Client([
-            'base_uri' => 'https://httpbin.org',
             'timeout' => 10,
+            'headers' => [
+                'Authorization' => 'Bearer '.$this->token,
+            ],
         ]);
     }
 }
