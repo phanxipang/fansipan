@@ -22,6 +22,6 @@ We’ve standardised the way we talk to APIs with [PSR-7](https://www.php-fig.or
 - Abstract API integrations into classes so you can keep your code DRY
 - Configuration is fast and can be shared across all your requests
 - [PSR](https://www.php-fig.org/psr) compliant.
-- Framework agnostic
+- HTTP Client agnostic
 - Great for building your own PHP SDKs
 - Scalable with lots of API integrations across many team members
