@@ -32,12 +32,10 @@ class MyConnector extends Connector
 }
 ```
 
-Sometimes, as an end user, you can't use `defaultClient` method. However you can override the client by using `withClient` method
+As an end-user, you can override the client by using `withClient` method
 
 ```php
-$connector = (new MyConnector())->withClient(
-    new Client()
-);
+$connector = (new MyConnector())->withClient(new Client());
 ```
 
 Then you can start [sending your request](requests.md#making-requests).
@@ -54,4 +52,4 @@ Furthermore, it is possible to bind your connector to a [PSR-11 container](https
 
 ## Advanced Usage
 
-Please visit the `Advanced` chapter to explore additional usage of connector.
+Please visit the `Digging Deeper` chapter to explore additional usage of connector.
