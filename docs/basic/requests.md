@@ -316,7 +316,7 @@ use Jenky\Atlas\ConnectorlessRequest;
 
 class GetUsersRequest extends ConnectorlessRequest
 {
-    public function resolveEndpoint(): string
+    public function endpoint(): string
     {
         return 'https://jsonplaceholder.typicode.com/users';
     }
