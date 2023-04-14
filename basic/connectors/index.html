@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.734589517145">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.734761729775">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -31,12 +31,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.734589517145" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.734761729775" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.734589517145" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.734761729775" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.734589517145" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.734589517145" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.734761729775" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.734761729775" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -242,11 +242,9 @@ class MyConnector extends Connector
     }
 }</code></pre>
 </doc-codeblock></div>
-<p>Sometimes, as an end user, you can&#x27;t use <code v-pre>defaultClient</code> method. However you can override the client by using <code v-pre>withClient</code> method</p>
+<p>As an end-user, you can override the client by using <code v-pre>withClient</code> method</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">$connector = (new MyConnector())-&gt;withClient(
-    new Client()
-);</code></pre>
+<pre class="language-php"><code v-pre class="language-php">$connector = (new MyConnector())-&gt;withClient(new Client());</code></pre>
 </doc-codeblock></div>
 <p>Then you can start <a href="../requests/#making-requests">sending your request</a>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -262,7 +260,7 @@ $connector-&gt;send(new GetUserRepoRequest('jenky/atlas');</code></pre>
         <span>Advanced Usage</span>
     </h2>
 </doc-anchor-target>
-<p>Please visit the <code v-pre>Advanced</code> chapter to explore additional usage of connector.</p>
+<p>Please visit the <code v-pre>Digging Deeper</code> chapter to explore additional usage of connector.</p>
 
                                 
                                 <!-- Required only on API pages -->

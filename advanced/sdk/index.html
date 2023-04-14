@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.734589517145">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.734761729775">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -33,12 +33,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.734589517145" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.734761729775" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.734589517145" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.734761729775" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.734589517145" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.734589517145" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.734761729775" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.734761729775" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -222,13 +222,11 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
-
-use GuzzleHttp\Client;
+<pre class="language-php"><code v-pre class="language-php">use GuzzleHttp\Client;
 use Jenky\Atlas\Connector;
 use Psr\Http\Client\ClientInterface;
 
-class Github extends Connector
+final class Github extends Connector
 {
     private $token;
 
@@ -240,10 +238,15 @@ class Github extends Connector
         $this-&gt;version = $version;
     }
 
+    public function baseUri(): ?string
+    {
+        return 'https://api.github.com';
+    }
+
     protected function defaultClient(): ClientInterface
     {
         return new Client([
-            'base_uri' =&gt; 'https://api.github.com',
+            'base_uri' =&gt; $this-&gt;baseUri(),
             'headers' =&gt; array_filter([
                 'Accept' =&gt; 'application/vnd.github+json',
                 'Authorization' =&gt; 'Bearer '.trim($this-&gt;token),
@@ -273,11 +276,9 @@ class Github extends Connector
 </doc-anchor-target>
 <p>When you have created the request, all that developers would need to do is to instantiate and send the request on the connector.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Request;
 
-use Jenky\Atlas\Request;
-
-class GetRepository extends Request
+final class GetRepository extends Request
 {
     private $owner;
 
@@ -319,11 +320,9 @@ $response = $connector-&gt;send($request);</code></pre>
 <doc-tab id="definition">
 <template #title>Definition</template>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Connector;
 
-use Jenky\Atlas\Connector;
-
-class Github extends Connector
+final class Github extends Connector
 {
     // { ... }
 
@@ -362,13 +361,13 @@ $github-&gt;allUserRepos('jenky');</code></pre>
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
 
-class OrganizationResource
+final class OrganizationResource
 {
     private ConnectorInterface $connector;
 
     private string $org;
 
-    public function __construct(protected ConnectorInterface $connector, string $org)
+    public function __construct(ConnectorInterface $connector, string $org)
     {
         $this-&gt;connector = $connector;
         $this-&gt;org = $org;

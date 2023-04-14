@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.734589517145">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.734761729775">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -31,12 +31,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.734589517145" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.734761729775" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.734589517145" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.734761729775" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.734589517145" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.734589517145" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.734761729775" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.734761729775" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -215,7 +215,7 @@
         <span>Getting Started</span>
     </h2>
 </doc-anchor-target>
-<p>In order to retry a failed requests, your connector must implements <code v-pre>Jenky\Atlas\Contracts\RetryableInterface</code> interface and optionally add <code v-pre>Jenky\Atlas\Traits\Retryable</code> trait to the connector. The <code v-pre>retry</code> method accepts the maximum number of times the request should be attempted and a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.</p>
+<p>In order to retry a failed requests, your connector must implements <code v-pre>Jenky\Atlas\Contracts\RetryableInterface</code> interface and optionally add <code v-pre>Jenky\Atlas\Traits\Retryable</code> trait to the connector to fullfil the contract interface. The <code v-pre>retry</code> method accepts the maximum number of times the request should be attempted and a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.</p>
 <doc-tabs>
 <doc-tab id="definition">
 <template #title>Definition</template>
@@ -253,11 +253,11 @@ $response = $connector-&gt;retry(5)-&gt;send(new MyRequest());</code></pre>
 <p>If needed, you may pass a second argument to the <code v-pre>retry</code> method. The second argument is an instance of <code v-pre>Jenky\Atlas\Contracts\RetryStrategyInterface</code> that determines if the retries should actually be attempted. This will retries the failed requests with a delay of 1 second.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Retry\RetryCallback;
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-$connector-&gt;retry(3, RetryCallback::when(function (Request $request, Response $response) {
-    return $response-&gt;serverError();
+$connector-&gt;retry(3, RetryCallback::when(function (RequestInterface $request, ResponseInterface $response) {
+    return $response-&gt;getStatusCode() &gt;= 500;
 }))-&gt;send(new MyRequest());</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="customising-delay">
@@ -269,8 +269,10 @@ $connector-&gt;retry(3, RetryCallback::when(function (Request $request, Response
 <p>You may also pass second and third arguments to the <code v-pre>RetryCallback::when()</code> method to customise the waiting time between each retry.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Retry\RetryCallback;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-$connector-&gt;retry(3, RetryCallback::when(function (Request $request, Response $response) {
+$connector-&gt;retry(3, RetryCallback::when(function (RequestInterface $request, ResponseInterface $response) {
     // Your logic here
 }, delay: 1000, multiplier: 2.0))-&gt;send(new MyRequest());</code></pre>
 </doc-codeblock></div>
@@ -279,8 +281,10 @@ $connector-&gt;retry(3, RetryCallback::when(function (Request $request, Response
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Retry\Backoff;
 use Jenky\Atlas\Retry\RetryCallback;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-$connector-&gt;retry(3, RetryCallback::when(function (Request $request, Response $response) {
+$connector-&gt;retry(3, RetryCallback::when(function (RequestInterface $request, ResponseInterface $response) {
     // Your logic here
 })-&gt;withDelay(new Backoff([1, 3, 10])))-&gt;send(new MyRequest());</code></pre>
 </doc-codeblock></div>

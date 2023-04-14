@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.734589517145">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.734761729775">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -31,12 +31,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.734589517145" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.734761729775" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.734589517145" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.734761729775" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.734589517145" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.734589517145" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.734761729775" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.734761729775" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -216,34 +216,35 @@
         <span>Defining Middleware</span>
     </h2>
 </doc-anchor-target>
-<p>To create a new middleware, create a new <code v-pre>callable</code> class and put your logic inside <code v-pre>__invoke</code> method:</p>
+<p>To create a new middleware, create a new Invokable class and put your logic inside <code v-pre>__invoke</code> method:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+<pre class="language-php"><code v-pre class="language-php">use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class AttachContentTypeRequestHeader
 {
-    public function __invoke(Request $request, callable $next): Response
-    {
-        if ($contentType = $request-&gt;body()-&gt;contentType()) {
-            $request-&gt;headers()-&gt;with('Content-Type', $contentType);
-        }
+    private $contentType;
 
-        return $next($request);
+    public function __construct(string $contentType)
+    {
+        $this-&gt;contentType = $contentType;
+    }
+
+    public function __invoke(RequestInterface $request, callable $next): ResponseInterface
+    {
+        return $next($request-&gt;withHeader('Content-Type', $this-&gt;contentType));
     }
 }</code></pre>
 </doc-codeblock></div>
 <p>In this middleware, we will add a content type header to the request depends on the body type.</p>
 <p>Middleware also can be a <code v-pre>Closure</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+<pre class="language-php"><code v-pre class="language-php">use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 function attach_content_type(string $contentType): Closure {
-    return function (Request $request, callable $next): Response {
-        $request-&gt;headers()-&gt;with('Content-Type', $contentType);
-
-        return $next($request);
+    return function (RequestInterface $request, callable $next): ResponseInterface {
+        return $next($request-&gt;withHeader('Content-Type', $contentType));
     };
 }</code></pre>
 </doc-codeblock></div>
@@ -271,12 +272,12 @@ function attach_content_type(string $contentType): Closure {
 </doc-anchor-target>
 <p>Of course, a middleware can perform tasks before or after sending the request. For example, the following middleware would perform some task <strong>before</strong> the request is sent by the client:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+<pre class="language-php"><code v-pre class="language-php">use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class BeforeMiddleware
 {
-    public function __invoke(Request $request, callable $next): Response
+    public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
         // Perform action
 
@@ -286,12 +287,12 @@ class BeforeMiddleware
 </doc-codeblock></div>
 <p>However, this middleware would perform its task <strong>after</strong> the request is sent:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+<pre class="language-php"><code v-pre class="language-php">use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class AfterMiddleware
 {
-    public function __invoke(Request $request, callable $next): Response
+    public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
         $response = $next($request);
 
@@ -340,37 +341,36 @@ class Connector extends BaseConnector
 <p>Creating a middleware that modifies a request is made much simpler using the <code v-pre>Jenky\Atlas\Middleware\Interceptor::request()</code> method. This middleware accepts a function that takes the request argument:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Middleware\Interceptor;
-use Jenky\Atlas\Request;
+use Psr\Http\Message\RequestInterface;
 
-$connector-&gt;middleware()-&gt;push(Interceptor::request(function (Request $request): void {
-    $request-&gt;headers()-&gt;with('X-Foo', 'bar');
+$connector-&gt;middleware()-&gt;push(Interceptor::request(function (RequestInterface $request) {
+    return $request-&gt;withHeader('X-Foo', 'bar');
 }));</code></pre>
 </doc-codeblock></div>
 <p>Modifying a response is also much simpler using the <code v-pre>Jenky\Atlas\Middleware\Interceptor::response()</code> middleware:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Middleware\Interceptor;
-use Jenky\Atlas\Response;
+use Psr\Http\Message\ResponseInterface;
 
-$connector-&gt;middleware()-&gt;push(Interceptor::response(function (Response $response): void {
-    // Log the response using PSR-3 logger
-    $logger-&gt;info('Response received: ', $response-&gt;data());
+$connector-&gt;middleware()-&gt;push(Interceptor::response(function (ResponseInterface $response) {
+    return $response-&gt;withHeader('X-Foo', 'bar');
 }));</code></pre>
 </doc-codeblock></div>
 <p>You can give middleware a name, which allows you to add middleware before other named middleware, after other named middleware, or remove middleware by name.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">// Add a middleware with a name
-$connector-&gt;middleware()-&gt;push(Interceptor::request(function (Request $request): void {
-    $request-&gt;headers()-&gt;with('X-Foo', 'bar');
+$connector-&gt;middleware()-&gt;push(Interceptor::request(function (RequestInterface $request) {
+    return $request-&gt;withHeader('X-Foo', 'bar');
 }), 'add_foo');
 
 // Add a middleware before a named middleware (unshift before).
-$connector-&gt;middleware()-&gt;before('add_foo', Interceptor::request(function (Request $request): void {
-    $request-&gt;headers()-&gt;with('X-Baz', 'qux');
+$connector-&gt;middleware()-&gt;before('add_foo', Interceptor::request(function (RequestInterface $request) {
+    return $request-&gt;withHeader('X-Baz', 'qux');
 }), 'add_baz');
 
 // Add a middleware after a named middleware (pushed after).
-$connector-&gt;middleware()-&gt;before('add_baz', Interceptor::request(function (Request $request): void {
-    $request-&gt;headers()-&gt;with('X-Lorem', 'Ipsum');
+$connector-&gt;middleware()-&gt;before('add_baz', Interceptor::request(function (RequestInterface $request) {
+    return $request-&gt;withHeader('X-Lorem', 'Ipsum');
 }));
 
 // Remove a middleware by name
