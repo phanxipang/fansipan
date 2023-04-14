@@ -58,7 +58,7 @@ final class ConnectorTest extends TestCase
 
         $response = $connector->send(new GetHeadersRequest());
 
-        $this->assertTrue($response->ok());
+        $this->assertTrue($response->successful());
         $this->assertSame('bar', $response->data()['headers']['X-Foo'] ?? null);
         $this->assertSame($id, $response->data()['headers']['X-Unique-Id'] ?? null);
         $this->assertSame($id, $response->header('X-Unique-Id'));

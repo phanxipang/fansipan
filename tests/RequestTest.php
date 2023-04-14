@@ -99,7 +99,7 @@ final class RequestTest extends TestCase
 
         $this->assertFalse($response->failed());
 
-        $data = $response->data()['form'] ?? [];
+        $data = $response['form'] ?? [];
 
         $this->assertSame('John', $data['name'] ?? null);
         $this->assertSame('john.doe@example.com', $data['email'] ?? null);

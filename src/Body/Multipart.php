@@ -10,10 +10,7 @@ use Jenky\Atlas\Contracts\MultipartInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
-use SplFileInfo;
 use Symfony\Component\Mime\MimeTypes;
-use Throwable;
-use UnexpectedValueException;
 
 class Multipart implements MultipartInterface
 {
@@ -63,7 +60,7 @@ class Multipart implements MultipartInterface
             $this->isFile = true;
             $this->filename = $part->getClientFilename();
             $this->stream = $part->getStream();
-        } elseif ($part instanceof SplFileInfo) {
+        } elseif ($part instanceof \SplFileInfo) {
             $this->isFile = $part->isFile();
             $this->filename = $part->getBasename();
             $this->stream = $this->createStream(
@@ -95,12 +92,12 @@ class Multipart implements MultipartInterface
         }
 
         if (! is_string($content)) {
-            throw new UnexpectedValueException('Invalid stream content.');
+            throw new \UnexpectedValueException('Invalid stream content.');
         }
 
         try {
             return $this->streamFactory->createStreamFromFile($content);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             return $this->streamFactory->createStream($content);
         }
     }

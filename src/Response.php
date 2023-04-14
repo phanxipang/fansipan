@@ -54,7 +54,7 @@ final class Response implements ArrayAccess
     /**
      * Get the decoded body of the response as an array or scalar value.
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public function data(): array
     {
@@ -67,6 +67,8 @@ final class Response implements ArrayAccess
 
     /**
      * Decode the response body.
+     *
+     * @return array<array-key, mixed>
      */
     private function decode(): array
     {
@@ -91,6 +93,8 @@ final class Response implements ArrayAccess
 
     /**
      * Get the headers from the response.
+     *
+     * @return array<string, string[]>
      */
     public function headers(): array
     {
