@@ -4,14 +4,7 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use ArrayAccess;
-use ArrayIterator;
-use Countable;
-use IteratorAggregate;
-use Traversable;
-use UnexpectedValueException;
-
-class Map implements ArrayAccess, IteratorAggregate, Countable
+class Map implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
      * @var array
@@ -123,9 +116,9 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
         return $this;
     }
 
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
-        return new ArrayIterator($this->parameters);
+        return new \ArrayIterator($this->parameters);
     }
 
     public function count(): int
@@ -159,7 +152,7 @@ class Map implements ArrayAccess, IteratorAggregate, Countable
     protected function assertArray($value): void
     {
         if (! is_array($value)) {
-            throw new UnexpectedValueException('The value must be an array.');
+            throw new \UnexpectedValueException('The value must be an array.');
         }
     }
 

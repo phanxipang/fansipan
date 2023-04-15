@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use ArrayIterator;
-use Countable;
-use InvalidArgumentException;
-use IteratorAggregate;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Traversable;
 
-final class Middleware implements IteratorAggregate, Countable
+final class Middleware implements \IteratorAggregate, \Countable
 {
     /**
      * @var array
@@ -109,9 +104,9 @@ final class Middleware implements IteratorAggregate, Countable
         return $this;
     }
 
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
-        return new ArrayIterator($this->middleware);
+        return new \ArrayIterator($this->middleware);
     }
 
     public function count(): int
@@ -143,7 +138,7 @@ final class Middleware implements IteratorAggregate, Countable
             }
         }
 
-        throw new InvalidArgumentException("Middleware not found: $name");
+        throw new \InvalidArgumentException("Middleware not found: $name");
     }
 
     /**
