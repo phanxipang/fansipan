@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use ArrayAccess;
 use Closure;
 use Jenky\Atlas\Contracts\DecoderInterface;
 use Jenky\Atlas\Exceptions\HttpException;
@@ -14,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @mixin \Psr\Http\Message\ResponseInterface
  */
-final class Response implements ArrayAccess
+final class Response implements \ArrayAccess, \Stringable
 {
     use Traits\Macroable {
         __call as macroCall;
