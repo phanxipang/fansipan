@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Traits;
 
 use Http\Discovery\Psr18ClientDiscovery;
+use Jenky\Atlas\Contracts\ConnectorInterface;
 use Psr\Http\Client\ClientInterface;
 
 trait HasClient
@@ -18,10 +19,8 @@ trait HasClient
 
     /**
      * Set the HTTP client instance.
-     *
-     * @return static
      */
-    public function withClient(ClientInterface $client)
+    public function withClient(ClientInterface $client): ConnectorInterface
     {
         $clone = clone $this;
 

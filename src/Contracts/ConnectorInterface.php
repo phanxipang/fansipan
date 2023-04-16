@@ -21,7 +21,7 @@ interface ConnectorInterface
      *
      * @return static
      */
-    public function withClient(ClientInterface $client);
+    public function withClient(ClientInterface $client): ConnectorInterface;
 
     /**
      * Get the HTTP client instance.
