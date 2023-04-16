@@ -71,7 +71,7 @@ abstract class Request
             throw new InvalidArgumentException('Payload class must be instance of '.PayloadInterface::class);
         }
 
-        return is_null($this->defaultBody()) ? new $payload() : new $payload($this->defaultBody());
+        return new $payload(is_array($this->defaultBody()) ? $this->defaultBody() : []);
     }
 
     /**
