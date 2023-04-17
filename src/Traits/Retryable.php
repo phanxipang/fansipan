@@ -18,11 +18,10 @@ trait Retryable
         $clone = clone $this;
 
         $clone->middleware()
-            ->remove('retry_request')
             ->unshift(new RetryRequest(
                 new RetryContext($maxRetries, $throw),
                 $retryStrategy ?? $this->defaultRetryStrategy()
-            ), 'retry_request');
+            ));
 
         return $clone;
     }

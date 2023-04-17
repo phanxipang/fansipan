@@ -31,12 +31,17 @@ final class RetryingRequestTest extends TestCase
         );
         $connector = (new RetryableConnector())->withClient($client);
 
+        $response = $connector->retry(3, null, false)->send(new GetStatusRequest(502));
+
+        $this->assertSame(502, $response->status());
+        $this->assertTrue($response->serverError());
+
         $this->expectException(RequestRetryFailedException::class);
         $this->expectExceptionMessage('Maximum 2 retries reached.');
 
         $connector->retry(2, RetryCallback::when(function ($request, $response) {
             return true;
-        }, 1000, 2.0))->send(new GetStatusRequest(502));
+        }, 1000, 1.0))->send(new GetStatusRequest(502));
 
         $client->assertSentCount(2);
     }

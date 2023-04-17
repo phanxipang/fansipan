@@ -20,12 +20,12 @@ final class RetryRequest
     /**
      * @var \Jenky\Atlas\Contracts\RetryStrategyInterface
      */
-    private $retryStrategy;
+    private $strategy;
 
-    public function __construct(RetryContext $context, RetryStrategyInterface $retryStrategy)
+    public function __construct(RetryContext $context, RetryStrategyInterface $strategy)
     {
         $this->context = $context;
-        $this->retryStrategy = $retryStrategy;
+        $this->strategy = $strategy;
     }
 
     /**
@@ -33,16 +33,14 @@ final class RetryRequest
      */
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
-        $this->context->attempting();
-
         $response = $next($request);
 
-        if ($this->retryStrategy->shouldRetry($request, $response)) {
+        if ($this->strategy->shouldRetry($request, $response)) {
             throw new RetryException(
                 $request,
                 $response,
                 $this->context,
-                $this->getDelayFromHeaders($response) ?? $this->retryStrategy->delay($this->context)
+                $this->getDelayFromHeaders($response) ?? $this->strategy->delay($this->context)
             );
         }
 

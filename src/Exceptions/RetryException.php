@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Exceptions;
 
-use Jenky\Atlas\Request;
 use Jenky\Atlas\Retry\RetryContext;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -46,6 +45,8 @@ final class RetryException extends \RuntimeException
         $this->response = $response;
         $this->context = $context;
         $this->delay = $delayMs;
+
+        $this->context->attempting();
 
         parent::__construct('Retrying Request');
     }
