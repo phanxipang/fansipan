@@ -36,8 +36,7 @@ interface ConnectorInterface
     /**
      * Send the given request.
      *
-     * The request and response should be processed through the middleware via
-     * the pipeline.
+     * The request and response should be processed through middleware.
      */
     public function send(Request $request): Response;
 }
