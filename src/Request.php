@@ -14,6 +14,17 @@ use Jenky\Atlas\Decoder\XmlDecoder;
 
 abstract class Request
 {
+    public const METHOD_HEAD    = 'HEAD';
+    public const METHOD_GET     = 'GET';
+    public const METHOD_POST    = 'POST';
+    public const METHOD_PUT     = 'PUT';
+    public const METHOD_PATCH   = 'PATCH';
+    public const METHOD_DELETE  = 'DELETE';
+    public const METHOD_PURGE   = 'PURGE';
+    public const METHOD_OPTIONS = 'OPTIONS';
+    public const METHOD_TRACE   = 'TRACE';
+    public const METHOD_CONNECT = 'CONNECT';
+
     /**
      * @var \Jenky\Atlas\Map
      */
@@ -79,7 +90,7 @@ abstract class Request
      */
     public function method(): string
     {
-        return property_exists($this, 'method') ? $this->method : 'GET';
+        return property_exists($this, 'method') ? $this->method : self::METHOD_GET;
     }
 
     /**
