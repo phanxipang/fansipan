@@ -36,7 +36,6 @@ Let's say you want to send a request to `https://httpbin.org/headers`. Create `G
 ```php
 <?php
 
-use Jenky\Atlas\Contracts\ConnectorInterface;
 use Jenky\Atlas\Request;
 
 class GetHeadersRequest extends Request
