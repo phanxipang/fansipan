@@ -90,7 +90,7 @@ final class MockTest extends TestCase
         $this->assertSame(200, $connector->get()->status());
         $this->assertTrue($connector->cookies()->get()->clientError());
 
-        $client->assertSent(function (RequestInterface $request): bool {
+        $client->assertSent(static function (RequestInterface $request): bool {
             return $request->getMethod() === 'GET' && Uri::matches('/cookies', (string) $request->getUri());
         });
 

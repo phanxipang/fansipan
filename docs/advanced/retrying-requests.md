@@ -43,7 +43,7 @@ use Jenky\Atlas\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$connector->retry(3, RetryCallback::when(function (RequestInterface $request, ResponseInterface $response) {
+$connector->retry(3, RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
     return $response->getStatusCode() >= 500;
 }))->send(new MyRequest());
 ```
@@ -57,7 +57,7 @@ use Jenky\Atlas\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$connector->retry(3, RetryCallback::when(function (RequestInterface $request, ResponseInterface $response) {
+$connector->retry(3, RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
     // Your logic here
 }, delay: 1000, multiplier: 2.0))->send(new MyRequest());
 ```
@@ -72,7 +72,7 @@ use Jenky\Atlas\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$connector->retry(3, RetryCallback::when(function (RequestInterface $request, ResponseInterface $response) {
+$connector->retry(3, RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
     // Your logic here
 })->withDelay(new Backoff([1, 3, 10])))->send(new MyRequest());
 ```

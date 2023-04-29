@@ -19,7 +19,7 @@ final class ConnectorTest extends TestCase
 
         $this->assertCount(1, $connector->middleware());
 
-        $connector->middleware()->push(function (RequestInterface $request, callable $next) {
+        $connector->middleware()->push(static function (RequestInterface $request, callable $next) {
             return $next($request->withHeader('Echo', 'Atlas'));
         }, 'echo');
 
@@ -27,15 +27,15 @@ final class ConnectorTest extends TestCase
 
         $id = uniqid();
 
-        $connector->middleware()->before('echo', Interceptor::request(function (RequestInterface $request) use ($id) {
+        $connector->middleware()->before('echo', Interceptor::request(static function (RequestInterface $request) use ($id) {
             return $request->withHeader('X-Unique-Id', $id);
         }));
 
-        $connector->middleware()->after('echo', Interceptor::response(function (ResponseInterface $response) use ($id) {
+        $connector->middleware()->after('echo', Interceptor::response(static function (ResponseInterface $response) use ($id) {
             return $response->withHeader('X-Unique-Id', $id);
         }));
 
-        $connector->middleware()->prepend(function (RequestInterface $request, callable $next) {
+        $connector->middleware()->prepend(static function (RequestInterface $request, callable $next) {
             return $next($request);
         }, 'first');
 
@@ -50,7 +50,7 @@ final class ConnectorTest extends TestCase
 
         $this->assertCount(4, $connector->middleware());
 
-        $connector->middleware()->push(function (RequestInterface $request, callable $next) {
+        $connector->middleware()->push(static function (RequestInterface $request, callable $next) {
             return $next($request->withHeader('X-Foo', 'bar'));
         });
 

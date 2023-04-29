@@ -33,7 +33,7 @@ final class RetryCallback implements RetryStrategyInterface
      */
     public static function when(Closure $callback, int $delay = 1000, float $multiplier = 1.0): self
     {
-        return new self($callback, function (RetryContext $context) use ($delay, $multiplier) {
+        return new self($callback, static function (RetryContext $context) use ($delay, $multiplier) {
             return (new Delay($delay, $multiplier))->delayFor($context->attempts());
         });
     }
@@ -47,7 +47,7 @@ final class RetryCallback implements RetryStrategyInterface
     {
         $clone = clone $this;
 
-        $clone->delay = function (RetryContext $context) use ($delay) {
+        $clone->delay = static function (RetryContext $context) use ($delay) {
             return $delay->delayFor($context->attempts());
         };
 

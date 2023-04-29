@@ -35,7 +35,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 function attach_content_type(string $contentType): Closure {
-    return function (RequestInterface $request, callable $next): ResponseInterface {
+    return static function (RequestInterface $request, callable $next): ResponseInterface {
         return $next($request->withHeader('Content-Type', $contentType));
     };
 }
