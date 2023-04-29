@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736012748870">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736069259869">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -31,12 +31,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.736012748870" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.736069259869" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736012748870" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736069259869" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736012748870" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736012748870" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736069259869" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736069259869" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -215,24 +215,27 @@
         <span>Writing Connectors</span>
     </h2>
 </doc-anchor-target>
-<p>All connectors extends the <code v-pre>Jenky\Atlas\Connector</code> abstract class which implements all the necessary methods to fulfill the <code v-pre>Jenky\Atlas\Contracts\ConnectorInterface</code> contract. Within this class, you can create your own HTTP client, set up the pipeline to run middleware, and define default middleware.</p>
+<p>Within your connector, you can create your own HTTP client, set up the pipeline to run middleware, and define default middleware.</p>
 <doc-anchor-target id="use-custom-http-client">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#use-custom-http-client">#</doc-anchor-trigger>
         <span>Use Custom HTTP Client</span>
     </h3>
 </doc-anchor-target>
-<p>Within the <code v-pre>defaultClient</code> method, you should create your HTTP own client</p>
+<p>To create your own HTTP client, use the <code v-pre>defaultClient</code> method.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">&lt;?php
 
-use Jenky\Atlas\Connector;
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 use Jenky\Atlas\Request;
 use GuzzleHttp\Client;
 use Psr\Http\Client\ClientInterface;
 
-class MyConnector extends Connector
+final class MyConnector implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     private $token;
 
     public function __construct(string $token)

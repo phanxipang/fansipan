@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736012748870">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736069259869">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -31,12 +31,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.736012748870" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.736069259869" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736012748870" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736069259869" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736012748870" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736012748870" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736069259869" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736069259869" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -215,19 +215,20 @@
         <span>Getting Started</span>
     </h2>
 </doc-anchor-target>
-<p>In order to retry a failed requests, your connector must implements <code v-pre>Jenky\Atlas\Contracts\RetryableInterface</code> interface and optionally add <code v-pre>Jenky\Atlas\Traits\Retryable</code> trait to the connector to fullfil the contract interface. The <code v-pre>retry</code> method accepts the maximum number of times the request should be attempted and a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.</p>
+<p>In order to retry a failed requests, your connector must implements <code v-pre>Jenky\Atlas\Contracts\RetryableConnectorInterface</code> interface instead of <code v-pre>Jenky\Atlas\Contracts\ConnectorInterface</code> and additionally add <code v-pre>Jenky\Atlas\Traits\Retryable</code> trait to the connector to fullfil the contract interface. The <code v-pre>retry</code> method accepts the maximum number of times the request should be attempted and a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.</p>
 <doc-tabs>
 <doc-tab id="definition">
 <template #title>Definition</template>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">&lt;?php
 
-use Jenky\Atlas\Connector;
-use Jenky\Atlas\Contracts\RetryableInterface;
+use Jenky\Atlas\Contracts\RetryableConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 use Jenky\Atlas\Traits\Retryable;
 
-class MyConnector extends Connector implements RetryableInterface
+final class MyConnector implements RetryableConnectorInterface
 {
+    use ConnectorTrait;
     use Retryable;
 }</code></pre>
 </doc-codeblock></div>

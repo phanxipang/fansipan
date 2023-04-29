@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736012748870">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736069259869">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>SDK</title>
     <meta name="title" content="SDK">
-    <meta name="description" content="Now that we have created the SDK class that extends the Jenky\\Atlas\\Connector class, all we need to do is instansiate it and provide the API..." />
+    <meta name="description" content="Now that we have created the SDK connector class, all we need to do is instansiate it and provide the API authentication token." />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://jenky.github.io/atlas/advanced/sdk/" />
@@ -21,24 +21,24 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jenky.github.io/atlas/advanced/sdk/">
     <meta property="og:title" content="SDK">
-    <meta property="og:description" content="Now that we have created the SDK class that extends the Jenky\\Atlas\\Connector class, all we need to do is instansiate it and provide the API...">
+    <meta property="og:description" content="Now that we have created the SDK connector class, all we need to do is instansiate it and provide the API authentication token.">
     <meta property="og:image" content="https://jenky.github.io/atlas/static/sdk-hero.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://jenky.github.io/atlas/advanced/sdk/">
     <meta property="twitter:title" content="SDK">
-    <meta property="twitter:description" content="Now that we have created the SDK class that extends the Jenky\\Atlas\\Connector class, all we need to do is instansiate it and provide the API...">
+    <meta property="twitter:description" content="Now that we have created the SDK connector class, all we need to do is instansiate it and provide the API authentication token.">
     <meta property="twitter:image" content="https://jenky.github.io/atlas/static/sdk-hero.png">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.736012748870" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.736069259869" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736012748870" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736069259869" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736012748870" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736012748870" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736069259869" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736069259869" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -223,11 +223,14 @@
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">use GuzzleHttp\Client;
-use Jenky\Atlas\Connector;
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 use Psr\Http\Client\ClientInterface;
 
-final class Github extends Connector
+final class Github implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     private $token;
 
     private $version;
@@ -262,7 +265,7 @@ final class Github extends Connector
         <span>Using Connector</span>
     </h3>
 </doc-anchor-target>
-<p>Now that we have created the SDK class that extends the <code v-pre>Jenky\Atlas\Connector</code> class, all we need to do is instansiate it and provide the API authentication token.</p>
+<p>Now that we have created the SDK connector class, all we need to do is instansiate it and provide the API authentication token.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">$github = new Github('access-token');
 
@@ -320,10 +323,13 @@ $response = $connector-&gt;send($request);</code></pre>
 <doc-tab id="definition">
 <template #title>Definition</template>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Connector;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 
-final class Github extends Connector
+final class Github implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     // { ... }
 
     public function allUserRepos(string $name, int $page = 1): Response
@@ -394,10 +400,13 @@ final class OrganizationResource
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">&lt;?php
 
-use Jenky\Atlas\Connector;
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 
-class Github extends Connector
+final class Github implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     // { ... }
 
     public function org(string $org): OrganizationResource
