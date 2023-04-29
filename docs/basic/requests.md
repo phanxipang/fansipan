@@ -2,7 +2,7 @@
 order: 400
 ---
 
-Requests are classes that store all the information required to make a request. Within a request, you can define the connector, the HTTP Method (GET, POST, etc.) and the endpoint that you would like to make a request. You can also define headers and query parameters. Traditionally, you would write your HTTP requests each time you need to, but this way, you can write a request class once and use it multiple times in your application.
+Requests are classes that store all the information required to make a request. Within a request, you can define the HTTP Method (GET, POST, etc.) and the endpoint that you would like to make a request. You can also define default headers and query parameters. Traditionally, you would write your HTTP requests each time you need to, but this way, you can write a request class once and use it multiple times in your application.
 
 ## Making Requests
 
@@ -11,7 +11,7 @@ Your request should extend the `Jenky\Atlas\Request` abstract class. After that,
 ```php
 <?php
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     protected $method = 'POST';
 
@@ -31,7 +31,7 @@ Some requests require specific headers or query parameters to be sent. To define
 
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     protected $method = 'POST';
 
@@ -66,7 +66,7 @@ Most API integrations will often require sending data using a `POST`,`PUT` or `P
 
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     protected $method = 'POST';
 
@@ -102,7 +102,7 @@ If you would like to send data using the `application/json` content type, you sh
 use Jenky\Atlas\Body\AsJson;
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     use AsJson;
 
@@ -124,7 +124,7 @@ use Jenky\Atlas\Body\AsMutipart;
 use Jenky\Atlas\Body\Multipart;
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     use AsMutipart;
 
@@ -155,7 +155,7 @@ You may use the `AsText` trait if you would like to provide a raw request body w
 use Jenky\Atlas\Body\AsText;
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     use AsText;
 
@@ -246,7 +246,7 @@ For example, I want to create a request to update an individual user by an ID. I
 use Jenky\Atlas\Request;
 use Psr\Http\Client\ClientInterface;
 
-class UpdateUserRequest extends Request
+final class UpdateUserRequest extends Request
 {
     protected $method = 'PUT';
 
@@ -308,7 +308,7 @@ Create a request class, but instead of extending `Jenky\Atlas\Request`, you shou
 
 use Jenky\Atlas\ConnectorlessRequest;
 
-class GetUsersRequest extends ConnectorlessRequest
+final class GetUsersRequest extends ConnectorlessRequest
 {
     public function endpoint(): string
     {

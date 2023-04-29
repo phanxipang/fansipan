@@ -38,7 +38,7 @@ Let's say you want to send a request to `https://httpbin.org/headers`. Create `G
 
 use Jenky\Atlas\Request;
 
-class GetHeadersRequest extends Request
+final class GetHeadersRequest extends Request
 {
     public function endpoint(): string
     {
