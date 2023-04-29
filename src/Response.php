@@ -10,9 +10,6 @@ use Jenky\Atlas\Exceptions\HttpException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * @mixin \Psr\Http\Message\ResponseInterface
- */
 final class Response implements \ArrayAccess, \Stringable
 {
     use Traits\Macroable;
