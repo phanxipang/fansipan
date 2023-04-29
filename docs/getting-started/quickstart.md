@@ -8,17 +8,20 @@ First, you should [install the package](./installation.md).
 
 ## Create a Connector
 
-In order to send a request. You should create a `Connector` class that extends `Jenky\Atlas\Connector` class.
+In order to send a request. You should create a `Connector` class that implements `Jenky\Atlas\Contracts\ConnectorInterface` interface and add `Jenky\Atlas\Traits\ConnectorTrait` trait to the connector to fullfil the contract interface.
 
 Additionally, you can set the request base URI by utilizing the `baseUri` method. If a relative URI is specified in the request `endpoint` method, the connector will merge the base URI with the relative URI, following the guidelines outlined in [RFC 3986, section 5.2](https://www.rfc-editor.org/rfc/rfc3986#section-5.2).
 
 ```php
 <?php
 
-use Jenky\Atlas\Connector as BaseConnector;
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 
-class Connector extends BaseConnector
+final class Connector implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     public function baseUri(): ?string
     {
         return 'https://mydomain.com/api';

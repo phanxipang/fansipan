@@ -45,4 +45,25 @@ final class RetryingRequestTest extends TestCase
 
         $client->assertSentCount(2);
     }
+
+    public function test_retry_with_successful_attempts(): void
+    {
+        $responses = function () {
+            yield MockResponse::create('', 503);
+            yield MockResponse::create('', 502);
+            yield MockResponse::create('', 200);
+        };
+
+        $client = new MockClient($responses());
+        $connector = (new RetryableConnector())->withClient($client);
+
+        $response = $connector->retry()->send(new GetStatusRequest());
+        $recorded = $client->recorded();
+
+        $client->assertSentCount(3);
+
+        $this->assertTrue($response->ok());
+        $this->assertSame(503, $recorded[0][1]->getStatusCode());
+        $this->assertSame(502, $recorded[1][1]->getStatusCode());
+    }
 }

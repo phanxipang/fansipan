@@ -6,11 +6,12 @@ namespace Jenky\Atlas;
 
 use BadMethodCallException;
 use InvalidArgumentException;
+use Jenky\Atlas\Contracts\ConnectorInterface;
 
 class RequestCollectionProxy
 {
     /**
-     * @var \Jenky\Atlas\Connector
+     * @var \Jenky\Atlas\Contracts\ConnectorInterface
      */
     private $connector;
 
@@ -22,11 +23,11 @@ class RequestCollectionProxy
     /**
      * Create new collection proxy instance.
      *
-     * @param  \Jenky\Atlas\Connector  $connector
+     * @param  \Jenky\Atlas\Contracts\ConnectorInterface  $connector
      * @param  array  $collection
      * @return void
      */
-    public function __construct(Connector $connector, array $collection)
+    public function __construct(ConnectorInterface $connector, array $collection)
     {
         $this->connector = $connector;
         $this->collection = $collection;

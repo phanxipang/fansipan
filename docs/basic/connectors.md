@@ -6,22 +6,25 @@ From the [Quick start](../getting-started/quickstart.md#creating-request) guide,
 
 ## Writing Connectors
 
-All connectors extends the `Jenky\Atlas\Connector` abstract class which implements all the necessary methods to fulfill the `Jenky\Atlas\Contracts\ConnectorInterface` contract. Within this class, you can create your own HTTP client, set up the pipeline to run middleware, and define default middleware.
+Within your connector, you can create your own HTTP client, set up the pipeline to run middleware, and define default middleware.
 
 ### Use Custom HTTP Client
 
-Within the `defaultClient` method, you should create your HTTP own client
+To create your own HTTP client, use the `defaultClient` method.
 
 ```php
 <?php
 
-use Jenky\Atlas\Connector;
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 use Jenky\Atlas\Request;
 use GuzzleHttp\Client;
 use Psr\Http\Client\ClientInterface;
 
-class MyConnector extends Connector
+final class MyConnector implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     private $token;
 
     public function __construct(string $token)

@@ -33,8 +33,6 @@ use Jenky\Atlas\Request;
 
 class MyRequest extends Request
 {
-    protected $connector = MyConnector::class;
-
     protected $method = 'POST';
 
     public function endpoint(): string
@@ -70,8 +68,6 @@ use Jenky\Atlas\Request;
 
 class MyRequest extends Request
 {
-    protected $connector = MyConnector::class;
-
     protected $method = 'POST';
 
     private $type;
@@ -252,8 +248,6 @@ use Psr\Http\Client\ClientInterface;
 
 class UpdateUserRequest extends Request
 {
-    protected $connector = UserServiceConnector::class;
-
     protected $method = 'PUT';
 
     private $id;
