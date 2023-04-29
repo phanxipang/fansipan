@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Middleware;
 
 use Jenky\Atlas\Contracts\RetryStrategyInterface;
-use Jenky\Atlas\Exceptions\RetryException;
+use Jenky\Atlas\Exceptions\RequestRetryFailedException;
 use Jenky\Atlas\Retry\RetryContext;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -22,29 +22,41 @@ final class RetryRequest
      */
     private $strategy;
 
-    public function __construct(RetryContext $context, RetryStrategyInterface $strategy)
+    public function __construct(RetryStrategyInterface $strategy, int $maxRetries = 3, bool $throw = true)
     {
-        $this->context = $context;
+        $this->context = new RetryContext($maxRetries, $throw);
         $this->strategy = $strategy;
     }
 
     /**
-     * @throws \Jenky\Atlas\Exceptions\RetryException
+     * @throws \Jenky\Atlas\Exceptions\RequestRetryFailedException
      */
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
         $response = $next($request);
 
-        if ($this->strategy->shouldRetry($request, $response)) {
-            throw new RetryException(
-                $request,
-                $response,
-                $this->context,
-                $this->getDelayFromHeaders($response) ?? $this->strategy->delay($this->context)
-            );
+        if (! $this->strategy->shouldRetry($request, $response)) {
+            return $response;
         }
 
-        return $response;
+        $this->context->attempting();
+        $stop = $this->context->maxRetries() < $this->context->attempts();
+
+        if ($stop) {
+            if ($this->context->throwable()) {
+                throw new RequestRetryFailedException(sprintf('Maximum %d retries reached.', $this->context->maxRetries()));
+            }
+
+            return $response;
+        }
+
+        $delay = $this->getDelayFromHeaders($response) ?? $this->strategy->delay($this->context);
+
+        if ($delay > 0) {
+            usleep($delay * 1000);
+        }
+
+        return $this($request, $next);
     }
 
     /**

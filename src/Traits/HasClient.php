@@ -18,7 +18,9 @@ trait HasClient
     private $client;
 
     /**
-     * Set the HTTP client instance.
+     * Return the instance with provided HTTP client.
+     *
+     * @return static
      */
     public function withClient(ClientInterface $client): ConnectorInterface
     {

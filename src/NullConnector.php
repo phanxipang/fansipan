@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-final class NullConnector extends Connector
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
+
+final class NullConnector implements ConnectorInterface
 {
+    use ConnectorTrait;
 }

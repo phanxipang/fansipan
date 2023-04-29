@@ -9,7 +9,6 @@ use Jenky\Atlas\Contracts\RetryStrategyInterface;
 use Jenky\Atlas\Middleware\RetryRequest;
 use Jenky\Atlas\Retry\Delay;
 use Jenky\Atlas\Retry\GenericRetryStrategy;
-use Jenky\Atlas\Retry\RetryContext;
 
 trait Retryable
 {
@@ -19,8 +18,9 @@ trait Retryable
 
         $clone->middleware()
             ->unshift(new RetryRequest(
-                new RetryContext($maxRetries, $throw),
-                $retryStrategy ?? $this->defaultRetryStrategy()
+                $retryStrategy ?? $this->defaultRetryStrategy(),
+                $maxRetries,
+                $throw
             ));
 
         return $clone;

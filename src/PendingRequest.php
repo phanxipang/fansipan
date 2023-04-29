@@ -6,8 +6,6 @@ namespace Jenky\Atlas;
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
 use Jenky\Atlas\Contracts\PipelineInterface;
-use Jenky\Atlas\Contracts\RetryableInterface;
-use Jenky\Atlas\Exceptions\RetryException;
 use Psr\Http\Message\RequestInterface;
 
 final class PendingRequest
@@ -33,13 +31,6 @@ final class PendingRequest
      */
     public function send(Request $request): Response
     {
-        return $this->connector instanceof RetryableInterface
-            ? $this->sendAndRetryRequest($request)
-            : $this->sendRequest($request);
-    }
-
-    private function sendRequest(Request $request): Response
-    {
         $response = $this->pipeline->send(Util::request($request, $this->connector->baseUri()))
             ->through($this->gatherMiddleware())
             ->then(function (RequestInterface $request) {
@@ -47,44 +38,6 @@ final class PendingRequest
             });
 
         return new Response($response, $request->decoder());
-    }
-
-    private function sendAndRetryRequest(Request $request): Response
-    {
-        /* beginning:
-
-        try {
-            return $this->sendRequest($request);
-        } catch (RetryException $e) {
-            if (! $e->retryable()) {
-                return new Response($e->response(), $request->decoder());
-            }
-
-            $delay = $e->delay();
-
-            if ($delay > 0) {
-                usleep($delay * 1000);
-            }
-
-            goto beginning;
-        } */
-
-        do {
-            try {
-                return $this->sendRequest($request);
-            } catch (RetryException $e) {
-                if (! $e->retryable()) {
-                    // return $e->response();
-                    return new Response($e->response(), $request->decoder());
-                }
-
-                $delay = $e->delay();
-
-                if ($delay > 0) {
-                    usleep($delay * 1000);
-                }
-            }
-        } while (true);
     }
 
     /**

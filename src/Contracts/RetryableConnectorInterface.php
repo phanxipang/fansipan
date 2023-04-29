@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Contracts;
 
-interface RetryableInterface
+interface RetryableConnectorInterface extends ConnectorInterface
 {
     /**
      * Indicates that failed requests should be attempted again.
