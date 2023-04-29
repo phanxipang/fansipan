@@ -15,9 +15,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class Response implements \ArrayAccess, \Stringable
 {
-    use Traits\Macroable {
-        __call as macroCall;
-    }
+    use Traits\Macroable;
 
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -205,7 +203,7 @@ final class Response implements \ArrayAccess, \Stringable
     /**
      * Get the underlying PSR response for the response.
      */
-    public function toPsrResponse(): ResponseInterface
+    public function getResponse(): ResponseInterface
     {
         return $this->response;
     }
@@ -310,28 +308,5 @@ final class Response implements \ArrayAccess, \Stringable
     public function __toString()
     {
         return $this->body();
-    }
-
-    /**
-     * Dynamically proxy other methods to the underlying response.
-     *
-     * @param  string  $method
-     * @param  array  $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        if (static::hasMacro($method)) {
-            return $this->macroCall($method, $parameters);
-        }
-
-        $result = $this->response->{$method}(...$parameters);
-
-        if ($result instanceof ResponseInterface) {
-            // Allow to modify response
-            $this->response = $result;
-        }
-
-        return $this;
     }
 }
