@@ -10,7 +10,7 @@ To create a new middleware, create a new Invokable class and put your logic insi
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class AttachContentTypeRequestHeader
+final class AttachContentTypeRequestHeader
 {
     private $contentType;
 
@@ -53,7 +53,7 @@ Of course, a middleware can perform tasks before or after sending the request. F
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class BeforeMiddleware
+final class BeforeMiddleware
 {
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
@@ -70,7 +70,7 @@ However, this middleware would perform its task **after** the request is sent:
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class AfterMiddleware
+final class AfterMiddleware
 {
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
@@ -90,10 +90,13 @@ class AfterMiddleware
 To register default middleware, list the middleware class in the `defaultMiddleware` method of your connector class.
 
 ```php
-use Jenky\Atlas\Connector as BaseConnector;
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 
-class Connector extends BaseConnector
+final class Connector implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     protected function defaultMiddleware(): array
     {
         return [

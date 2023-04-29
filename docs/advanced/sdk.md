@@ -8,11 +8,14 @@ label: SDK
 
 ```php
 use GuzzleHttp\Client;
-use Jenky\Atlas\Connector;
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 use Psr\Http\Client\ClientInterface;
 
-final class Github extends Connector
+final class Github implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     private $token;
 
     private $version;
@@ -44,7 +47,7 @@ final class Github extends Connector
 
 ### Using Connector
 
-Now that we have created the SDK class that extends the `Jenky\Atlas\Connector` class, all we need to do is instansiate it and provide the API authentication token.
+Now that we have created the SDK connector class, all we need to do is instansiate it and provide the API authentication token.
 
 ```php
 $github = new Github('access-token');
@@ -99,10 +102,13 @@ Sometimes you may want to make it easy for the developer to find all the methods
 
 +++ Definition
 ```php
-use Jenky\Atlas\Connector;
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 
-final class Github extends Connector
+final class Github implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     // { ... }
 
     public function allUserRepos(string $name, int $page = 1): Response
@@ -163,10 +169,13 @@ Now we'll define a method on the connector which returns this resource class. Do
 ```php
 <?php
 
-use Jenky\Atlas\Connector;
+use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 
-class Github extends Connector
+final class Github implements ConnectorInterface
 {
+    use ConnectorTrait;
+
     // { ... }
 
     public function org(string $org): OrganizationResource

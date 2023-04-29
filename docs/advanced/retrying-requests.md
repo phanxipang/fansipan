@@ -6,18 +6,19 @@ Sometimes you may deal with APIs that fail frequently because of network issues 
 
 ## Getting Started
 
-In order to retry a failed requests, your connector must implements `Jenky\Atlas\Contracts\RetryableInterface` interface and optionally add `Jenky\Atlas\Traits\Retryable` trait to the connector to fullfil the contract interface. The `retry` method accepts the maximum number of times the request should be attempted and a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.
+In order to retry a failed requests, your connector must implements `Jenky\Atlas\Contracts\RetryableConnectorInterface` interface instead of `Jenky\Atlas\Contracts\ConnectorInterface` and additionally add `Jenky\Atlas\Traits\Retryable` trait to the connector to fullfil the contract interface. The `retry` method accepts the maximum number of times the request should be attempted and a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.
 
 +++ Definition
 ```php
 <?php
 
-use Jenky\Atlas\Connector;
-use Jenky\Atlas\Contracts\RetryableInterface;
+use Jenky\Atlas\Contracts\RetryableConnectorInterface;
+use Jenky\Atlas\Traits\ConnectorTrait;
 use Jenky\Atlas\Traits\Retryable;
 
-class MyConnector extends Connector implements RetryableInterface
+final class MyConnector implements RetryableConnectorInterface
 {
+    use ConnectorTrait;
     use Retryable;
 }
 ```
