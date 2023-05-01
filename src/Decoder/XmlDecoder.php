@@ -11,7 +11,7 @@ final class XmlDecoder implements DecoderInterface
 {
     public function supports(ResponseInterface $response): bool
     {
-        return $response->getHeaderLine('Content-Type') === 'application/xml';
+        return mb_strpos($response->getHeaderLine('Content-Type'), 'xml') !== false;
     }
 
     public function decode(ResponseInterface $response): array
