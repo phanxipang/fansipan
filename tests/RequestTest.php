@@ -38,6 +38,9 @@ final class RequestTest extends TestCase
         $response = $request->send();
 
         $this->assertTrue($response->ok());
+
+        $datetime = new \DateTime((string) $response);
+        $this->assertSame((new \DateTime())->format('Y-m-d'), $datetime->format('Y-m-d'));
     }
 
     public function test_sending_request_from_connector(): void
