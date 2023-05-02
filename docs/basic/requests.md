@@ -22,6 +22,10 @@ final class MyRequest extends Request
 }
 ```
 
+!!!
+Requests are mutable.
+!!!
+
 ## Default Headers And Query Parameters
 
 Some requests require specific headers or query parameters to be sent. To define default headers on your request, you can extend the `defaultHeaders` method.  For query parameters you can use `defaultQuery` method. These methods expect a keyed array to be returned.
