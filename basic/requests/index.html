@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736098407699">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736309827561">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Requests</title>
     <meta name="title" content="Requests">
-    <meta name="description" content="Requests are classes that store all the information required to make a request." />
+    <meta name="description" content="Requests are classes that store all the information required to make a request. Within a request, you can define the HTTP Method (GET, POST, etc." />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://jenky.github.io/atlas/basic/requests/" />
@@ -21,22 +21,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jenky.github.io/atlas/basic/requests/">
     <meta property="og:title" content="Requests">
-    <meta property="og:description" content="Requests are classes that store all the information required to make a request.">
+    <meta property="og:description" content="Requests are classes that store all the information required to make a request. Within a request, you can define the HTTP Method (GET, POST, etc.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://jenky.github.io/atlas/basic/requests/">
     <meta property="twitter:title" content="Requests">
-    <meta property="twitter:description" content="Requests are classes that store all the information required to make a request.">
+    <meta property="twitter:description" content="Requests are classes that store all the information required to make a request. Within a request, you can define the HTTP Method (GET, POST, etc.">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.736098407699" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.736309827561" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736098407699" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736309827561" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736098407699" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736098407699" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736309827561" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736309827561" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -208,7 +208,7 @@
         <span>Requests</span>
     </h1>
 </doc-anchor-target>
-<p>Requests are classes that store all the information required to make a request. Within a request, you can define the connector, the HTTP Method (GET, POST, etc.) and the endpoint that you would like to make a request. You can also define headers and query parameters. Traditionally, you would write your HTTP requests each time you need to, but this way, you can write a request class once and use it multiple times in your application.</p>
+<p>Requests are classes that store all the information required to make a request. Within a request, you can define the HTTP Method (GET, POST, etc.) and the endpoint that you would like to make a request. You can also define default headers and query parameters. Traditionally, you would write your HTTP requests each time you need to, but this way, you can write a request class once and use it multiple times in your application.</p>
 <doc-anchor-target id="making-requests">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#making-requests">#</doc-anchor-trigger>
@@ -219,7 +219,7 @@
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">&lt;?php
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     protected $method = 'POST';
 
@@ -229,6 +229,23 @@ class MyRequest extends Request
     }
 }</code></pre>
 </doc-codeblock></div>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1 rounded-tl rounded-bl bg-blue-500 dark:bg-blue-400"></div>
+    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr rounded-br doc-alert bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-blue-500 dark:text-blue-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M12 1C5.93 1 1 5.93 1 12s4.93 11 11 11 11-4.93 11-11S18.07 1 12 1zm0 20c-4.96 0-9-4.04-9-9s4.04-9 9-9 9 4.04 9 9-4.04 9-9 9z"></path>
+                    <path d="M12 11c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zM12.01 7c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>Requests are mutable.</p>
+        </div>
+    </div>
+</div>
 <doc-anchor-target id="default-headers-and-query-parameters">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#default-headers-and-query-parameters">#</doc-anchor-trigger>
@@ -241,7 +258,7 @@ class MyRequest extends Request
 
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     protected $method = 'POST';
 
@@ -278,7 +295,7 @@ class MyRequest extends Request
 
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     protected $method = 'POST';
 
@@ -316,7 +333,7 @@ class MyRequest extends Request
 use Jenky\Atlas\Body\AsJson;
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     use AsJson;
 
@@ -342,7 +359,7 @@ use Jenky\Atlas\Body\AsMutipart;
 use Jenky\Atlas\Body\Multipart;
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     use AsMutipart;
 
@@ -388,7 +405,7 @@ class MyRequest extends Request
 use Jenky\Atlas\Body\AsText;
 use Jenky\Atlas\Request;
 
-class MyRequest extends Request
+final class MyRequest extends Request
 {
     use AsText;
 
@@ -514,7 +531,7 @@ $request-&gt;body()-&gt;set([
 use Jenky\Atlas\Request;
 use Psr\Http\Client\ClientInterface;
 
-class UpdateUserRequest extends Request
+final class UpdateUserRequest extends Request
 {
     protected $method = 'PUT';
 
@@ -591,7 +608,7 @@ $response = $connector-&gt;send($request);</code></pre>
 
 use Jenky\Atlas\ConnectorlessRequest;
 
-class GetUsersRequest extends ConnectorlessRequest
+final class GetUsersRequest extends ConnectorlessRequest
 {
     public function endpoint(): string
     {
