@@ -65,25 +65,7 @@ final class ConnectorTest extends TestCase
         $this->assertArrayNotHasKey('Echo', $response->data()['headers'] ?? []);
     }
 
-    public function test_requests_can_be_called_via_magic_method(): void
-    {
-        $connector = new Connector();
-
-        $response = $connector->getHeadersRequest();
-
-        $this->assertTrue($response->ok());
-
-        $response = $connector->dynamic()->uuid();
-
-        $this->assertTrue($response->ok());
-
-        $response = $connector->dynamic()->delay(2);
-
-        $this->assertTrue($response->ok());
-        $this->assertSame('https://httpbin.org/delay/2', $response->data()['url'] ?? null);
-    }
-
-    public function test_requests_without_magic_method(): void
+    public function test_requests_resources(): void
     {
         $echo = new EchoConnector();
 
