@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
-use Jenky\Atlas\Exceptions\RequestRetryFailedException;
+use Jenky\Atlas\Exception\RequestRetryFailedException;
 use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
 use Jenky\Atlas\Retry\RetryCallback;

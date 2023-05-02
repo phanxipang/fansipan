@@ -6,7 +6,7 @@ namespace Jenky\Atlas;
 
 use Closure;
 use Jenky\Atlas\Contracts\DecoderInterface;
-use Jenky\Atlas\Exceptions\HttpException;
+use Jenky\Atlas\Exception\HttpException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -211,11 +211,11 @@ final class Response implements \ArrayAccess, \Stringable
     public function toException(): ?HttpException
     {
         if ($this->clientError()) {
-            return new Exceptions\ClientException($this);
+            return new Exception\ClientException($this);
         }
 
         if ($this->serverError()) {
-            return new Exceptions\ServerException($this);
+            return new Exception\ServerException($this);
         }
 
         return null;
@@ -224,7 +224,7 @@ final class Response implements \ArrayAccess, \Stringable
     /**
      * Throw an exception if a server or client error occurred.
      *
-     * @throws \Jenky\Atlas\Exceptions\HttpException
+     * @throws \Jenky\Atlas\Exception\HttpException
      */
     public function throw(): self
     {
@@ -248,7 +248,7 @@ final class Response implements \ArrayAccess, \Stringable
      *
      * @param  \Closure|bool  $condition
      *
-     * @throws \Jenky\Atlas\Exceptions\HttpException
+     * @throws \Jenky\Atlas\Exception\HttpException
      */
     public function throwIf($condition): self
     {

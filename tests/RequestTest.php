@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Body\Multipart;
-use Jenky\Atlas\Exceptions\HttpException;
+use Jenky\Atlas\Exception\HttpException;
 use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\DTO\Uuid;

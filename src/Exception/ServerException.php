@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Exceptions;
+namespace Jenky\Atlas\Exception;
 
 class ServerException extends HttpException
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Middleware;
 
 use Jenky\Atlas\Contracts\RetryStrategyInterface;
-use Jenky\Atlas\Exceptions\RequestRetryFailedException;
+use Jenky\Atlas\Exception\RequestRetryFailedException;
 use Jenky\Atlas\Retry\RetryContext;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -29,7 +29,7 @@ final class RetryRequest
     }
 
     /**
-     * @throws \Jenky\Atlas\Exceptions\RequestRetryFailedException
+     * @throws \Jenky\Atlas\Exception\RequestRetryFailedException
      */
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
