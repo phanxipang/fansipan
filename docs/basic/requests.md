@@ -117,27 +117,27 @@ final class MyRequest extends Request
 ### Multi-part requests
 
 If you would like to send files as multi-part requests, you should create your file using `Jenky\Atlas\Body\Multipart` class. This class accept:
-- `string` the file aboslute path in the system.
+- `string` the file absolute path in the system.
 - `Psr\Http\Message\UploadedFileInterface` instance.
-- `SplFileInfo` instance.
+- [`SplFileObject`](https://www.php.net/manual/en/class.splfileobject.php) instance.
 
 ```php
 <?php
 
-use Jenky\Atlas\Body\AsMutipart;
+use Jenky\Atlas\Body\AsMultipart;
 use Jenky\Atlas\Body\Multipart;
 use Jenky\Atlas\Request;
 
 final class MyRequest extends Request
 {
-    use AsMutipart;
+    use AsMultipart;
 
     // ...
 
     protected function defaultBody()
     {
         return [
-            'hero_name' => 'Supermane',
+            'hero_name' => 'Superman',
             'name' => 'Clark Kent',
             'avatar' => new Multipart(__DIR__.'/../path_to_image'),
         ];
@@ -171,7 +171,7 @@ final class MyRequest extends Request
 ```
 
 !!!
-Unlike `AsJson` or `AsMutipart` that set the content type automatically. When sending a raw request body, the content type header must be set manually.
+Unlike `AsJson` or `AsMultipart` that set the content type automatically. When sending a raw request body, the content type header must be set manually.
 !!!
 
 !!!danger
