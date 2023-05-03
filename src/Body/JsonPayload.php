@@ -10,6 +10,18 @@ use Jenky\Atlas\Map;
 final class JsonPayload extends Map implements PayloadInterface
 {
     /**
+     * @var int
+     */
+    private $flags;
+
+    public function __construct(array $parameters = [], int $flags = 0)
+    {
+        parent::__construct($parameters);
+
+        $this->flags = $flags;
+    }
+
+    /**
      * Get the header content type value.
      */
     public function contentType(): ?string
@@ -22,6 +34,6 @@ final class JsonPayload extends Map implements PayloadInterface
      */
     public function __toString()
     {
-        return json_encode($this->all()) ?: '';
+        return json_encode($this->all(), $this->flags) ?: '';
     }
 }
