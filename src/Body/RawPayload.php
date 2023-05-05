@@ -123,7 +123,7 @@ final class RawPayload implements PayloadInterface
     /**
      * Get the string representation of the payload.
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->payload;
     }

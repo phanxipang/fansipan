@@ -120,7 +120,7 @@ final class MultipartPayload extends Map implements PayloadInterface
     /**
      * Get the string representation of the payload.
      */
-    public function __toString()
+    public function __toString(): string
     {
         $str = '';
 
