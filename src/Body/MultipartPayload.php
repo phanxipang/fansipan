@@ -56,7 +56,7 @@ final class MultipartPayload extends Map implements PayloadInterface
     /**
      * Build a single part.
      *
-     * @param  string|resource|MultipartInterface|StreamInterface $value
+     * @param  string|MultipartInterface|StreamInterface $value
      */
     private function part(string $name, $value): string
     {
@@ -77,7 +77,9 @@ final class MultipartPayload extends Map implements PayloadInterface
 
             $stream = $value->stream();
         } else {
-            $stream = $value instanceof StreamInterface ? $value : $this->createStream($value);
+            $stream = $value instanceof StreamInterface
+                ? $value
+                : Psr17FactoryDiscovery::findStreamFactory()->createStream($value);
         }
 
         // Set a default content-length header
@@ -94,27 +96,6 @@ final class MultipartPayload extends Map implements PayloadInterface
         $str .= "\r\n".(string) $stream;
 
         return $str;
-    }
-
-    /**
-     * Create a stream for given part.
-     *
-     * @param  string|resource  $content
-     * @throws \UnexpectedValueException
-     */
-    private function createStream($content): StreamInterface
-    {
-        $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
-
-        if (is_resource($content)) {
-            return $streamFactory->createStreamFromResource($content);
-        }
-
-        if (! is_string($content)) {
-            throw new \UnexpectedValueException('Invalid stream content.');
-        }
-
-        return $streamFactory->createStream($content);
     }
 
     /**
