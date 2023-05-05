@@ -8,9 +8,6 @@ declare(strict_types=1);
 if (\PHP_VERSION_ID < 80000) {
     interface Stringable
     {
-        /**
-         * @return string
-         */
-        public function __toString();
+        public function __toString(): string;
     }
 }
