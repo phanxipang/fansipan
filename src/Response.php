@@ -302,7 +302,7 @@ final class Response implements \ArrayAccess, \Stringable
      *
      * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         return $this->body();
     }
