@@ -12,14 +12,8 @@ final class RawPayload implements PayloadInterface
     /**
      * @var string
      */
-    protected $payload = '';
+    private $payload = '';
 
-    /**
-     * Create new raw payload instance.
-     *
-     * @param  string  $payload
-     * @return void
-     */
     public function __construct(string $payload = '')
     {
         $this->payload = $payload;

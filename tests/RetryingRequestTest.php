@@ -7,6 +7,7 @@ namespace Jenky\Atlas\Tests;
 use Jenky\Atlas\Exception\RequestRetryFailedException;
 use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
+use Jenky\Atlas\Retry\Backoff;
 use Jenky\Atlas\Retry\RetryCallback;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetStatusRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\RetryableConnector;
@@ -44,6 +45,12 @@ final class RetryingRequestTest extends TestCase
         }, 1000, 1.0))->send(new GetStatusRequest(502));
 
         $client->assertSentCount(2);
+
+        $connector->retry(3, RetryCallback::when(function ($request, $response) {
+            return true;
+        })->withDelay(new Backoff([1000, 2000, 3000])))->send(new GetStatusRequest(502));
+
+        $client->assertSentCount(3);
     }
 
     public function test_retry_with_successful_attempts(): void

@@ -94,7 +94,7 @@ class Map implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     public function remove(string $key)
     {
-        unset($this->attributes[$key]);
+        unset($this->parameters[$key]);
 
         return $this;
     }
