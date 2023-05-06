@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736444124812">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736655909019">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -31,12 +31,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.4.0.736444124812" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.4.0.736655909019" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736444124812" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.4.0.736655909019" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736444124812" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736444124812" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.4.0.736655909019" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=2.4.0.736655909019" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -346,8 +346,9 @@ final class MyRequest extends Request
         <span>Multi-part requests</span>
     </h3>
 </doc-anchor-target>
-<p>If you would like to send files as multi-part requests, you should create your file using <code v-pre>Jenky\Atlas\Body\Multipart</code> class. This class accept:</p>
+<p>If you would like to send files as multi-part requests, you should create your file using <code v-pre>Jenky\Atlas\Body\MultipartResource::from()</code> static method. This method accepts:</p>
 <ul>
+<li><code v-pre>resource</code> stream.</li>
 <li><code v-pre>string</code> the file absolute path in the system.</li>
 <li><code v-pre>Psr\Http\Message\UploadedFileInterface</code> instance.</li>
 <li><a href="https://www.php.net/manual/en/class.splfileobject.php"><code v-pre>SplFileObject</code></a> instance.</li>
@@ -370,10 +371,16 @@ final class MyRequest extends Request
         return [
             'hero_name' =&gt; 'Superman',
             'name' =&gt; 'Clark Kent',
-            'avatar' =&gt; new Multipart(__DIR__.'/../path_to_image'),
+            'avatar' =&gt; MultipartResource::from(__DIR__.'/../path_to_image.png'),
         ];
     }
 }</code></pre>
+</doc-codeblock></div>
+<p>You can also pass the second parameter as the filename and third parameter as content type of the file.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">$request = new MyRequest();
+
+$request-&gt;with('image', MultipartResource::from(__DIR__.'/../path_to_image.jpg', 'image.jpeg', 'image/jpeg'));</code></pre>
 </doc-codeblock></div>
 <div class="flex mb-6">
     <div class="shrink-0 w-1 rounded-tl rounded-bl bg-blue-500 dark:bg-blue-400"></div>
