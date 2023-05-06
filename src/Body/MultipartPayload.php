@@ -42,15 +42,11 @@ final class MultipartPayload extends Map implements PayloadInterface
     /**
      * Gather all the parts.
      */
-    private function parts(): array
+    private function parts(): iterable
     {
-        $parts = [];
-
         foreach ($this->all() as $key => $value) {
-            $parts[] = $this->part($key, $value);
+            yield $this->part($key, $value);
         }
-
-        return $parts;
     }
 
     /**
