@@ -14,12 +14,7 @@ interface MultipartInterface
     public function stream(): StreamInterface;
 
     /**
-     * Determine whether the part is file.
-     */
-    public function isFile(): bool;
-
-    /**
-     * Get the filename in case part is file.
+     * Get the filename of the part.
      */
     public function filename(): ?string;
 

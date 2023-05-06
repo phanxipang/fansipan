@@ -116,7 +116,8 @@ final class MyRequest extends Request
 
 ### Multi-part requests
 
-If you would like to send files as multi-part requests, you should create your file using `Jenky\Atlas\Body\Multipart` class. This class accept:
+If you would like to send files as multi-part requests, you should create your file using `Jenky\Atlas\Body\MultipartResource::from()` static method. This method accepts:
+- `resource` stream.
 - `string` the file absolute path in the system.
 - `Psr\Http\Message\UploadedFileInterface` instance.
 - [`SplFileObject`](https://www.php.net/manual/en/class.splfileobject.php) instance.
@@ -139,10 +140,18 @@ final class MyRequest extends Request
         return [
             'hero_name' => 'Superman',
             'name' => 'Clark Kent',
-            'avatar' => new Multipart(__DIR__.'/../path_to_image'),
+            'avatar' => MultipartResource::from(__DIR__.'/../path_to_image.png'),
         ];
     }
 }
+```
+
+You can also pass the second parameter as the filename and third parameter as content type of the file.
+
+```php
+$request = new MyRequest();
+
+$request->with('image', MultipartResource::from(__DIR__.'/../path_to_image.jpg', 'image.jpeg', 'image/jpeg'));
 ```
 
 !!!

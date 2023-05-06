@@ -8,6 +8,7 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use Jenky\Atlas\Contracts\MultipartInterface;
 use Jenky\Atlas\Contracts\PayloadInterface;
 use Jenky\Atlas\Map;
+use Psr\Http\Message\StreamInterface;
 
 final class MultipartPayload extends Map implements PayloadInterface
 {
@@ -15,11 +16,6 @@ final class MultipartPayload extends Map implements PayloadInterface
      * @var string
      */
     private $boundary;
-
-    /**
-     * @var \Psr\Http\Message\StreamFactoryInterface
-     */
-    protected $streamFactory;
 
     /**
      * Create new multipart payload instance.
@@ -33,7 +29,6 @@ final class MultipartPayload extends Map implements PayloadInterface
         parent::__construct($parameters);
 
         $this->boundary = $boundary ?: bin2hex(random_bytes(20));
-        $this->streamFactory = Psr17FactoryDiscovery::findStreamFactory();
     }
 
     /**
@@ -47,21 +42,17 @@ final class MultipartPayload extends Map implements PayloadInterface
     /**
      * Gather all the parts.
      */
-    private function parts(): array
+    private function parts(): iterable
     {
-        $parts = [];
-
         foreach ($this->all() as $key => $value) {
-            $parts[] = $this->part($key, $value);
+            yield $this->part($key, $value);
         }
-
-        return $parts;
     }
 
     /**
      * Build a single part.
      *
-     * @param  mixed  $value
+     * @param  string|MultipartInterface|StreamInterface $value
      */
     private function part(string $name, $value): string
     {
@@ -71,20 +62,20 @@ final class MultipartPayload extends Map implements PayloadInterface
         );
 
         if ($value instanceof MultipartInterface) {
-            $stream = $value->stream();
-
-            if ($value->isFile()) {
-                if ($filename = $value->filename()) {
-                    $headers['Content-Disposition'] .= sprintf('; filename="%s"', basename($filename));
-                }
-
-                // Set a default Content-Type
-                if ($type = $value->mimeType()) {
-                    $headers['Content-Type'] = $type;
-                }
+            if ($filename = $value->filename()) {
+                $headers['Content-Disposition'] .= sprintf('; filename="%s"', basename($filename));
             }
+
+            // Set a default Content-Type
+            if ($type = $value->mimeType()) {
+                $headers['Content-Type'] = $type;
+            }
+
+            $stream = $value->stream();
         } else {
-            $stream = $this->streamFactory->createStream($value);
+            $stream = $value instanceof StreamInterface
+                ? $value
+                : Psr17FactoryDiscovery::findStreamFactory()->createStream($value);
         }
 
         // Set a default content-length header

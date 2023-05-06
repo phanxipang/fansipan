@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
-use Jenky\Atlas\Body\Multipart;
+use Jenky\Atlas\Body\MultipartResource;
 use Jenky\Atlas\Exception\HttpException;
 use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
@@ -96,7 +96,7 @@ final class RequestTest extends TestCase
     {
         $request = new PostRequest('John', 'john.doe@example.com');
         $request->body()
-            ->with('img', new Multipart(__DIR__.'/fixtures/1x1.png'));
+            ->with('img', MultipartResource::from(__DIR__.'/fixtures/1x1.png'));
 
         $response = $this->connector->send($request);
 
