@@ -13,9 +13,9 @@ use Jenky\Atlas\Tests\Services\HTTPBin\GetStatusRequest;
 use Jenky\Atlas\Tests\Services\HTTPBin\RetryableConnector;
 use PHPUnit\Framework\TestCase;
 
-final class RetryingRequestTest extends TestCase
+final class RetryRequestsTest extends TestCase
 {
-    public function test_retryable_request(): void
+    public function test_retry_requests(): void
     {
         $connector = new RetryableConnector();
 
@@ -25,7 +25,7 @@ final class RetryingRequestTest extends TestCase
         $connector->retry()->send(new GetStatusRequest(503));
     }
 
-    public function test_retryalbe_request_with_custom_strategy(): void
+    public function test_retry_requests_with_custom_strategy(): void
     {
         $client = new MockClient(
             MockResponse::create('', 502)

@@ -6,7 +6,7 @@ namespace Jenky\Atlas\Traits;
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
 use Jenky\Atlas\Contracts\RetryStrategyInterface;
-use Jenky\Atlas\Middleware\RetryRequest;
+use Jenky\Atlas\Middleware\RetryRequests;
 use Jenky\Atlas\Retry\Delay;
 use Jenky\Atlas\Retry\GenericRetryStrategy;
 
@@ -17,7 +17,7 @@ trait Retryable
         $clone = clone $this;
 
         $clone->middleware()
-            ->unshift(new RetryRequest(
+            ->unshift(new RetryRequests(
                 $retryStrategy ?? $this->defaultRetryStrategy(),
                 $maxRetries,
                 $throw
