@@ -15,12 +15,15 @@ final class PostRequest extends Request
 
     private $email;
 
-    protected $method = 'POST';
-
     public function __construct(string $name, string $email)
     {
         $this->name = $name;
         $this->email = $email;
+    }
+
+    public function method(): string
+    {
+        return 'POST';
     }
 
     public function endpoint(): string

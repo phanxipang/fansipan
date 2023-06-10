@@ -15,11 +15,16 @@ final class EchoRequest extends Request
 
     public function __construct(string $method = 'get')
     {
-        $this->method = mb_strtolower($method);
+        $this->method = $method;
+    }
+
+    public function method(): string
+    {
+        return $this->method;
     }
 
     public function endpoint(): string
     {
-        return $this->method;
+        return mb_strtolower($this->method);
     }
 }

@@ -11,7 +11,10 @@ final class PostAnythingRequest extends Request
 {
     use AsJson;
 
-    protected $method = 'POST';
+    public function method(): string
+    {
+        return 'POST';
+    }
 
     public function endpoint(): string
     {
