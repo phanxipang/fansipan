@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Traits;
+namespace Jenky\Atlas\Tests\Services\HTTPBin;
 
 use Jenky\Atlas\Contracts\ConnectorInterface;
 use Jenky\Atlas\Contracts\RetryStrategyInterface;
