@@ -6,14 +6,17 @@ Requests are classes that store all the information required to make a request. 
 
 ## Making Requests
 
-Your request should extend the `Jenky\Atlas\Request` abstract class. After that, you should define the endpoint of the request by using `endpoint` method. In addition you can also set the HTTP method by using `$method` property.
+Your request should extend the `Jenky\Atlas\Request` abstract class. After that, you should define the endpoint of the request by using `endpoint` method. In addition you can also set the HTTP method by using `method` method, which defaults to `GET`.
 
 ```php
 <?php
 
 final class MyRequest extends Request
 {
-    protected $method = 'POST';
+    public function method(): string
+    {
+        return 'POST';
+    }
 
     public function endpoint(): string
     {
@@ -37,7 +40,10 @@ use Jenky\Atlas\Request;
 
 final class MyRequest extends Request
 {
-    protected $method = 'POST';
+    public function method(): string
+    {
+        return 'DELETE';
+    }
 
     public function endpoint(): string
     {
@@ -72,13 +78,16 @@ use Jenky\Atlas\Request;
 
 final class MyRequest extends Request
 {
-    protected $method = 'POST';
-
     private $type;
 
     public function __construct(string $type)
     {
         $this->type = $type;
+    }
+
+    public function method(): string
+    {
+        return 'POST';
     }
 
     public function endpoint(): string
@@ -261,8 +270,6 @@ use Psr\Http\Client\ClientInterface;
 
 final class UpdateUserRequest extends Request
 {
-    protected $method = 'PUT';
-
     private $id;
 
     private $data = [];
@@ -271,6 +278,11 @@ final class UpdateUserRequest extends Request
     {
         $this->id = $id;
         $this->data = $data;
+    }
+
+    public function method(): string
+    {
+        return 'PUT';
     }
 
     public function endpoint(): string
