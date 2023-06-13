@@ -41,7 +41,8 @@ trait ConnectorTrait
 
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        return $this->pipeline()->send($request)
+        return $this->pipeline()
+            ->send($request)
             ->through($this->gatherMiddleware())
             ->then(function (RequestInterface $request) {
                 return $this->client()->sendRequest($request);
@@ -54,15 +55,5 @@ trait ConnectorTrait
     protected function pipeline(): PipelineInterface
     {
         return new Pipeline();
-    }
-
-    /**
-     * Gather all the middleware from the connector instance.
-     */
-    private function gatherMiddleware(): array
-    {
-        return array_filter(array_map(function ($item) {
-            return $item[0] ?? null;
-        }, $this->middleware()->all()));
     }
 }
