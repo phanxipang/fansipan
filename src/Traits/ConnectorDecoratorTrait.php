@@ -9,6 +9,9 @@ use Jenky\Atlas\Request;
 use Jenky\Atlas\Response;
 use Psr\Http\Client\ClientInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 trait ConnectorDecoratorTrait
 {
     /**

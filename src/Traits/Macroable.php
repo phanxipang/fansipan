@@ -7,6 +7,9 @@ use Closure;
 use ReflectionClass;
 use ReflectionMethod;
 
+/**
+ * @codeCoverageIgnore
+ */
 trait Macroable
 {
     /**
