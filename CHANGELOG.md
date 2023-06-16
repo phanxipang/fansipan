@@ -20,6 +20,22 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 0.3.0 - 2023-06-16
+
+### Added
+
+- Follow redirects by @jenky in https://github.com/jenky/atlas/pull/11
+
+### Deprecated
+
+- Remove `retry` method in favor of `RetryableConnector` for better DX
+
+### Fixed
+
+- Improve test cases performance by using mock client
+
+**Full Changelog**: https://github.com/jenky/atlas/compare/0.2.0...0.3.0
+
 ## 0.2.0 - 2023-05-06
 
 ### Fixed
