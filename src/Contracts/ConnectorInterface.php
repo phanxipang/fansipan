@@ -19,7 +19,7 @@ interface ConnectorInterface
     /**
      * Get the middleware instance.
      */
-    // public function middleware(): Middleware;
+    public function middleware(): Middleware;
 
     /**
      * Send the given request.

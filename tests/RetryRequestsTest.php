@@ -9,15 +9,16 @@ use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
 use Jenky\Atlas\Retry\Backoff;
 use Jenky\Atlas\Retry\RetryCallback;
+use Jenky\Atlas\RetryableConnector;
+use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetStatusRequest;
-use Jenky\Atlas\Tests\Services\HTTPBin\RetryableConnector;
 use PHPUnit\Framework\TestCase;
 
-final class RetryingRequestTest extends TestCase
+final class RetryRequestsTest extends TestCase
 {
-    public function test_retryable_request(): void
+    public function test_retry_requests(): void
     {
-        $connector = new RetryableConnector();
+        $connector = new Connector();
 
         $this->expectException(RequestRetryFailedException::class);
         $this->expectExceptionMessage('Maximum 3 retries reached.');
@@ -25,12 +26,12 @@ final class RetryingRequestTest extends TestCase
         $connector->retry()->send(new GetStatusRequest(503));
     }
 
-    public function test_retryalbe_request_with_custom_strategy(): void
+    public function test_retry_requests_with_custom_strategy(): void
     {
         $client = new MockClient(
             MockResponse::create('', 502)
         );
-        $connector = (new RetryableConnector())->withClient($client);
+        $connector = (new Connector())->withClient($client);
 
         $response = $connector->retry(3, null, false)->send(new GetStatusRequest(502));
 
@@ -62,9 +63,11 @@ final class RetryingRequestTest extends TestCase
         };
 
         $client = new MockClient($responses());
-        $connector = (new RetryableConnector())->withClient($client);
+        $connector = new RetryableConnector(
+            (new Connector())->withClient($client)
+        );
 
-        $response = $connector->retry()->send(new GetStatusRequest());
+        $response = $connector->send(new GetStatusRequest());
         $recorded = $client->recorded();
 
         $client->assertSentCount(3);

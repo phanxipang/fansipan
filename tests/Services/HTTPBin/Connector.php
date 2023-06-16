@@ -10,6 +10,7 @@ use Jenky\Atlas\Traits\ConnectorTrait;
 class Connector implements ConnectorInterface
 {
     use ConnectorTrait;
+    use Retryable;
 
     public function baseUri(): ?string
     {

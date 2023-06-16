@@ -10,7 +10,7 @@ use Jenky\Atlas\Retry\RetryContext;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-final class RetryRequest
+final class RetryRequests
 {
     /**
      * @var \Jenky\Atlas\Retry\RetryContext

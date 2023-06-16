@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Exception;
 
-class ClientException extends HttpException
+class ClientRequestException extends HttpException
 {
 }
