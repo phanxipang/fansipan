@@ -2,6 +2,10 @@ Middleware provide a convenient mechanism for inspecting and modifying HTTP requ
 
 Additional middleware can be written to perform a variety of tasks. For example, a logging middleware might log all outgoing requests and responses.
 
+!!!
+Middleware is **mutable**. If you want to apply middleware to only one request, use `clone` to avoid mutating the connector middleware.
+!!!
+
 ## Defining Middleware
 
 To create a new middleware, create a new Invokable class and put your logic inside `__invoke` method:

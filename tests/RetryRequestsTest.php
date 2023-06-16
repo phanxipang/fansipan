@@ -9,6 +9,7 @@ use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
 use Jenky\Atlas\Retry\Backoff;
 use Jenky\Atlas\Retry\RetryCallback;
+use Jenky\Atlas\RetryableConnector;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetStatusRequest;
 use PHPUnit\Framework\TestCase;
@@ -62,9 +63,11 @@ final class RetryRequestsTest extends TestCase
         };
 
         $client = new MockClient($responses());
-        $connector = (new Connector())->withClient($client);
+        $connector = new RetryableConnector(
+            (new Connector())->withClient($client)
+        );
 
-        $response = $connector->retry()->send(new GetStatusRequest());
+        $response = $connector->send(new GetStatusRequest());
         $recorded = $client->recorded();
 
         $client->assertSentCount(3);
