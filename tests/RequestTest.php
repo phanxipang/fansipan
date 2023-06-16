@@ -6,6 +6,8 @@ namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Body\MultipartResource;
 use Jenky\Atlas\Exception\HttpException;
+use Jenky\Atlas\Mock\MockClient;
+use Jenky\Atlas\Mock\MockResponse;
 use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\DTO\Uuid;
@@ -45,20 +47,28 @@ final class RequestTest extends TestCase
 
     public function test_sending_request_from_connector(): void
     {
-        $response = $this->connector->send(new GetHeadersRequest());
+        $client = new MockClient();
+        $connector = $this->connector->withClient($client);
+
+        $response = $connector->send(new GetHeadersRequest());
 
         $this->assertTrue($response->ok());
     }
 
     public function test_request_headers(): void
     {
+        $client = new MockClient(
+            MockResponse::fixture(__DIR__.'/fixtures/headers.json')
+        );
+        $connector = $this->connector->withClient($client);
+
         $request = new GetHeadersRequest();
 
         $request->headers()
             ->with('Accept', 'application/json')
             ->with('X-Foo', 'bar');
 
-        $response = $this->connector->send($request);
+        $response = $connector->send($request);
 
         $this->assertTrue($response->ok());
         $this->assertSame('bar', $response->data()['headers']['X-Foo'] ?? null);
@@ -67,9 +77,14 @@ final class RequestTest extends TestCase
 
     public function test_cast_response_to_dto(): void
     {
+        $client = new MockClient(
+            MockResponse::create(['uuid' => '01b67779-4690-4094-8e83-624cc496e1ef'])
+        );
+        $connector = $this->connector->withClient($client);
+
         $request = new GetUuidRequest();
 
-        $response = $this->connector->send($request);
+        $response = $connector->send($request);
 
         $this->assertTrue($response->ok());
         $this->assertInstanceOf(Uuid::class, $dto = Uuid::fromResponse($response));
@@ -78,13 +93,18 @@ final class RequestTest extends TestCase
 
     public function test_request_body(): void
     {
+        $client = new MockClient(
+            MockResponse::fixture(__DIR__.'/fixtures/anything.json')
+        );
+        $connector = $this->connector->withClient($client);
+
         $request = new PostAnythingRequest();
 
         $request->body()
             ->with('hello', 'world')
             ->merge(['foo' => 'bar'], ['buzz' => 'quiz']);
 
-        $response = $this->connector->send($request);
+        $response = $connector->send($request);
 
         $this->assertTrue($response->ok());
         $this->assertSame('bar', $response['json']['foo'] ?? null);
@@ -94,11 +114,16 @@ final class RequestTest extends TestCase
 
     public function test_request_multipart(): void
     {
+        $client = new MockClient(
+            MockResponse::fixture(__DIR__.'/fixtures/multipart.json')
+        );
+        $connector = $this->connector->withClient($client);
+
         $request = new PostRequest('John', 'john.doe@example.com');
         $request->body()
             ->with('img', MultipartResource::from(__DIR__.'/fixtures/1x1.png'));
 
-        $response = $this->connector->send($request);
+        $response = $connector->send($request);
 
         $this->assertFalse($response->failed());
 
@@ -111,9 +136,14 @@ final class RequestTest extends TestCase
 
     public function test_response_xml_decoder(): void
     {
+        $client = new MockClient(
+            MockResponse::fixture(__DIR__.'/fixtures/slideshow.xml', 200, ['Content-Type' => 'text/xml'])
+        );
+        $connector = $this->connector->withClient($client);
+
         $request = new GetXmlRequest();
 
-        $response = $this->connector->send($request);
+        $response = $connector->send($request);
 
         $this->assertTrue($response->ok());
 
@@ -123,14 +153,20 @@ final class RequestTest extends TestCase
 
     public function test_response_exception(): void
     {
+        $client = new MockClient([
+            MockResponse::create('', 400),
+            MockResponse::create(''),
+        ]);
+        $connector = $this->connector->withClient($client);
+
         $request = new GetStatusRequest(400);
 
         $this->expectException(HttpException::class);
 
-        $this->connector->send($request)->throwIf(function (Response $response) {
+        $connector->send($request)->throwIf(function (Response $response) {
             return $response->failed();
         });
 
-        $this->connector->send($request->withStatus(200))->throwIf(true);
+        $connector->send($request->withStatus(200))->throwIf(true);
     }
 }

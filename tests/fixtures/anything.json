@@ -1,0 +1,26 @@
+{
+    "args": {},
+    "data": {
+        "hello": "world",
+        "foo": "bar",
+        "buzz": "quiz"
+    },
+    "files": {},
+    "form": {},
+    "headers": {
+        "Content-Length": "43",
+        "Content-Type": "application/json",
+        "Host": "httpbin.org",
+        "User-Agent": "GuzzleHttp/7",
+        "X-Amzn-Trace-Id": "Root=1-648be8e7-22eb348849e631df01a655d9",
+        "X-From": "atlas"
+    },
+    "json": {
+        "buzz": "quiz",
+        "foo": "bar",
+        "hello": "world"
+    },
+    "method": "POST",
+    "origin": "222.252.14.21",
+    "url": "https://httpbin.org/anything"
+}

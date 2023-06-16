@@ -1,0 +1,22 @@
+{
+    "args": {},
+    "data": "",
+    "files": {
+        "img": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII="
+    },
+    "form": {
+        "email": "john.doe@example.com",
+        "name": "John"
+    },
+    "headers": {
+        "Content-Length": "548",
+        "Content-Type": "multipart/form-data; boundary=3a257f6bae64997ef39d9f6ce690da26f85c6fa8",
+        "Host": "httpbin.org",
+        "User-Agent": "GuzzleHttp/7",
+        "X-Amzn-Trace-Id": "Root=1-648be978-61653b9e74646cd85f2fc9fc",
+        "X-From": "atlas"
+    },
+    "json": null,
+    "origin": "222.252.14.21",
+    "url": "https://httpbin.org/post"
+}

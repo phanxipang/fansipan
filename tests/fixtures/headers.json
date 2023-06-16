@@ -1,0 +1,11 @@
+{
+    "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Host": "httpbin.org",
+        "User-Agent": "GuzzleHttp/7",
+        "X-Amzn-Trace-Id": "Root=1-648be83a-1a58dcdc0ee57cf561dd6de9",
+        "X-Foo": "bar",
+        "X-From": "atlas"
+    }
+}
