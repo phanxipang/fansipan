@@ -64,8 +64,10 @@ final class RetryRequestsTest extends TestCase
 
         $client = new MockClient($responses());
         $connector = new RetryableConnector(
-            (new Connector())->withClient($client)
+            $originalConnector = (new Connector())->withClient($client)
         );
+
+        $this->assertCount(1, $originalConnector->middleware());
 
         $response = $connector->send(new GetStatusRequest());
         $recorded = $client->recorded();
