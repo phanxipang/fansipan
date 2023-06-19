@@ -2,22 +2,27 @@
 label: Retrying Requests
 ---
 
-Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. You may use the `Jenky\Atlas\RetryableConnector` decorator to send a request and retry multiple times.
+Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. Atlas has a useful built-in feature that allows you to send a request and retry multiple times.
 
 ## Getting Started
 
-To retry a failed request, you should wrap you connector inside `Jenky\Atlas\RetryableConnector`. The connector accepts the maximum number of times the request should be attempted, a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.
+To retry a failed request, you should use the `Jenky\Atlas\ConnectorConfigurator` to configure your connector for retrying the request. The `retry` method accepts the maximum number of times the request should be attempted, a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.
 
 ```php
-use Jenky\Atlas\RetryableConnector;
+use Jenky\Atlas\ConnectorConfigurator;
 
-$connector = new RetryableConnector(new MyConnector());
-$response = $connector->send(new MyRequest());
+$connector = new MyConnector();
+$response = (new ConnectorConfigurator())
+    ->retry()
+    ->configure($connector)
+    ->send(new MyRequest());
 
 // or retries for 5 times
 
-$connector = new RetryableConnector(new MyConnector(), 5);
-$response = $connector->send(new MyRequest());
+$response = (new ConnectorConfigurator())
+    ->retry(5)
+    ->configure($connector)
+    ->send(new MyRequest());
 ```
 
 ## Customising When a Retry Is Attempted
@@ -27,18 +32,17 @@ By default, failed requests are retried up to 3 times, with an exponential delay
 If needed, you may pass a third argument to the `Jenky\Atlas\RetryableConnector` instance. It is an instance of `Jenky\Atlas\Contracts\RetryStrategyInterface` that determines if the retries should actually be attempted. This will retries the failed requests with a delay of 1 second.
 
 ```php
-use Jenky\Atlas\RetryableConnector;
+use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$connector = new RetryableConnector(
-    new MyConnector(),
-    3,
-    RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
+$response = (new ConnectorConfigurator())
+    ->retry(5, RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
         return $response->getStatusCode() >= 500;
-    })
-)->send(new MyRequest());
+    }))
+    ->configure(new MyConnector())
+    ->send(new MyRequest());
 ```
 
 ### Customising Delay
@@ -46,18 +50,17 @@ $connector = new RetryableConnector(
 You may also pass second and third arguments to the `RetryCallback::when()` method to customise the waiting time between each retry.
 
 ```php
-use Jenky\Atlas\RetryableConnector;
+use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$connector = new RetryableConnector(
-    new MyConnector(),
-    3,
-    RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
+$response = (new ConnectorConfigurator())
+    ->retry(3, RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
         // Your logic here
-    }, delay: 1000, multiplier: 2.0)
-)->send(new MyRequest());
+    }, delay: 1000, multiplier: 2.0))
+    ->configure(new MyConnector())
+    ->send(new MyRequest());
 ```
 
 In the example above, failed requests are retried up to 3 times, with an exponential delay between retries (first retry = 1 second; second retry: 2 seconds, third retry: 4 seconds).
@@ -65,19 +68,18 @@ In the example above, failed requests are retried up to 3 times, with an exponen
 Instead of using an interval delay or calculated exponential delay, you may easily configure "exponential" backoffs by using `withDelay()` method. In this example, the retry delay will be 1 second for the first retry, 3 seconds for the second retry, and 10 seconds for the third retry:
 
 ```php
-use Jenky\Atlas\RetryableConnector;
+use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Retry\Backoff;
 use Jenky\Atlas\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$connector = new RetryableConnector(
-    new MyConnector(),
-    3,
-    RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
+$response = (new ConnectorConfigurator())
+    ->retry(3, RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
         // Your logic here
     })->withDelay(new Backoff([1, 3, 10]))
-)->send(new MyRequest());
+    ->configure(new MyConnector())
+    ->send(new MyRequest());
 ```
 
 ## Disabling Throwing Exceptions
@@ -88,11 +90,15 @@ If you would like to disable this behavior, you may provide a `throw` argument w
 
 
 ```php
-$connector = new RetryableConnector(new MyConnector(), 3, null, throw: false);
-$response = $connector->send(new MyRequest());
+use Jenky\Atlas\ConnectorConfigurator;
+
+$response = (new ConnectorConfigurator())
+    ->retry(2, null, throw: false)
+    ->configure(new MyConnector())
+    ->send(new MyRequest());
 ```
 
-## Retrying All Requests
+## Retrying All Requests Globally
 
 Since middleware is mutable, adding new middleware means that all subsequent requests will also have it applied.
 
