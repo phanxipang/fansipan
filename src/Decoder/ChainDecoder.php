@@ -23,24 +23,19 @@ final class ChainDecoder implements DecoderInterface
         $this->decoders = $decoders;
     }
 
-    public function supports(ResponseInterface $request): bool
-    {
-        return iterator_count($this->decoders) > 0;
-    }
-
     /**
-     * {@inheritdoc}
-     *
      * @throws \Jenky\Atlas\Exception\NotDecodableException
      */
     public function decode(ResponseInterface $response): array
     {
         foreach ($this->decoders as $decoder) {
-            if ($decoder->supports($response)) {
+            try {
                 return $decoder->decode($response);
+            } catch (NotDecodableException $e) {
+                continue;
             }
         }
 
-        throw new NotDecodableException('Unable to decode the response body.');
+        throw NotDecodableException::create();
     }
 }

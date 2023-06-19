@@ -10,7 +10,7 @@ The decoder should be configured as per-request basis. By default `Jenky\Atlas\R
 
 ### Creating Custom Decoder
 
-To create a custom decoder, you need to implement [`DecoderInterface`](https://github.com/jenky/atlas/blob/main/src/Contracts/DecoderInterface.php) which defines the structure that a decoder must have. The contract contains two methods: `supports` and `decode` where you can implement your own logic to decode the response body. Then you can start using it in your request.
+To create a custom decoder, you need to implement [`DecoderInterface`](https://github.com/jenky/atlas/blob/main/src/Contracts/DecoderInterface.php) which defines the structure that a decoder must have. The contract contains only one method: `decode` where you can implement your own logic to decode the response body. Then you can start using it in your request.
 
 ```php
 use Jenky\Atlas\Contracts\DecoderInterface;
