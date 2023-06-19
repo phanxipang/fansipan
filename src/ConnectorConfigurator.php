@@ -19,6 +19,8 @@ class ConnectorConfigurator
     protected $middleware = [];
 
     /**
+     * Configure the given connector with options for current request.
+     *
      * @template T of ConnectorInterface
      * @param  T $connector
      * @return T
@@ -39,6 +41,8 @@ class ConnectorConfigurator
     }
 
     /**
+     * Indicate that a failed request should be retried.
+     *
      * @return static
      */
     public function retry(
@@ -59,6 +63,11 @@ class ConnectorConfigurator
         return $clone;
     }
 
+    /**
+     * Indicate that redirects should be followed for current request.
+     *
+     * @return static
+     */
     public function followRedirects(
         int $max = 5,
         array $protocols = ['http', 'https'],
