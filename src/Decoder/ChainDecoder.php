@@ -25,7 +25,7 @@ final class ChainDecoder implements DecoderInterface
 
     public function supports(ResponseInterface $request): bool
     {
-        return ! empty($this->decoders);
+        return iterator_count($this->decoders) > 0;
     }
 
     /**
