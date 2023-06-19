@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
+use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Middleware\Interceptor;
+use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
@@ -77,5 +79,21 @@ final class ConnectorTest extends TestCase
         $response = $echo->cookies()->set(['foo' => 'bar']);
 
         $this->assertTrue($response->redirect());
+    }
+
+    public function test_connector_configurator(): void
+    {
+        $client = new MockClient();
+
+        $connector = (new EchoConnector())->withClient($client);
+
+        $response = (new ConnectorConfigurator())
+            ->followRedirects()
+            ->retry()
+            ->configure($connector)
+            ->get();
+
+        $this->assertCount(0, $connector->middleware());
+        $this->assertSame(200, $response->status());
     }
 }

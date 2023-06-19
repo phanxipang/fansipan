@@ -6,6 +6,7 @@ namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
+use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\GetStatusRequest;
 
@@ -50,5 +51,16 @@ final class ResponseTest extends TestCase
 
         $this->assertTrue($response->forbidden());
         $this->assertTrue($response->failed());
+    }
+
+    public function test_response_macro(): void
+    {
+        $response = new Response(MockResponse::create(''));
+
+        $response->macro('foo', function () {
+            return 'bar';
+        });
+
+        $this->assertSame('bar', $response->foo());
     }
 }
