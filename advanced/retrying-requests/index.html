@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/atlas">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740476190919">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740480678775">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Retrying Requests</title>
     <meta name="title" content="Retrying Requests">
-    <meta name="description" content="Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. You may use the " />
+    <meta name="description" content="Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors." />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://jenky.github.io/atlas/advanced/retrying-requests/" />
@@ -21,22 +21,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jenky.github.io/atlas/advanced/retrying-requests/">
     <meta property="og:title" content="Retrying Requests">
-    <meta property="og:description" content="Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. You may use the ">
+    <meta property="og:description" content="Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://jenky.github.io/atlas/advanced/retrying-requests/">
     <meta property="twitter:title" content="Retrying Requests">
-    <meta property="twitter:description" content="Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. You may use the ">
+    <meta property="twitter:description" content="Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors.">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("/atlas/doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.0.3.740476190919" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=3.0.3.740480678775" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.740476190919" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.740480678775" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.740476190919" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.740476190919" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.740480678775" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.740480678775" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -208,24 +208,29 @@
         <span>Retrying Requests</span>
     </h1>
 </doc-anchor-target>
-<p>Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. You may use the <code v-pre>Jenky\Atlas\RetryableConnector</code> decorator to send a request and retry multiple times.</p>
+<p>Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. Atlas has a useful built-in feature that allows you to send a request and retry multiple times.</p>
 <doc-anchor-target id="getting-started">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#getting-started">#</doc-anchor-trigger>
         <span>Getting Started</span>
     </h2>
 </doc-anchor-target>
-<p>To retry a failed request, you should wrap you connector inside <code v-pre>Jenky\Atlas\RetryableConnector</code>. The connector accepts the maximum number of times the request should be attempted, a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.</p>
+<p>To retry a failed request, you should use the <code v-pre>Jenky\Atlas\ConnectorConfigurator</code> to configure your connector for retrying the request. The <code v-pre>retry</code> method accepts the maximum number of times the request should be attempted, a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\RetryableConnector;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\ConnectorConfigurator;
 
-$connector = new RetryableConnector(new MyConnector());
-$response = $connector-&gt;send(new MyRequest());
+$connector = new MyConnector();
+$response = (new ConnectorConfigurator())
+    -&gt;retry()
+    -&gt;configure($connector)
+    -&gt;send(new MyRequest());
 
 // or retries for 5 times
 
-$connector = new RetryableConnector(new MyConnector(), 5);
-$response = $connector-&gt;send(new MyRequest());</code></pre>
+$response = (new ConnectorConfigurator())
+    -&gt;retry(5)
+    -&gt;configure($connector)
+    -&gt;send(new MyRequest());</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="customising-when-a-retry-is-attempted">
     <h2>
@@ -236,18 +241,17 @@ $response = $connector-&gt;send(new MyRequest());</code></pre>
 <p>By default, failed requests are retried up to 3 times, with an exponential delay between retries (first retry = 1 second; second retry: 2 seconds, third retry: 4 seconds) and only for the following HTTP status codes: <code v-pre>423</code>, <code v-pre>425</code>, <code v-pre>429</code>, <code v-pre>502</code> and <code v-pre>503</code> when using any HTTP method and <code v-pre>500</code>, <code v-pre>504</code>, <code v-pre>507</code> and <code v-pre>510</code> when using an HTTP <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Idempotent_methods">idempotent method</a>.</p>
 <p>If needed, you may pass a third argument to the <code v-pre>Jenky\Atlas\RetryableConnector</code> instance. It is an instance of <code v-pre>Jenky\Atlas\Contracts\RetryStrategyInterface</code> that determines if the retries should actually be attempted. This will retries the failed requests with a delay of 1 second.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\RetryableConnector;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$connector = new RetryableConnector(
-    new MyConnector(),
-    3,
-    RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
+$response = (new ConnectorConfigurator())
+    -&gt;retry(5, RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
         return $response-&gt;getStatusCode() &gt;= 500;
-    })
-)-&gt;send(new MyRequest());</code></pre>
+    }))
+    -&gt;configure(new MyConnector())
+    -&gt;send(new MyRequest());</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="customising-delay">
     <h3>
@@ -257,35 +261,33 @@ $connector = new RetryableConnector(
 </doc-anchor-target>
 <p>You may also pass second and third arguments to the <code v-pre>RetryCallback::when()</code> method to customise the waiting time between each retry.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\RetryableConnector;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$connector = new RetryableConnector(
-    new MyConnector(),
-    3,
-    RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
+$response = (new ConnectorConfigurator())
+    -&gt;retry(3, RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
         // Your logic here
-    }, delay: 1000, multiplier: 2.0)
-)-&gt;send(new MyRequest());</code></pre>
+    }, delay: 1000, multiplier: 2.0))
+    -&gt;configure(new MyConnector())
+    -&gt;send(new MyRequest());</code></pre>
 </doc-codeblock></div>
 <p>In the example above, failed requests are retried up to 3 times, with an exponential delay between retries (first retry = 1 second; second retry: 2 seconds, third retry: 4 seconds).</p>
 <p>Instead of using an interval delay or calculated exponential delay, you may easily configure &quot;exponential&quot; backoffs by using <code v-pre>withDelay()</code> method. In this example, the retry delay will be 1 second for the first retry, 3 seconds for the second retry, and 10 seconds for the third retry:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\RetryableConnector;
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Retry\Backoff;
 use Jenky\Atlas\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$connector = new RetryableConnector(
-    new MyConnector(),
-    3,
-    RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
+$response = (new ConnectorConfigurator())
+    -&gt;retry(3, RetryCallback::when(static function (RequestInterface $request, ResponseInterface $response) {
         // Your logic here
     })-&gt;withDelay(new Backoff([1, 3, 10]))
-)-&gt;send(new MyRequest());</code></pre>
+    -&gt;configure(new MyConnector())
+    -&gt;send(new MyRequest());</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="disabling-throwing-exceptions">
     <h2>
@@ -296,13 +298,17 @@ $connector = new RetryableConnector(
 <p>If a request fails, it will be attempted again - if it reaches the maximum number of errors, a <code v-pre>Jenky\Atlas\Exception\RequestRetryFailedException</code> will be thrown. If a request is successful at any point, it will return a <code v-pre>Jenky\Atlas\Response</code> instance.</p>
 <p>If you would like to disable this behavior, you may provide a <code v-pre>throw</code> argument with a value of <code v-pre>false</code>. When disabled, the last response received by the client will be returned after all retries have been attempted:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">$connector = new RetryableConnector(new MyConnector(), 3, null, throw: false);
-$response = $connector-&gt;send(new MyRequest());</code></pre>
+<pre class="language-php"><code v-pre class="language-php">use Jenky\Atlas\ConnectorConfigurator;
+
+$response = (new ConnectorConfigurator())
+    -&gt;retry(2, null, throw: false)
+    -&gt;configure(new MyConnector())
+    -&gt;send(new MyRequest());</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="retrying-all-requests">
+<doc-anchor-target id="retrying-all-requests-globally">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#retrying-all-requests">#</doc-anchor-trigger>
-        <span>Retrying All Requests</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#retrying-all-requests-globally">#</doc-anchor-trigger>
+        <span>Retrying All Requests Globally</span>
     </h2>
 </doc-anchor-target>
 <p>Since middleware is mutable, adding new middleware means that all subsequent requests will also have it applied.</p>
