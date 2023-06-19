@@ -11,11 +11,14 @@ use Psr\Http\Message\ResponseInterface;
 final class ChainDecoder implements DecoderInterface
 {
     /**
-     * @var DecoderInterface[]
+     * @var iterable<DecoderInterface>
      */
     private $decoders;
 
-    public function __construct(DecoderInterface ...$decoders)
+    /**
+     * @param  iterable<DecoderInterface> $decoders
+     */
+    public function __construct(iterable $decoders)
     {
         $this->decoders = $decoders;
     }

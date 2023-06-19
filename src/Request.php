@@ -123,9 +123,13 @@ abstract class Request
      */
     public function decoder(): DecoderInterface
     {
-        return new ChainDecoder(
-            new JsonDecoder(),
-            new XmlDecoder()
-        );
+        $decoders = function () {
+            yield from [
+                new JsonDecoder(),
+                new XmlDecoder(),
+            ];
+        };
+
+        return new ChainDecoder($decoders());
     }
 }
