@@ -29,6 +29,6 @@ final class BasicAuthentication
     {
         $credential = $this->username.':'.$this->password;
 
-        return $next($request->withHeader('Authorization', base64_encode($credential)));
+        return $next($request->withHeader('Authorization', 'Basic '.base64_encode($credential)));
     }
 }
