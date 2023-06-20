@@ -186,16 +186,6 @@ final class Response implements \ArrayAccess, \Stringable
     }
 
     /**
-     * Close the stream and any underlying resources.
-     */
-    public function close(): self
-    {
-        $this->response->getBody()->close();
-
-        return $this;
-    }
-
-    /**
      * Get the underlying PSR response for the response.
      */
     public function getResponse(): ResponseInterface
