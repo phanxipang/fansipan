@@ -14,9 +14,9 @@ final class TokenAuthentication
      */
     private $token;
 
-    public function __construct(string $token, string $tokenPrefix = 'Bearer ')
+    public function __construct(string $token, string $tokenPrefix = 'Bearer')
     {
-        $this->token = $tokenPrefix.trim($token);
+        $this->token = $tokenPrefix.' '.trim($token);
     }
 
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
