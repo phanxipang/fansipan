@@ -63,14 +63,12 @@ final class Response implements \ArrayAccess, \Stringable
      * Decode the response body.
      *
      * @return array<array-key, mixed>
+     *
+     * @throws \Jenky\Atlas\Exception\NotDecodableException
      */
     private function decode(): array
     {
         if (! $this->decoder instanceof DecoderInterface) {
-            return [];
-        }
-
-        if (! $this->decoder->supports($this->response)) {
             return [];
         }
 
@@ -183,16 +181,6 @@ final class Response implements \ArrayAccess, \Stringable
         if ($this->failed()) {
             $callback($this);
         }
-
-        return $this;
-    }
-
-    /**
-     * Close the stream and any underlying resources.
-     */
-    public function close(): self
-    {
-        $this->response->getBody()->close();
 
         return $this;
     }

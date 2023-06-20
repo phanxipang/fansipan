@@ -11,33 +11,31 @@ use Psr\Http\Message\ResponseInterface;
 final class ChainDecoder implements DecoderInterface
 {
     /**
-     * @var DecoderInterface[]
+     * @var iterable<DecoderInterface>
      */
     private $decoders;
 
-    public function __construct(DecoderInterface ...$decoders)
+    /**
+     * @param  iterable<DecoderInterface> $decoders
+     */
+    public function __construct(iterable $decoders)
     {
         $this->decoders = $decoders;
     }
 
-    public function supports(ResponseInterface $request): bool
-    {
-        return ! empty($this->decoders);
-    }
-
     /**
-     * {@inheritdoc}
-     *
      * @throws \Jenky\Atlas\Exception\NotDecodableException
      */
     public function decode(ResponseInterface $response): array
     {
         foreach ($this->decoders as $decoder) {
-            if ($decoder->supports($response)) {
+            try {
                 return $decoder->decode($response);
+            } catch (NotDecodableException $e) {
+                continue;
             }
         }
 
-        throw new NotDecodableException('Unable to decode the response body.');
+        throw NotDecodableException::create();
     }
 }
