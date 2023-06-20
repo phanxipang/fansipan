@@ -30,6 +30,9 @@ final class XmlDecoder implements DecoderInterface
         );
     }
 
+    /**
+     * Determine wether decoder is supported for given response.
+     */
     private function supports(ResponseInterface $response): bool
     {
         return mb_strpos($response->getHeaderLine('Content-Type'), 'xml') !== false;

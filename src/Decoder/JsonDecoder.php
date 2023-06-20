@@ -22,6 +22,9 @@ final class JsonDecoder implements DecoderInterface
         return json_decode((string) $response->getBody(), true) ?? [];
     }
 
+    /**
+     * Determine wether decoder is supported for given response.
+     */
     private function supports(ResponseInterface $response): bool
     {
         return mb_strpos($response->getHeaderLine('Content-Type'), 'json') !== false;
