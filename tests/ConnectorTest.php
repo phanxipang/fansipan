@@ -6,7 +6,8 @@ namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Middleware\Interceptor;
-use Jenky\Atlas\Mock\MockClient;
+use Jenky\Atlas\Mock\MockResponse;
+use Jenky\Atlas\Mock\ScopingMockClient;
 use Jenky\Atlas\NullConnector;
 use Jenky\Atlas\Tests\Services\DummyRequest;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
@@ -84,7 +85,13 @@ final class ConnectorTest extends TestCase
 
     public function test_connector_configurator(): void
     {
-        $client = new MockClient();
+        $client = new ScopingMockClient([
+            'https://postman-echo.com/get' => [
+                MockResponse::create('', 503),
+                MockResponse::create('', 301, ['Location' => 'http://localhost']),
+            ],
+            '*' => MockResponse::create(''),
+        ]);
 
         $connector = (new EchoConnector())->withClient($client);
 
@@ -96,5 +103,7 @@ final class ConnectorTest extends TestCase
 
         $this->assertCount(0, $connector->middleware());
         $this->assertSame(200, $response->status());
+
+        $client->assertSentCount(3);
     }
 }
