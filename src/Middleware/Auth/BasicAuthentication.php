@@ -4,31 +4,14 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Middleware\Auth;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
 final class BasicAuthentication
 {
-    /**
-     * @var string
-     */
-    private $username;
-
-    /**
-     * @var string
-     */
-    private $password;
+    use AuthenticationMiddlewareTrait;
 
     public function __construct(string $username, string $password)
     {
-        $this->username = $username;
-        $this->password = $password;
-    }
+        $credential = $username.':'.$password;
 
-    public function __invoke(RequestInterface $request, callable $next): ResponseInterface
-    {
-        $credential = $this->username.':'.$this->password;
-
-        return $next($request->withHeader('Authorization', 'Basic '.base64_encode($credential)));
+        $this->token = 'Basic '.base64_encode($credential);
     }
 }

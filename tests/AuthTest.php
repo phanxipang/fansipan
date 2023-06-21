@@ -74,7 +74,7 @@ final class AuthTest extends TestCase
 
         $this->assertTrue($response->unauthorized());
 
-        $connector->middleware()->before('fake_auth', new TokenAuthentication('#zKh#4KNu$Bq4^b97KJ6'));
+        $connector->middleware()->before('fake_auth', TokenAuthentication::from('#zKh#4KNu$Bq4^b97KJ6'));
 
         $response = $connector->send(new DummyRequest('http://localhost'));
 

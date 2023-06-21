@@ -4,23 +4,17 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Middleware\Auth;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
 final class TokenAuthentication
 {
-    /**
-     * @var string
-     */
-    private $token;
+    use AuthenticationMiddlewareTrait;
 
-    public function __construct(string $token, string $tokenPrefix = 'Bearer')
+    public function __construct(string $token)
     {
-        $this->token = $tokenPrefix.' '.trim($token);
+        $this->token = $token;
     }
 
-    public function __invoke(RequestInterface $request, callable $next): ResponseInterface
+    public static function from(string $token, string $tokenPrefix = 'Bearer'): self
     {
-        return $next($request->withHeader('Authorization', $this->token));
+        return new self($tokenPrefix.' '.trim($token));
     }
 }
