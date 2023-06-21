@@ -123,7 +123,7 @@ abstract class Request
      */
     public function decoder(): DecoderInterface
     {
-        $decoders = function () {
+        $decoders = static function () {
             yield from [
                 new JsonDecoder(),
                 new XmlDecoder(),
