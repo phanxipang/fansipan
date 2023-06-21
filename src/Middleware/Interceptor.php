@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 final class Interceptor
 {
     /**
-     * Add an request interceptor.
+     * Add a request interceptor.
      */
     public static function request(Closure $callback): Closure
     {
