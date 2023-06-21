@@ -54,7 +54,7 @@ class ConnectorConfigurator
 
         $clone = clone $this;
 
-        $clone->middleware[] = new RetryRequests(
+        $clone->middleware['retry_requests'] = new RetryRequests(
             $strategy,
             $maxRetries,
             $throw
@@ -76,7 +76,7 @@ class ConnectorConfigurator
     ) {
         $clone = clone $this;
 
-        $clone->middleware[] = new FollowRedirects(
+        $clone->middleware['follow_redirects'] = new FollowRedirects(
             $max,
             $protocols,
             $strict,
