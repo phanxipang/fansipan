@@ -20,6 +20,17 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 0.4.0 - 2023-06-21
+
+### What's Changed
+
+#### Added
+
+- Connector configurator by @jenky in https://github.com/jenky/atlas/pull/12
+- Authentication middleware by @jenky in https://github.com/jenky/atlas/pull/13
+
+**Full Changelog**: https://github.com/jenky/atlas/compare/0.3.0...0.4.0
+
 ## 0.3.0 - 2023-06-16
 
 ### Added
