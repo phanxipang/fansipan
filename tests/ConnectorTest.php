@@ -7,8 +7,8 @@ namespace Jenky\Atlas\Tests;
 use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Middleware\Interceptor;
 use Jenky\Atlas\Mock\MockClient;
-use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
-use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
+use Jenky\Atlas\NullConnector;
+use Jenky\Atlas\Tests\Services\DummyRequest;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -17,15 +17,16 @@ final class ConnectorTest extends TestCase
 {
     public function test_middleware(): void
     {
-        $connector = new Connector();
-
-        $this->assertCount(1, $connector->middleware());
+        $connector = new NullConnector();
 
         $connector->middleware()->push(static function (RequestInterface $request, callable $next) {
-            return $next($request->withHeader('Echo', 'Atlas'));
+            return $next(
+                $request->withHeader('Echo', 'Atlas')
+                    ->withHeader('X-Foo', 'bar')
+            );
         }, 'echo');
 
-        $this->assertCount(2, $connector->middleware());
+        $this->assertCount(1, $connector->middleware());
 
         $id = uniqid();
 
@@ -41,16 +42,16 @@ final class ConnectorTest extends TestCase
             return $next($request);
         }, 'first');
 
-        $this->assertCount(5, $connector->middleware());
+        $this->assertCount(4, $connector->middleware());
 
         $middleware = $connector->middleware()->all();
 
         $this->assertSame('first', $middleware[0][1]);
-        $this->assertSame('echo', $middleware[3][1]);
+        $this->assertSame('echo', $middleware[2][1]);
 
         $connector->middleware()->remove('first');
 
-        $this->assertCount(4, $connector->middleware());
+        $this->assertCount(3, $connector->middleware());
 
         $connector->middleware()->push(static function (RequestInterface $request, callable $next) {
             return $next($request->withHeader('X-Foo', 'bar'));
@@ -58,11 +59,11 @@ final class ConnectorTest extends TestCase
 
         $connector->middleware()->remove('echo');
 
-        $response = $connector->send(new GetHeadersRequest());
+        $response = $connector->send(new DummyRequest('https://postman-echo.com/headers'));
 
         $this->assertTrue($response->successful());
-        $this->assertSame('bar', $response->data()['headers']['X-Foo'] ?? null);
-        $this->assertSame($id, $response->data()['headers']['X-Unique-Id'] ?? null);
+        $this->assertSame('bar', $response->data()['headers']['x-foo'] ?? null);
+        $this->assertSame($id, $response->data()['headers']['x-unique-id'] ?? null);
         $this->assertSame($id, $response->header('X-Unique-Id'));
         $this->assertArrayNotHasKey('Echo', $response->data()['headers'] ?? []);
     }
