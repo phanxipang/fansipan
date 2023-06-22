@@ -111,7 +111,7 @@ abstract class Request
      */
     public function body(): PayloadInterface
     {
-        if (! $this->body instanceof Map) {
+        if (! $this->body instanceof PayloadInterface) {
             $this->body = $this->definePayload();
         }
 
