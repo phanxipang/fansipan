@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Middleware\Auth\BasicAuthentication;
-use Jenky\Atlas\Middleware\Auth\TokenAuthentication;
+use Jenky\Atlas\Middleware\Auth\BearerAuthentication;
 use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
 use Jenky\Atlas\NullConnector;
@@ -74,7 +74,7 @@ final class AuthTest extends TestCase
 
         $this->assertTrue($response->unauthorized());
 
-        $connector->middleware()->before('fake_auth', TokenAuthentication::from('#zKh#4KNu$Bq4^b97KJ6'));
+        $connector->middleware()->before('fake_auth', new BearerAuthentication('#zKh#4KNu$Bq4^b97KJ6'));
 
         $response = $connector->send(new DummyRequest('http://localhost'));
 
