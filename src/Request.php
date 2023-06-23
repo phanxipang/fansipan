@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas;
 
-use InvalidArgumentException;
 use Jenky\Atlas\Body\FormPayload;
 use Jenky\Atlas\Contracts\DecoderInterface;
 use Jenky\Atlas\Contracts\PayloadInterface;
@@ -61,20 +60,6 @@ abstract class Request
     }
 
     /**
-     * Create a body payload from body format.
-     */
-    protected function definePayload(): PayloadInterface
-    {
-        $payload = property_exists($this, 'bodyFormat') ? $this->bodyFormat : FormPayload::class;
-
-        if (! is_a($payload, PayloadInterface::class, true)) {
-            throw new InvalidArgumentException('Payload class must be instance of '.PayloadInterface::class);
-        }
-
-        return new $payload(is_array($this->defaultBody()) ? $this->defaultBody() : []);
-    }
-
-    /**
      * Get request HTTP method.
      */
     public function method(): string
@@ -112,10 +97,22 @@ abstract class Request
     public function body(): PayloadInterface
     {
         if (! $this->body instanceof PayloadInterface) {
-            $this->body = $this->definePayload();
+            $this->body = $this->createPayload();
         }
 
         return $this->body;
+    }
+
+    /**
+     * Create a corresponding payload for request body.
+     */
+    private function createPayload(): PayloadInterface
+    {
+        if (method_exists($this, 'definePayload')) {
+            return $this->definePayload();
+        }
+
+        return new FormPayload(is_array($this->defaultBody()) ? $this->defaultBody() : []);
     }
 
     /**

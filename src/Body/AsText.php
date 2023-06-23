@@ -4,7 +4,15 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Body;
 
+use Jenky\Atlas\Contracts\PayloadInterface;
+
 trait AsText
 {
-    protected $bodyFormat = RawPayload::class;
+    /**
+     * Create new text request body.
+     */
+    protected function definePayload(): PayloadInterface
+    {
+        return new RawPayload($this->defaultBody() ?: '');
+    }
 }
