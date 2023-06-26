@@ -63,11 +63,11 @@ final class Pipeline implements PipelineInterface
      */
     private function prepareDestination(Closure $destination): Closure
     {
-        return function ($passable) use ($destination) {
+        return static function ($passable) use ($destination) {
             try {
                 return $destination($passable);
             } catch (Throwable $e) {
-                return $this->handleException($passable, $e);
+                return self::handleException($passable, $e);
             }
         };
     }
@@ -77,12 +77,12 @@ final class Pipeline implements PipelineInterface
      */
     private function carry(): Closure
     {
-        return function ($stack, $pipe) {
-            return function ($passable) use ($stack, $pipe) {
+        return static function ($stack, $pipe) {
+            return static function ($passable) use ($stack, $pipe) {
                 try {
                     return $pipe($passable, $stack);
                 } catch (Throwable $e) {
-                    return $this->handleException($passable, $e);
+                    return self::handleException($passable, $e);
                 }
             };
         };
@@ -96,7 +96,7 @@ final class Pipeline implements PipelineInterface
      *
      * @throws \Throwable
      */
-    private function handleException($passable, Throwable $e)
+    private static function handleException($passable, Throwable $e)
     {
         throw $e;
     }
