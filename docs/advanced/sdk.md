@@ -7,10 +7,11 @@ label: SDK
 ## Creating SDK Connector
 
 ```php
-use GuzzleHttp\Client;
 use Jenky\Atlas\Contracts\ConnectorInterface;
+use Jenky\Atlas\Middleware\Auth\BearerAuthentication;
+use Jenky\Atlas\Middleware\Interceptor;
 use Jenky\Atlas\Traits\ConnectorTrait;
-use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
 
 final class Github implements ConnectorInterface
 {
@@ -31,16 +32,21 @@ final class Github implements ConnectorInterface
         return 'https://api.github.com';
     }
 
-    protected function defaultClient(): ClientInterface
+    /**
+     * Get default middleware.
+     */
+    protected function defaultMiddleware(): array
     {
-        return new Client([
-            'base_uri' => static::baseUri(),
-            'headers' => array_filter([
-                'Accept' => 'application/vnd.github+json',
-                'Authorization' => 'Bearer '.trim($this->token),
-                'X-GitHub-Api-Version' => $this->version,
-            ]),
-        ]);
+        return [
+            Interceptor::request(function (RequestInterface $request) {
+                if ($this->version) {
+                    $request = $request->withHeader('X-GitHub-Api-Version', $this->version);
+                }
+
+                return $request->withHeader('Accept', 'application/vnd.github+json');
+            }),
+            new BearerAuthentication($this->token),
+        ];
     }
 }
 ```
