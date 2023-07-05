@@ -26,7 +26,7 @@ final class Github implements ConnectorInterface
         $this->version = $version;
     }
 
-    public function baseUri(): ?string
+    public static function baseUri(): ?string
     {
         return 'https://api.github.com';
     }
@@ -34,7 +34,7 @@ final class Github implements ConnectorInterface
     protected function defaultClient(): ClientInterface
     {
         return new Client([
-            'base_uri' => $this->baseUri(),
+            'base_uri' => static::baseUri(),
             'headers' => array_filter([
                 'Accept' => 'application/vnd.github+json',
                 'Authorization' => 'Bearer '.trim($this->token),

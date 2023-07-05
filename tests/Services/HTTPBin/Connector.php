@@ -12,7 +12,7 @@ class Connector implements ConnectorInterface
     use ConnectorTrait;
     use Retryable;
 
-    public function baseUri(): ?string
+    public static function baseUri(): ?string
     {
         return 'https://httpbin.org';
     }

@@ -32,7 +32,7 @@ final class MyConnector implements ConnectorInterface
         $this->token = $token;
     }
 
-    public function baseUri(): ?string
+    public static function baseUri(): ?string
     {
         return 'https://my-service.api';
     }
