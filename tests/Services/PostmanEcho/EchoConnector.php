@@ -12,7 +12,7 @@ final class EchoConnector implements EchoConnectorInterface
 {
     use ConnectorTrait;
 
-    public function baseUri(): ?string
+    public static function baseUri(): ?string
     {
         return 'https://postman-echo.com/';
     }

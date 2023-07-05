@@ -20,7 +20,7 @@ trait ConnectorTrait
     /**
      * Get the base uri for the HTTP client.
      */
-    public function baseUri(): ?string
+    public static function baseUri(): ?string
     {
         return null;
     }
@@ -33,7 +33,7 @@ trait ConnectorTrait
     public function send(Request $request): Response
     {
         $response = $this->sendRequest(
-            Util::request($request, $this->baseUri())
+            Util::request($request, static::baseUri())
         );
 
         return new Response($response, $request->decoder());
