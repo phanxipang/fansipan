@@ -47,7 +47,7 @@ final class RetryRequests
                 throw new RequestRetryFailedException(
                     sprintf('Maximum %d retries reached.', $this->context->maxRetries()),
                     $request,
-                    $response,
+                    $response
                 );
             }
 
