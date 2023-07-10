@@ -24,7 +24,7 @@ class RequestException extends \RuntimeException implements RequestExceptionInte
         string $message,
         RequestInterface $request,
         ?ResponseInterface $response = null,
-        ?\Throwable $previous = null,
+        ?\Throwable $previous = null
     ) {
         $code = $response ? $response->getStatusCode() : 0;
         parent::__construct($message, $code, $previous);
