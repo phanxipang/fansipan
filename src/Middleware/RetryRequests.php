@@ -44,7 +44,11 @@ final class RetryRequests
 
         if ($stop) {
             if ($this->context->throwable()) {
-                throw new RequestRetryFailedException(sprintf('Maximum %d retries reached.', $this->context->maxRetries()));
+                throw new RequestRetryFailedException(
+                    sprintf('Maximum %d retries reached.', $this->context->maxRetries()),
+                    $request,
+                    $response,
+                );
             }
 
             return $response;

@@ -63,17 +63,17 @@ final class FollowRedirects
             return $response;
         }
 
-        $this->guardMax();
+        $this->guardMax($request, $response);
 
         return $this($this->modifyRequest($request, $response), $next);
     }
 
-    private function guardMax(): void
+    private function guardMax(RequestInterface $request, ResponseInterface $response): void
     {
         ++$this->redirects;
 
         if ($this->redirects > $this->max) {
-            throw new TooManyRedirectsException('');
+            throw new TooManyRedirectsException("Will not follow more than {$this->max} redirects", $request, $response);
         }
     }
 
