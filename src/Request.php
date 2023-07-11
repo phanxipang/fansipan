@@ -68,6 +68,14 @@ abstract class Request
     }
 
     /**
+     * Get request HTTP protocol version.
+     */
+    public function version(): string
+    {
+        return '1.1';
+    }
+
+    /**
      * Get request query string parameters.
      */
     public function query(): Map

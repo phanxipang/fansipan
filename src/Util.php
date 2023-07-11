@@ -160,7 +160,7 @@ final class Util
             }
         }
 
-        return $psrRequest->withBody(
+        return $psrRequest->withProtocolVersion($request->version())->withBody(
             Psr17FactoryDiscovery::findStreamFactory()
                 ->createStream((string) $request->body())
         );
