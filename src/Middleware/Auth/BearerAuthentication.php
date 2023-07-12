@@ -8,7 +8,7 @@ final class BearerAuthentication
 {
     use AuthenticationMiddlewareTrait;
 
-    public function __construct(#[\SensitiveParameter] string $token, string $tokenPrefix = 'Bearer')
+    public function __construct(string $token, string $tokenPrefix = 'Bearer')
     {
         $this->token = $tokenPrefix.' '.trim($token);
     }

@@ -8,7 +8,7 @@ final class BasicAuthentication
 {
     use AuthenticationMiddlewareTrait;
 
-    public function __construct(#[\SensitiveParameter] string $username, #[\SensitiveParameter] string $password)
+    public function __construct(string $username, string $password)
     {
         $credential = $username.':'.$password;
 
