@@ -20,6 +20,19 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 0.5.0 - 2023-07-13
+
+### Added
+
+- Better way to create payload by @jenky in https://github.com/jenky/atlas/pull/14
+- Use static function `baseUri` by @jenky in https://github.com/jenky/atlas/pull/15
+- Support request protocol version by @jenky in https://github.com/jenky/atlas/pull/16
+- Refactor exceptions
+- Add ability to set request protocol version and method
+- Minor improvements
+
+**Full Changelog**: https://github.com/jenky/atlas/compare/0.4.0...0.5.0
+
 ## 0.4.0 - 2023-06-21
 
 ### What's Changed
