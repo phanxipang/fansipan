@@ -16,7 +16,7 @@ final class DummyRequest extends ConnectorlessRequest
     /**
      * @var string
      */
-    protected $method;
+    private $method;
 
     public function __construct(
         string $endpoint,
@@ -29,5 +29,10 @@ final class DummyRequest extends ConnectorlessRequest
     public function endpoint(): string
     {
         return $this->endpoint;
+    }
+
+    public function method(): string
+    {
+        return $this->method;
     }
 }
