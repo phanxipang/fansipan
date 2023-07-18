@@ -11,7 +11,7 @@ interface DecoderInterface
     /**
      * Decode response body to native array type.
      *
-     * Throw \Jenky\Atlas\Exception\NotDecodableException if decoder is unable to decode the response.
+     * @throws \Jenky\Atlas\Exception\NotDecodableException if decoder is unable to decode the response.
      */
     public function decode(ResponseInterface $response): array;
 }
