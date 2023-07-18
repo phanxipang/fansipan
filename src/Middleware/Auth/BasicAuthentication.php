@@ -10,8 +10,6 @@ final class BasicAuthentication
 
     public function __construct(string $username, string $password)
     {
-        $credential = $username.':'.$password;
-
-        $this->token = 'Basic '.base64_encode($credential);
+        $this->token = 'Basic '.base64_encode($username.':'.$password);
     }
 }
