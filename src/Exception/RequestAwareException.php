@@ -32,11 +32,19 @@ abstract class RequestAwareException extends \RuntimeException implements Reques
         $this->response = $response;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getRequest(): RequestInterface
     {
         return $this->request;
     }
 
+    /**
+     * Get the response.
+     *
+     * @codeCoverageIgnore
+     */
     public function getResponse(): ?ResponseInterface
     {
         return $this->response;

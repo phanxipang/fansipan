@@ -23,6 +23,9 @@ class NetworkException extends \RuntimeException implements NetworkExceptionInte
         $this->request = $request;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getRequest(): RequestInterface
     {
         return $this->request;

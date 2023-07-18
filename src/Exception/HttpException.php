@@ -30,7 +30,7 @@ class HttpException extends ResponseAwareException
     }
 
     /**
-     * Get the response.
+     * Get the decorated response.
      */
     public function response(): Response
     {

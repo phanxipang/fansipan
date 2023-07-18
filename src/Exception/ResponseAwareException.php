@@ -32,6 +32,8 @@ abstract class ResponseAwareException extends \RuntimeException implements Clien
 
     /**
      * Get the response.
+     *
+     * @codeCoverageIgnore
      */
     public function getResponse(): ResponseInterface
     {
