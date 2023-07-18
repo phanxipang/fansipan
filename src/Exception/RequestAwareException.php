@@ -8,7 +8,7 @@ use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class RequestException extends \RuntimeException implements RequestExceptionInterface
+abstract class RequestAwareException extends \RuntimeException implements RequestExceptionInterface
 {
     /**
      * @var RequestInterface

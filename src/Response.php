@@ -199,11 +199,11 @@ final class Response implements \ArrayAccess, \Stringable
     public function toException(): ?HttpException
     {
         if ($this->clientError()) {
-            return new Exception\ClientRequestException($this->response);
+            return new Exception\ClientRequestException($this);
         }
 
         if ($this->serverError()) {
-            return new Exception\ServerRequestException($this->response);
+            return new Exception\ServerRequestException($this);
         }
 
         return null;

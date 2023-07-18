@@ -4,48 +4,36 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Exception;
 
-use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
+use Jenky\Atlas\Response;
 
-class HttpException extends RuntimeException implements ClientExceptionInterface
+class HttpException extends ResponseAwareException
 {
     /**
      * The response instance.
      *
-     * @var ResponseInterface
+     * @var Response
      */
-    private $response;
+    private $decoratedResponse;
 
     public function __construct(
-        ResponseInterface $response,
+        Response $response,
         string $message = '',
         ?\Throwable $previous = null
     ) {
         parent::__construct(
-            $message ?: $this->prepareMessage($response),
-            $response->getStatusCode(),
+            $response->getResponse(),
+            $message,
             $previous
         );
 
-        $this->response = $response;
+        $this->decoratedResponse = $response;
     }
 
     /**
      * Get the response.
      */
-    public function getResponse(): ResponseInterface
+    public function response(): Response
     {
-        return $this->response;
-    }
-
-    /**
-     * Prepare the exception message.
-     */
-    protected function prepareMessage(ResponseInterface $response): string
-    {
-        return sprintf('HTTP request returned status code %d %s',
-            $response->getStatusCode(), $response->getReasonPhrase()
-        );
+        return $this->decoratedResponse;
     }
 }
