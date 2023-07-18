@@ -31,6 +31,8 @@ class HttpException extends ResponseAwareException
 
     /**
      * Get the decorated response.
+     *
+     * @codeCoverageIgnore
      */
     public function response(): Response
     {
