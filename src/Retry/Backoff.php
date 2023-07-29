@@ -24,8 +24,8 @@ class Backoff implements DelayStrategyInterface
         $this->fallbackDelayMs = $fallbackDelayMs;
     }
 
-    public function delayFor(int $attempts): int
+    public function delayFor(int $attempt): int
     {
-        return $this->backoff[$attempts - 1] ?? $this->fallbackDelayMs;
+        return $this->backoff[$attempt - 1] ?? $this->fallbackDelayMs;
     }
 }

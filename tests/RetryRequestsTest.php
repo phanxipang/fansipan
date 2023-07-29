@@ -41,13 +41,13 @@ final class RetryRequestsTest extends TestCase
         $this->expectException(RequestRetryFailedException::class);
         $this->expectExceptionMessage('Maximum 2 retries reached.');
 
-        $connector->retry(2, RetryCallback::when(function ($request, $response) {
+        $connector->retry(2, RetryCallback::when(static function () {
             return true;
         }, 1000, 1.0))->send(new GetStatusRequest(502));
 
         $client->assertSentCount(2);
 
-        $connector->retry(3, RetryCallback::when(function ($request, $response) {
+        $connector->retry(3, RetryCallback::when(static function () {
             return true;
         })->withDelay(new Backoff([1000, 2000, 3000])))->send(new GetStatusRequest(502));
 

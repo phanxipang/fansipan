@@ -6,5 +6,8 @@ namespace Jenky\Atlas\Contracts;
 
 interface DelayStrategyInterface
 {
-    public function delayFor(int $attempts): int;
+    /**
+     * Returns the time to wait in milliseconds for given attempt.
+     */
+    public function delayFor(int $attempt): int;
 }

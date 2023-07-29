@@ -45,9 +45,9 @@ class Delay implements DelayStrategyInterface
         $this->maxDelayMs = $maxDelayMs;
     }
 
-    public function delayFor(int $attempts): int
+    public function delayFor(int $attempt): int
     {
-        $delay = $this->delayMs * $this->multiplier ** $attempts;
+        $delay = $this->delayMs * $this->multiplier ** $attempt;
 
         if ($delay > $this->maxDelayMs && $this->maxDelayMs > 0) {
             return $this->maxDelayMs;
