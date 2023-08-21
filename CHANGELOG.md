@@ -20,6 +20,15 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 0.5.1 - 2023-08-21
+
+### Fixed
+
+- Exception refactor
+- Minor changes
+
+**Full Changelog**: https://github.com/jenky/atlas/compare/0.5.0...0.5.1
+
 ## 0.5.0 - 2023-07-13
 
 ### Added
