@@ -22,6 +22,6 @@ final class FormPayload extends Map implements PayloadInterface
      */
     public function __toString()
     {
-        return http_build_query($this->all());
+        return \http_build_query($this->all());
     }
 }

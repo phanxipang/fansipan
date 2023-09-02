@@ -116,11 +116,11 @@ abstract class Request
      */
     private function createPayload(): PayloadInterface
     {
-        if (method_exists($this, 'definePayload')) {
+        if (\method_exists($this, 'definePayload')) {
             return $this->definePayload();
         }
 
-        return new FormPayload(is_array($this->defaultBody()) ? $this->defaultBody() : []);
+        return new FormPayload(\is_array($this->defaultBody()) ? $this->defaultBody() : []);
     }
 
     /**

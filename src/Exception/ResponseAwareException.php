@@ -45,7 +45,7 @@ abstract class ResponseAwareException extends \RuntimeException implements Clien
      */
     protected function prepareMessage(ResponseInterface $response): string
     {
-        return sprintf('HTTP request returned status code %d %s',
+        return \sprintf('HTTP request returned status code %d %s',
             $response->getStatusCode(), $response->getReasonPhrase()
         );
     }

@@ -13,6 +13,6 @@ trait AsJson
      */
     protected function definePayload(): PayloadInterface
     {
-        return new JsonPayload(is_array($this->defaultBody()) ? $this->defaultBody() : []);
+        return new JsonPayload(\is_array($this->defaultBody()) ? $this->defaultBody() : []);
     }
 }

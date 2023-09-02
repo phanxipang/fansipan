@@ -216,7 +216,7 @@ final class Response implements \ArrayAccess, \Stringable
      */
     public function throw(): self
     {
-        $callback = func_get_args()[0] ?? null;
+        $callback = \func_get_args()[0] ?? null;
 
         if ($this->failed()) {
             $exception = $this->toException();
@@ -242,7 +242,7 @@ final class Response implements \ArrayAccess, \Stringable
     {
         $condition = $condition instanceof Closure ? $condition($this) : (bool) $condition;
 
-        return $condition ? $this->throw(func_get_args()[1] ?? null) : $this;
+        return $condition ? $this->throw(\func_get_args()[1] ?? null) : $this;
     }
 
     /**

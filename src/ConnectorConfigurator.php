@@ -34,7 +34,7 @@ class ConnectorConfigurator
         $clone = clone $connector;
 
         foreach ($this->middleware as $name => $middleware) {
-            $clone->middleware()->unshift($middleware, is_string($name) ? $name : '');
+            $clone->middleware()->unshift($middleware, \is_string($name) ? $name : '');
         }
 
         return $clone;

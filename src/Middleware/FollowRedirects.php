@@ -88,7 +88,7 @@ final class FollowRedirects
             $safeMethods = ['GET', 'HEAD', 'OPTIONS'];
             $requestMethod = $request->getMethod();
 
-            $method = in_array($requestMethod, $safeMethods) ? $requestMethod : 'GET';
+            $method = \in_array($requestMethod, $safeMethods) ? $requestMethod : 'GET';
 
             $redirectRequest = $redirectRequest->withMethod($method);
         }
@@ -117,7 +117,7 @@ final class FollowRedirects
             Util::uri($response->getHeaderLine('Location'))
         );
 
-        if (! in_array($location->getScheme(), $this->protocols)) {
+        if (! \in_array($location->getScheme(), $this->protocols)) {
             throw new \RuntimeException(sprintf('Redirect URI, %s, does not use one of the allowed redirect protocols: %s', $location, implode(', ', $this->protocols)));
         }
 
