@@ -24,8 +24,11 @@ class Delay implements DelayStrategyInterface
      */
     private $maxDelayMs;
 
-    public function __construct(int $delayMs = 1000, float $multiplier = 1.0, int $maxDelayMs = 0)
-    {
+    public function __construct(
+        int $delayMs = 1000,
+        float $multiplier = 1.0,
+        int $maxDelayMs = 0
+    ) {
         if ($delayMs < 0) {
             throw new InvalidArgumentException(sprintf('Delay must be greater than or equal to zero: "%s" given.', $delayMs));
         }

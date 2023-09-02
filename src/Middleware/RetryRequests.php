@@ -22,10 +22,24 @@ final class RetryRequests
      */
     private $strategy;
 
-    public function __construct(RetryStrategyInterface $strategy, int $maxRetries = 3, bool $throw = true)
-    {
+    /**
+     * @var callable(int $delayMs): void
+     */
+    private static $pauserHandler;
+
+    public function __construct(
+        RetryStrategyInterface $strategy,
+        int $maxRetries = 3,
+        bool $throw = true
+    ) {
         $this->context = new RetryContext($maxRetries, $throw);
         $this->strategy = $strategy;
+
+        if (! \is_callable(self::$pauserHandler)) {
+            self::$pauserHandler = static function (int $delay): void {
+                \usleep($delay * 1000);
+            };
+        }
     }
 
     /**
@@ -57,7 +71,7 @@ final class RetryRequests
         $delay = $this->getDelayFromHeaders($response) ?? $this->strategy->delay($this->context);
 
         if ($delay > 0) {
-            \usleep($delay * 1000);
+            (self::$pauserHandler)($delay);
         }
 
         return $this($request, $next);
