@@ -22,16 +22,16 @@ final class Util
         }
 
         $results = [];
-        $segments = explode('/', $path);
+        $segments = \explode('/', $path);
         foreach ($segments as $segment) {
             if ($segment === '..') {
-                array_pop($results);
+                \array_pop($results);
             } elseif ($segment !== '.') {
                 $results[] = $segment;
             }
         }
 
-        $newPath = implode('/', $results);
+        $newPath = \implode('/', $results);
 
         if ($path[0] === '/' && (! isset($newPath[0]) || $newPath[0] !== '/')) {
             // Re-add the leading slash if necessary for cases like "/.."
@@ -76,11 +76,11 @@ final class Util
                     if ($targetAuthority != '' && $base->getPath() === '') {
                         $targetPath = '/'.$relative->getPath();
                     } else {
-                        $lastSlashPos = strrpos($base->getPath(), '/');
+                        $lastSlashPos = \strrpos($base->getPath(), '/');
                         if ($lastSlashPos === false) {
                             $targetPath = $relative->getPath();
                         } else {
-                            $targetPath = substr($base->getPath(), 0, $lastSlashPos + 1).$relative->getPath();
+                            $targetPath = \substr($base->getPath(), 0, $lastSlashPos + 1).$relative->getPath();
                         }
                     }
                 }

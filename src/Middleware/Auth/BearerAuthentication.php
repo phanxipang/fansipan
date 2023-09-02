@@ -10,6 +10,6 @@ final class BearerAuthentication
 
     public function __construct(string $token, string $tokenPrefix = 'Bearer')
     {
-        $this->token = $tokenPrefix.' '.trim($token);
+        $this->token = $tokenPrefix.' '.\trim($token);
     }
 }

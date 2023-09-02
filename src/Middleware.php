@@ -17,7 +17,7 @@ final class Middleware implements \IteratorAggregate, \Countable
     public function __construct(array $middleware = [])
     {
         foreach ($middleware as $name => $value) {
-            $this->push($value, is_string($name) ? $name : '');
+            $this->push($value, \is_string($name) ? $name : '');
         }
     }
 
@@ -33,7 +33,7 @@ final class Middleware implements \IteratorAggregate, \Countable
      */
     public function unshift(callable $middleware, string $name = ''): self
     {
-        array_unshift($this->middleware, [$middleware, $name]);
+        \array_unshift($this->middleware, [$middleware, $name]);
 
         return $this;
     }
@@ -57,7 +57,7 @@ final class Middleware implements \IteratorAggregate, \Countable
      */
     public function prepend(callable $middleware, string $name = ''): self
     {
-        array_unshift($this->middleware, [$middleware, $name]);
+        \array_unshift($this->middleware, [$middleware, $name]);
 
         return $this;
     }
@@ -93,8 +93,8 @@ final class Middleware implements \IteratorAggregate, \Countable
      */
     public function remove($remove): self
     {
-        $idx = is_callable($remove) ? 0 : 1;
-        $this->middleware = array_values(array_filter(
+        $idx = \is_callable($remove) ? 0 : 1;
+        $this->middleware = \array_values(\array_filter(
             $this->middleware,
             static function ($tuple) use ($idx, $remove) {
                 return $tuple[$idx] !== $remove;
@@ -111,7 +111,7 @@ final class Middleware implements \IteratorAggregate, \Countable
 
     public function count(): int
     {
-        return count($this->middleware);
+        return \count($this->middleware);
     }
 
     /**
@@ -153,16 +153,16 @@ final class Middleware implements \IteratorAggregate, \Countable
 
         if ($before) {
             if ($idx === 0) {
-                array_unshift($this->middleware, $tuple);
+                \array_unshift($this->middleware, $tuple);
             } else {
                 $replacement = [$tuple, $this->middleware[$idx]];
-                array_splice($this->middleware, $idx, 1, $replacement);
+                \array_splice($this->middleware, $idx, 1, $replacement);
             }
-        } elseif ($idx === count($this->middleware) - 1) {
+        } elseif ($idx === \count($this->middleware) - 1) {
             $this->middleware[] = $tuple;
         } else {
             $replacement = [$this->middleware[$idx], $tuple];
-            array_splice($this->middleware, $idx, 1, $replacement);
+            \array_splice($this->middleware, $idx, 1, $replacement);
         }
     }
 }

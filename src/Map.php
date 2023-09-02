@@ -29,7 +29,7 @@ class Map implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     public function has(string $key): bool
     {
-        return array_key_exists($key, $this->parameters);
+        return \array_key_exists($key, $this->parameters);
     }
 
     /**
@@ -123,7 +123,7 @@ class Map implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function count(): int
     {
-        return count($this->parameters);
+        return \count($this->parameters);
     }
 
     /**
@@ -151,7 +151,7 @@ class Map implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     protected function assertArray($value): void
     {
-        if (! is_array($value)) {
+        if (! \is_array($value)) {
             throw new \UnexpectedValueException('The value must be an array.');
         }
     }

@@ -19,14 +19,14 @@ final class XmlDecoder implements DecoderInterface
             throw NotDecodableException::create();
         }
 
-        $xml = simplexml_load_string((string) $response->getBody());
+        $xml = \simplexml_load_string((string) $response->getBody());
 
         if (! $xml) {
             return [];
         }
 
-        return json_decode(
-            json_encode($xml) ?: '[]', true
+        return \json_decode(
+            \json_encode($xml) ?: '[]', true
         );
     }
 
@@ -35,6 +35,6 @@ final class XmlDecoder implements DecoderInterface
      */
     private function supports(ResponseInterface $response): bool
     {
-        return mb_strpos($response->getHeaderLine('Content-Type'), 'xml') !== false;
+        return \mb_strpos($response->getHeaderLine('Content-Type'), 'xml') !== false;
     }
 }

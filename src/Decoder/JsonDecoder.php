@@ -19,7 +19,7 @@ final class JsonDecoder implements DecoderInterface
             throw NotDecodableException::create();
         }
 
-        return json_decode((string) $response->getBody(), true) ?? [];
+        return \json_decode((string) $response->getBody(), true) ?? [];
     }
 
     /**
@@ -27,6 +27,6 @@ final class JsonDecoder implements DecoderInterface
      */
     private function supports(ResponseInterface $response): bool
     {
-        return mb_strpos($response->getHeaderLine('Content-Type'), 'json') !== false;
+        return \mb_strpos($response->getHeaderLine('Content-Type'), 'json') !== false;
     }
 }

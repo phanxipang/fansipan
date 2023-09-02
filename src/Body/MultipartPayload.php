@@ -28,7 +28,7 @@ final class MultipartPayload extends Map implements PayloadInterface
     {
         parent::__construct($parameters);
 
-        $this->boundary = $boundary ?: bin2hex(random_bytes(20));
+        $this->boundary = $boundary ?: \bin2hex(\random_bytes(20));
     }
 
     /**
@@ -57,13 +57,13 @@ final class MultipartPayload extends Map implements PayloadInterface
     private function part(string $name, $value): string
     {
         // Set a default content-disposition header
-        $headers['Content-Disposition'] = sprintf(
+        $headers['Content-Disposition'] = \sprintf(
             'form-data; name="%s"', $name
         );
 
         if ($value instanceof MultipartInterface) {
             if ($filename = $value->filename()) {
-                $headers['Content-Disposition'] .= sprintf('; filename="%s"', basename($filename));
+                $headers['Content-Disposition'] .= \sprintf('; filename="%s"', \basename($filename));
             }
 
             // Set a default Content-Type
@@ -102,7 +102,7 @@ final class MultipartPayload extends Map implements PayloadInterface
         $str = '';
 
         foreach ($this->parts() as $part) {
-            $str .= '--'.$this->boundary."\r\n".trim($part)."\r\n";
+            $str .= '--'.$this->boundary."\r\n".\trim($part)."\r\n";
         }
 
         $str .= '--'.$this->boundary."--\r\n";

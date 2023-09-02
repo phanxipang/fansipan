@@ -45,7 +45,7 @@ final class RetryRequests
         if ($stop) {
             if ($this->context->throwable()) {
                 throw new RequestRetryFailedException(
-                    sprintf('Maximum %d retries reached.', $this->context->maxRetries()),
+                    \sprintf('Maximum %d retries reached.', $this->context->maxRetries()),
                     $request,
                     $response
                 );
@@ -57,7 +57,7 @@ final class RetryRequests
         $delay = $this->getDelayFromHeaders($response) ?? $this->strategy->delay($this->context);
 
         if ($delay > 0) {
-            usleep($delay * 1000);
+            \usleep($delay * 1000);
         }
 
         return $this($request, $next);
@@ -71,12 +71,12 @@ final class RetryRequests
         $after = $response->getHeaderLine('Retry-After');
 
         if ($after) {
-            if (is_numeric($after)) {
+            if (\is_numeric($after)) {
                 return (int) ($after * 1000);
             }
 
-            if ($time = strtotime($after)) {
-                return max(0, $time - time()) * 1000;
+            if ($time = \strtotime($after)) {
+                return \max(0, $time - \time()) * 1000;
             }
         }
 

@@ -57,11 +57,11 @@ final class MultipartResource implements MultipartInterface
             return null;
         }
 
-        if (class_exists(MimeType::class)) {
+        if (\class_exists(MimeType::class)) {
             return MimeType::fromFilename($filename);
         }
 
-        if (class_exists(MimeTypes::class)) {
+        if (\class_exists(MimeTypes::class)) {
             return MimeTypes::getDefault()->guessMimeType($filename);
         }
 
@@ -71,7 +71,7 @@ final class MultipartResource implements MultipartInterface
             return null;
         }
 
-        return finfo_file($finfo, $filename) ?: null;
+        return \finfo_file($finfo, $filename) ?: null;
     }
 
     /**
@@ -81,7 +81,7 @@ final class MultipartResource implements MultipartInterface
     {
         $uri = $stream->getMetadata('uri');
 
-        if ($uri && is_string($uri) && substr($uri, 0, 6) !== 'php://' && substr($uri, 0, 7) !== 'data://') {
+        if ($uri && \is_string($uri) && \substr($uri, 0, 6) !== 'php://' && \substr($uri, 0, 7) !== 'data://') {
             return basename($uri);
         }
 
@@ -111,7 +111,7 @@ final class MultipartResource implements MultipartInterface
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
 
         if ($content instanceof \SplFileInfo) {
-            $stream = $streamFactory->createStream(file_get_contents($content->getPathname()) ?: '');
+            $stream = $streamFactory->createStream(\file_get_contents($content->getPathname()) ?: '');
 
             return new self(
                 $stream,
@@ -120,7 +120,7 @@ final class MultipartResource implements MultipartInterface
             );
         }
 
-        if (is_resource($content)) {
+        if (\is_resource($content)) {
             return new self(
                 $streamFactory->createStreamFromResource($content),
                 $filename,
@@ -128,7 +128,7 @@ final class MultipartResource implements MultipartInterface
             );
         }
 
-        if (is_string($content)) {
+        if (\is_string($content)) {
             try {
                 $stream = $streamFactory->createStreamFromFile($content);
             } catch (\Throwable $e) {

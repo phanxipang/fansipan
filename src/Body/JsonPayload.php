@@ -34,6 +34,6 @@ final class JsonPayload extends Map implements PayloadInterface
      */
     public function __toString()
     {
-        return json_encode($this->all(), $this->flags) ?: '';
+        return \json_encode($this->all(), $this->flags) ?: '';
     }
 }

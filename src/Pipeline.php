@@ -35,7 +35,7 @@ final class Pipeline implements PipelineInterface
     {
         $clone = clone $this;
 
-        $clone->pipes = $pipes instanceof \Traversable ? iterator_to_array($pipes) : $pipes;
+        $clone->pipes = $pipes instanceof \Traversable ? \iterator_to_array($pipes) : $pipes;
 
         return $clone;
     }
@@ -44,15 +44,15 @@ final class Pipeline implements PipelineInterface
     {
         $clone = clone $this;
 
-        array_push($clone->pipes, ...$pipes);
+        \array_push($clone->pipes, ...$pipes);
 
         return $clone;
     }
 
     public function then(Closure $destination)
     {
-        $pipeline = array_reduce(
-            array_reverse($this->pipes), $this->carry(), $this->prepareDestination($destination)
+        $pipeline = \array_reduce(
+            \array_reverse($this->pipes), $this->carry(), $this->prepareDestination($destination)
         );
 
         return $pipeline($this->passable);

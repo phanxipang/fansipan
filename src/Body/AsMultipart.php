@@ -13,6 +13,6 @@ trait AsMultipart
      */
     protected function definePayload(): PayloadInterface
     {
-        return new MultipartPayload(is_array($this->defaultBody()) ? $this->defaultBody() : []);
+        return new MultipartPayload(\is_array($this->defaultBody()) ? $this->defaultBody() : []);
     }
 }
