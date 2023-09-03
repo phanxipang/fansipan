@@ -66,6 +66,7 @@ class ConnectorConfigurator
     /**
      * Indicate that redirects should be followed for current request.
      *
+     * @param  string[] $protocols
      * @return static
      */
     public function followRedirects(
