@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\ConnectorConfigurator;
+use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Middleware\Interceptor;
 use Jenky\Atlas\Mock\MockResponse;
 use Jenky\Atlas\Mock\ScopingMockClient;
-use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Tests\Services\DummyRequest;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
 use Psr\Http\Message\RequestInterface;
