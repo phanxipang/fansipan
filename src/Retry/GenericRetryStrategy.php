@@ -52,7 +52,7 @@ final class GenericRetryStrategy implements RetryStrategyInterface
         }
 
         if (isset($this->statusCodes[$status]) && \is_array($this->statusCodes[$status])) {
-            return in_array(mb_strtoupper($request->getMethod()), $this->statusCodes[$status], true);
+            return \in_array(\mb_strtoupper($request->getMethod()), $this->statusCodes[$status], true);
         }
 
         return false;
