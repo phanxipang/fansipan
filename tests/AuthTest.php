@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
+use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Middleware\Auth\BasicAuthentication;
 use Jenky\Atlas\Middleware\Auth\BearerAuthentication;
 use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
-use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Tests\Services\DummyRequest;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

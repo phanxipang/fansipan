@@ -6,10 +6,10 @@ namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Exception\TooManyRedirectsException;
+use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Middleware\FollowRedirects;
 use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
-use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Tests\Services\DummyRequest;
 
 final class FollowRedirectsTest extends TestCase
