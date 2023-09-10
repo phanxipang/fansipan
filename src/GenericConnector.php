@@ -7,7 +7,7 @@ namespace Jenky\Atlas;
 use Jenky\Atlas\Contracts\ConnectorInterface;
 use Jenky\Atlas\Traits\ConnectorTrait;
 
-final class NullConnector implements ConnectorInterface
+final class GenericConnector implements ConnectorInterface
 {
     use ConnectorTrait;
 }

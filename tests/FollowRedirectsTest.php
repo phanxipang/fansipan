@@ -9,7 +9,7 @@ use Jenky\Atlas\Exception\TooManyRedirectsException;
 use Jenky\Atlas\Middleware\FollowRedirects;
 use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
-use Jenky\Atlas\NullConnector;
+use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Tests\Services\DummyRequest;
 
 final class FollowRedirectsTest extends TestCase
@@ -21,7 +21,7 @@ final class FollowRedirectsTest extends TestCase
             MockResponse::create(''),
         ]);
 
-        $connector = (new NullConnector())->withClient($client);
+        $connector = (new GenericConnector())->withClient($client);
 
         $response = $connector->send(new DummyRequest('http://localhost'));
 
@@ -39,7 +39,7 @@ final class FollowRedirectsTest extends TestCase
 
         $connector = (new ConnectorConfigurator())
             ->followRedirects()
-            ->configure((new NullConnector())->withClient($client));
+            ->configure((new GenericConnector())->withClient($client));
 
         $response = $connector->send(new DummyRequest('http://localhost'));
 
@@ -55,7 +55,7 @@ final class FollowRedirectsTest extends TestCase
             MockResponse::create(''),
         ]);
 
-        $connector = (new NullConnector())->withClient($client);
+        $connector = (new GenericConnector())->withClient($client);
         $connector->middleware()->push(new FollowRedirects(1));
 
         $this->expectException(TooManyRedirectsException::class);
@@ -70,10 +70,10 @@ final class FollowRedirectsTest extends TestCase
             MockResponse::create(''),
         ]);
 
-        $connector = (new NullConnector())->withClient($client);
+        $connector = (new GenericConnector())->withClient($client);
         $connector = (new ConnectorConfigurator())
             ->followRedirects()
-            ->configure((new NullConnector())->withClient($client));
+            ->configure((new GenericConnector())->withClient($client));
 
         $response = $connector->send(new DummyRequest('http://localhost'));
 

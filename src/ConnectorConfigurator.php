@@ -50,7 +50,7 @@ class ConnectorConfigurator
         ?RetryStrategyInterface $retryStrategy = null,
         bool $throw = true
     ) {
-        $strategy = $retryStrategy ?: new GenericRetryStrategy(new Delay(1000, 2.0));
+        $strategy = $retryStrategy ?? new GenericRetryStrategy(new Delay(1000, 2.0));
 
         $clone = clone $this;
 
