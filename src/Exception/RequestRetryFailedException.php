@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Exception;
 
-class RequestRetryFailedException extends RequestAwareException
+class RequestRetryFailedException extends RequestException
 {
 }
