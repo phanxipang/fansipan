@@ -221,7 +221,7 @@ final class Response implements \ArrayAccess, \Stringable
         if ($this->failed()) {
             $exception = $this->toException();
 
-            if ($callback && is_callable($callback)) {
+            if ($callback && \is_callable($callback)) {
                 $callback($this, $exception);
             }
 

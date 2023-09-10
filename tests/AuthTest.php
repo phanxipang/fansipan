@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
+use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Middleware\Auth\BasicAuthentication;
 use Jenky\Atlas\Middleware\Auth\BearerAuthentication;
 use Jenky\Atlas\Mock\MockClient;
 use Jenky\Atlas\Mock\MockResponse;
-use Jenky\Atlas\NullConnector;
 use Jenky\Atlas\Tests\Services\DummyRequest;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -49,7 +49,7 @@ final class AuthTest extends TestCase
         $client = new MockClient(
             MockResponse::create(['authenticated' => true])
         );
-        $connector = (new NullConnector())->withClient($client);
+        $connector = (new GenericConnector())->withClient($client);
         $connector->middleware()->push($this->fakeBasicAuthentication('foo', 'password'), 'fake_auth');
 
         $response = $connector->send(new DummyRequest('http://localhost'));
@@ -67,7 +67,7 @@ final class AuthTest extends TestCase
     public function test_token_auth(): void
     {
         $client = new MockClient();
-        $connector = (new NullConnector())->withClient($client);
+        $connector = (new GenericConnector())->withClient($client);
         $connector->middleware()->push($this->fakeTokenAuthentication('#zKh#4KNu$Bq4^b97KJ6'), 'fake_auth');
 
         $response = $connector->send(new DummyRequest('http://localhost'));

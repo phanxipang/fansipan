@@ -11,6 +11,6 @@ abstract class ConnectorlessRequest extends Request
      */
     final public function send(): Response
     {
-        return (new NullConnector())->send($this);
+        return (new GenericConnector())->send($this);
     }
 }

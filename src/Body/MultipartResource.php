@@ -82,7 +82,7 @@ final class MultipartResource implements MultipartInterface
         $uri = $stream->getMetadata('uri');
 
         if ($uri && \is_string($uri) && \substr($uri, 0, 6) !== 'php://' && \substr($uri, 0, 7) !== 'data://') {
-            return basename($uri);
+            return \basename($uri);
         }
 
         return null;

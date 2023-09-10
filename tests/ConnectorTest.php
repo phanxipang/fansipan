@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\ConnectorConfigurator;
+use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Middleware\Interceptor;
 use Jenky\Atlas\Mock\MockResponse;
 use Jenky\Atlas\Mock\ScopingMockClient;
-use Jenky\Atlas\NullConnector;
 use Jenky\Atlas\Tests\Services\DummyRequest;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
 use Psr\Http\Message\RequestInterface;
@@ -18,7 +18,7 @@ final class ConnectorTest extends TestCase
 {
     public function test_middleware(): void
     {
-        $connector = new NullConnector();
+        $connector = new GenericConnector();
 
         $connector->middleware()->push(static function (RequestInterface $request, callable $next) {
             return $next(
