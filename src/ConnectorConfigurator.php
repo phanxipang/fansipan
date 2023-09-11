@@ -10,32 +10,46 @@ use Jenky\Atlas\Middleware\FollowRedirects;
 use Jenky\Atlas\Middleware\RetryRequests;
 use Jenky\Atlas\Retry\Delay;
 use Jenky\Atlas\Retry\GenericRetryStrategy;
+use Jenky\Atlas\Retry\RetryContext;
 
+/**
+ * @template T of ConnectorInterface
+ */
 class ConnectorConfigurator
 {
     /**
-     * @var array<array-key, callable(\Psr\Http\Message\RequestInterface, callable): \Psr\Http\Message\ResponseInterface>
+     * @var array
      */
-    protected $middleware = [];
+    private $handlers = [];
 
     /**
      * Configure the given connector with options for current request.
      *
-     * @template T of ConnectorInterface
      * @param  T $connector
      * @return T
      */
     final public function configure(ConnectorInterface $connector): ConnectorInterface
     {
-        if (empty($this->middleware)) {
-            return $connector;
-        }
-
         $clone = clone $connector;
 
-        foreach ($this->middleware as $name => $middleware) {
-            $clone->middleware()->unshift($middleware, \is_string($name) ? $name : '');
+        foreach ($this->handlers as $handler) {
+            $handler($clone);
         }
+
+        return $clone;
+    }
+
+    /**
+     * Register a configuration handler.
+     *
+     * @param  \Closure(T): void $handler
+     * @return static
+     */
+    protected function register(\Closure $handler)
+    {
+        $clone = clone $this;
+
+        $clone->handlers[] = $handler;
 
         return $clone;
     }
@@ -50,17 +64,16 @@ class ConnectorConfigurator
         ?RetryStrategyInterface $retryStrategy = null,
         bool $throw = true
     ) {
-        $strategy = $retryStrategy ?? new GenericRetryStrategy(new Delay(1000, 2.0));
-
-        $clone = clone $this;
-
-        $clone->middleware['retry_requests'] = new RetryRequests(
-            $strategy,
-            $maxRetries,
-            $throw
-        );
-
-        return $clone;
+        return $this->register(function (ConnectorInterface $connector) use ($retryStrategy, $maxRetries, $throw) {
+            $strategy = $retryStrategy ?? new GenericRetryStrategy(new Delay(1000, 2.0));
+            $connector->middleware()->unshift(new RetryRequests(
+                $strategy, new RetryContext(
+                    $connector->client(),
+                    $maxRetries,
+                    $throw
+                )
+            ), 'retry_requests');
+        });
     }
 
     /**
@@ -75,15 +88,13 @@ class ConnectorConfigurator
         bool $strict = false,
         bool $referer = false
     ) {
-        $clone = clone $this;
-
-        $clone->middleware['follow_redirects'] = new FollowRedirects(
-            $max,
-            $protocols,
-            $strict,
-            $referer
-        );
-
-        return $clone;
+        return $this->register(function (ConnectorInterface $connector) use ($max, $protocols, $strict, $referer) {
+            $connector->middleware()->unshift(new FollowRedirects(
+                $max,
+                $protocols,
+                $strict,
+                $referer
+            ), 'follow_redirects');
+        });
     }
 }

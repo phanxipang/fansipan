@@ -13,39 +13,25 @@ use Psr\Http\Message\ResponseInterface;
 final class RetryRequests
 {
     /**
-     * @var \Jenky\Atlas\Retry\RetryContext
+     * @var RetryContext
      */
     private $context;
 
     /**
-     * @var \Jenky\Atlas\Contracts\RetryStrategyInterface
+     * @var RetryStrategyInterface
      */
     private $strategy;
 
-    /**
-     * @var callable(int): void
-     */
-    private $pauseHandler;
-
-    /**
-     * @param null|callable(int $delayMs): void $pauseHandler
-     */
     public function __construct(
         RetryStrategyInterface $strategy,
-        int $maxRetries = 3,
-        bool $throw = true,
-        ?callable $pauseHandler = null
+        RetryContext $context
     ) {
-        $this->context = new RetryContext($maxRetries, $throw);
+        $this->context = $context;
         $this->strategy = $strategy;
-
-        $this->pauseHandler = $pauseHandler ?? static function (int $delay): void {
-            \usleep($delay * 1000);
-        };
     }
 
     /**
-     * @throws \Jenky\Atlas\Exception\RequestRetryFailedException
+     * @throws RequestRetryFailedException
      */
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
@@ -56,16 +42,9 @@ final class RetryRequests
         }
 
         $this->context->attempting();
-        $stop = $this->context->maxRetries() < $this->context->attempts();
 
-        if ($stop) {
-            if ($this->context->throwable()) {
-                throw new RequestRetryFailedException(
-                    \sprintf('Maximum %d retries reached.', $this->context->maxRetries()),
-                    $request,
-                    $response
-                );
-            }
+        if ($this->context->shouldStop()) {
+            $this->context->throwExceptionIfNeeded($request, $response);
 
             return $response;
         }
@@ -73,7 +52,7 @@ final class RetryRequests
         $delay = $this->getDelayFromHeaders($response) ?? $this->strategy->delay($this->context);
 
         if ($delay > 0) {
-            ($this->pauseHandler)($delay);
+            $this->context->pause($delay);
         }
 
         return $this($request, $next);
