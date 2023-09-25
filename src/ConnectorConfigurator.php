@@ -10,7 +10,6 @@ use Jenky\Atlas\Middleware\FollowRedirects;
 use Jenky\Atlas\Middleware\RetryRequests;
 use Jenky\Atlas\Retry\Delay;
 use Jenky\Atlas\Retry\GenericRetryStrategy;
-use Jenky\Atlas\Retry\RetryContext;
 
 /**
  * @template T of ConnectorInterface
@@ -66,13 +65,11 @@ class ConnectorConfigurator
     ) {
         return $this->register(function (ConnectorInterface $connector) use ($retryStrategy, $maxRetries, $throw) {
             $strategy = $retryStrategy ?? new GenericRetryStrategy(new Delay(1000, 2.0));
-            $connector->middleware()->unshift(new RetryRequests(
-                $strategy, new RetryContext(
-                    $connector->client(),
-                    $maxRetries,
-                    $throw
-                )
-            ), 'retry_requests');
+            $middleware = new RetryRequests($strategy, $maxRetries, $throw);
+            $connector->middleware()->unshift(
+                $middleware->withClient($connector->client()),
+                'retry_requests'
+            );
         });
     }
 

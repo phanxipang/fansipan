@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jenky\Atlas\Retry;
 
 use Jenky\Atlas\Exception\RequestRetryFailedException;
-use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -14,11 +13,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class RetryContext
 {
-    /**
-     * @var ClientInterface
-     */
-    private $client;
-
     /**
      * @var int
      */
@@ -35,11 +29,9 @@ final class RetryContext
     private $throw;
 
     public function __construct(
-        ClientInterface $client,
         int $maxRetries = 3,
         bool $throw = true
     ) {
-        $this->client = $client;
         $this->maxRetries = $maxRetries;
         $this->throw = $throw;
     }
@@ -52,15 +44,6 @@ final class RetryContext
     public function attempts(): int
     {
         return $this->attempts;
-    }
-
-    public function pause(int $delayMs): void
-    {
-        if (\method_exists($this->client, 'pause')) {
-            $this->client->pause($delayMs);
-        }
-
-        \usleep($delayMs * 1000);
     }
 
     public function shouldStop(): bool

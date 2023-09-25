@@ -7,6 +7,7 @@ namespace Jenky\Atlas\Middleware;
 use Jenky\Atlas\Contracts\RetryStrategyInterface;
 use Jenky\Atlas\Exception\RequestRetryFailedException;
 use Jenky\Atlas\Retry\RetryContext;
+use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -22,12 +23,29 @@ final class RetryRequests
      */
     private $strategy;
 
+    /**
+     * @var ClientInterface|null
+     */
+    private $client;
+
     public function __construct(
         RetryStrategyInterface $strategy,
-        RetryContext $context
+        int $maxRetries = 3,
+        bool $throw = true
     ) {
-        $this->context = $context;
+        $this->context = new RetryContext($maxRetries, $throw);
         $this->strategy = $strategy;
+    }
+
+    /**
+     * Set the client.
+     */
+    public function withClient(ClientInterface $client): self
+    {
+        $clone = clone $this;
+        $clone->client = $client;
+
+        return $clone;
     }
 
     /**
@@ -52,7 +70,11 @@ final class RetryRequests
         $delay = $this->getDelayFromHeaders($response) ?? $this->strategy->delay($this->context);
 
         if ($delay > 0) {
-            $this->context->pause($delay);
+            if ($this->client !== null && \method_exists($this->client, 'delay')) {
+                $this->client->delay($delay);
+            } else {
+                \usleep($delay * 1000);
+            }
         }
 
         return $this($request, $next);
