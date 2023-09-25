@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
+use Fansipan\Mock\MockResponse;
+use Fansipan\Mock\ScopingMockClient;
 use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Middleware\Interceptor;
-use Fansipan\Mock\MockResponse;
-use Fansipan\Mock\ScopingMockClient;
 use Jenky\Atlas\Tests\Services\DummyRequest;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
 use Psr\Http\Message\RequestInterface;

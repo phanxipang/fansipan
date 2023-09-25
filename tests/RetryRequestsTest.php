@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
-use Jenky\Atlas\ConnectorConfigurator;
-use Jenky\Atlas\Exception\RequestRetryFailedException;
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
+use Jenky\Atlas\ConnectorConfigurator;
+use Jenky\Atlas\Exception\RequestRetryFailedException;
 use Jenky\Atlas\Retry\Backoff;
 use Jenky\Atlas\Retry\RetryCallback;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;

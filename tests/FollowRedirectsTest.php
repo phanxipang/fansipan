@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
+use Fansipan\Mock\MockClient;
+use Fansipan\Mock\MockResponse;
 use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Exception\TooManyRedirectsException;
 use Jenky\Atlas\GenericConnector;
 use Jenky\Atlas\Middleware\FollowRedirects;
-use Fansipan\Mock\MockClient;
-use Fansipan\Mock\MockResponse;
 use Jenky\Atlas\Tests\Services\DummyRequest;
 
 final class FollowRedirectsTest extends TestCase
