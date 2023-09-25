@@ -6,8 +6,8 @@ namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\Body\MultipartResource;
 use Jenky\Atlas\Exception\HttpException;
-use Jenky\Atlas\Mock\MockClient;
-use Jenky\Atlas\Mock\MockResponse;
+use Fansipan\Mock\MockClient;
+use Fansipan\Mock\MockResponse;
 use Jenky\Atlas\Response;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
 use Jenky\Atlas\Tests\Services\HTTPBin\DTO\Uuid;

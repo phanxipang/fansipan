@@ -6,8 +6,8 @@ namespace Jenky\Atlas\Tests;
 
 use Jenky\Atlas\ConnectorConfigurator;
 use Jenky\Atlas\Exception\RequestRetryFailedException;
-use Jenky\Atlas\Mock\MockClient;
-use Jenky\Atlas\Mock\MockResponse;
+use Fansipan\Mock\MockClient;
+use Fansipan\Mock\MockResponse;
 use Jenky\Atlas\Retry\Backoff;
 use Jenky\Atlas\Retry\RetryCallback;
 use Jenky\Atlas\Tests\Services\HTTPBin\Connector;

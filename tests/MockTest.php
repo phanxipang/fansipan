@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jenky\Atlas\Tests;
 
+use Fansipan\Mock\MockClient;
+use Fansipan\Mock\MockResponse;
+use Fansipan\Mock\ScopingMockClient;
+use Fansipan\Mock\Uri;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Jenky\Atlas\Mock\MockClient;
-use Jenky\Atlas\Mock\MockResponse;
-use Jenky\Atlas\Mock\ScopingMockClient;
-use Jenky\Atlas\Mock\Uri;
 use Jenky\Atlas\Tests\Services\JsonPlaceholder\UserRequest;
 use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
 use Psr\Http\Message\RequestInterface;
