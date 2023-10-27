@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas;
+namespace Fansipan;
 
 use Closure;
-use Jenky\Atlas\Contracts\DecoderInterface;
-use Jenky\Atlas\Exception\HttpException;
+use Fansipan\Contracts\DecoderInterface;
+use Fansipan\Exception\HttpException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -20,7 +20,7 @@ final class Response implements \ArrayAccess, \Stringable
     private $response;
 
     /**
-     * @var null|\Jenky\Atlas\Contracts\DecoderInterface
+     * @var null|\Fansipan\Contracts\DecoderInterface
      */
     private $decoder;
 
@@ -64,7 +64,7 @@ final class Response implements \ArrayAccess, \Stringable
      *
      * @return array<array-key, mixed>
      *
-     * @throws \Jenky\Atlas\Exception\NotDecodableException
+     * @throws \Fansipan\Exception\NotDecodableException
      */
     private function decode(): array
     {
@@ -212,7 +212,7 @@ final class Response implements \ArrayAccess, \Stringable
     /**
      * Throw an exception if a server or client error occurred.
      *
-     * @throws \Jenky\Atlas\Exception\HttpException
+     * @throws \Fansipan\Exception\HttpException
      */
     public function throw(): self
     {
@@ -236,7 +236,7 @@ final class Response implements \ArrayAccess, \Stringable
      *
      * @param  \Closure|bool  $condition
      *
-     * @throws \Jenky\Atlas\Exception\HttpException
+     * @throws \Fansipan\Exception\HttpException
      */
     public function throwIf($condition): self
     {

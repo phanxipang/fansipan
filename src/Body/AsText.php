@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Body;
+namespace Fansipan\Body;
 
-use Jenky\Atlas\Contracts\PayloadInterface;
+use Fansipan\Contracts\PayloadInterface;
 
 trait AsText
 {

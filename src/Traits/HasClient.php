@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Traits;
+namespace Fansipan\Traits;
 
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests;
+namespace Fansipan\Tests;
 
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
 use Fansipan\Mock\ScopingMockClient;
 use Fansipan\Mock\Uri;
+use Fansipan\Tests\Services\JsonPlaceholder\UserRequest;
+use Fansipan\Tests\Services\PostmanEcho\EchoConnector;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Jenky\Atlas\Tests\Services\JsonPlaceholder\UserRequest;
-use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
 use Psr\Http\Message\RequestInterface;
 
 final class MockTest extends TestCase

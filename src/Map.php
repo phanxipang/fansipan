@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas;
+namespace Fansipan;
 
 class Map implements \ArrayAccess, \IteratorAggregate, \Countable
 {

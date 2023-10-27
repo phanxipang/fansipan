@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services\PostmanEcho;
+namespace Fansipan\Tests\Services\PostmanEcho;
 
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Response;
-use Jenky\Atlas\Tests\Services\PostmanEcho\Cookie\CookieRequests;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Response;
+use Fansipan\Tests\Services\PostmanEcho\Cookie\CookieRequests;
 
 interface EchoConnectorInterface extends ConnectorInterface
 {

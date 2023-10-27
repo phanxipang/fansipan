@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests;
+namespace Fansipan\Tests;
 
+use Fansipan\ConnectorConfigurator;
+use Fansipan\Exception\RequestRetryFailedException;
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
-use Jenky\Atlas\ConnectorConfigurator;
-use Jenky\Atlas\Exception\RequestRetryFailedException;
-use Jenky\Atlas\Retry\Backoff;
-use Jenky\Atlas\Retry\RetryCallback;
-use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
-use Jenky\Atlas\Tests\Services\HTTPBin\GetStatusRequest;
+use Fansipan\Retry\Backoff;
+use Fansipan\Retry\RetryCallback;
+use Fansipan\Tests\Services\HTTPBin\Connector;
+use Fansipan\Tests\Services\HTTPBin\GetStatusRequest;
 use PHPUnit\Framework\TestCase;
 
 final class RetryRequestsTest extends TestCase

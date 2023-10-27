@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Middleware;
+namespace Fansipan\Middleware;
 
-use Jenky\Atlas\Contracts\RetryStrategyInterface;
-use Jenky\Atlas\Exception\RequestRetryFailedException;
-use Jenky\Atlas\Retry\RetryContext;
+use Fansipan\Contracts\RetryStrategyInterface;
+use Fansipan\Exception\RequestRetryFailedException;
+use Fansipan\Retry\RetryContext;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

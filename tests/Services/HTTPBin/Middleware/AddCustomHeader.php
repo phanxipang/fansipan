@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services\HTTPBin\Middleware;
+namespace Fansipan\Tests\Services\HTTPBin\Middleware;
 
 use Psr\Http\Message\RequestInterface;
 

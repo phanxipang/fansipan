@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests;
+namespace Fansipan\Tests;
 
-use Jenky\Atlas\Body\RawPayload;
-use Jenky\Atlas\Map;
+use Fansipan\Body\RawPayload;
+use Fansipan\Map;
 
 final class PayloadTest extends TestCase
 {

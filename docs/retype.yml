@@ -1,13 +1,13 @@
 input: .
 output: .retype
-url: jenky.github.io/atlas
+url: phanxipang.github.io/fansipan
 
 branding:
-  title: Atlas
+  title: Fansipan
   label: beta
 
 edit:
-  repo: https://github.com/jenky/atlas
+  repo: https://github.com/phanxipan/fansipan
   base: /docs
 
 links:
@@ -16,7 +16,7 @@ links:
     icon: home
 
   - text: Github
-    link: https://github.com/jenky/atlas
+    link: https://github.com/phanxipan/fansipan
     icon: mark-github
     target: blank
 

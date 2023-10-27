@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services\HTTPBin;
+namespace Fansipan\Tests\Services\HTTPBin;
 
-use Jenky\Atlas\Body\AsMultipart;
-use Jenky\Atlas\Request;
+use Fansipan\Body\AsMultipart;
+use Fansipan\Request;
 
 final class PostRequest extends Request
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Atlas\Traits;
+namespace Fansipan\Traits;
 
 use BadMethodCallException;
 use Closure;

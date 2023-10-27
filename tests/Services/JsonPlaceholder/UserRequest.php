@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services\JsonPlaceholder;
+namespace Fansipan\Tests\Services\JsonPlaceholder;
 
-use Jenky\Atlas\ConnectorlessRequest;
+use Fansipan\ConnectorlessRequest;
 
 final class UserRequest extends ConnectorlessRequest
 {

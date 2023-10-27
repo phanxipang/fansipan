@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Retry;
+namespace Fansipan\Retry;
 
-use Jenky\Atlas\Exception\RequestRetryFailedException;
+use Fansipan\Exception\RequestRetryFailedException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

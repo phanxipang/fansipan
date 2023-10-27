@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Exception;
+namespace Fansipan\Exception;
 
 class ClientRequestException extends HttpException
 {

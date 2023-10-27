@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Middleware;
+namespace Fansipan\Middleware;
 
-use Jenky\Atlas\Exception\TooManyRedirectsException;
-use Jenky\Atlas\Util;
+use Fansipan\Exception\TooManyRedirectsException;
+use Fansipan\Util;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;

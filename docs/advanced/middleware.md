@@ -94,8 +94,8 @@ final class AfterMiddleware
 To register default middleware, list the middleware class in the `defaultMiddleware` method of your connector class.
 
 ```php
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Traits\ConnectorTrait;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Traits\ConnectorTrait;
 
 final class Connector implements ConnectorInterface
 {
@@ -118,10 +118,10 @@ Once the middleware has been created, you may use the `push` method to assign mi
 $connector->middleware()->push(new AddHeader('X-Foo', 'baz'));
 ```
 
-Creating a middleware that modifies a request is made much simpler using the `Jenky\Atlas\Middleware\Interceptor::request()` method. This middleware accepts a function that takes the request argument:
+Creating a middleware that modifies a request is made much simpler using the `Fansipan\Middleware\Interceptor::request()` method. This middleware accepts a function that takes the request argument:
 
 ```php
-use Jenky\Atlas\Middleware\Interceptor;
+use Fansipan\Middleware\Interceptor;
 use Psr\Http\Message\RequestInterface;
 
 $connector->middleware()->push(Interceptor::request(function (RequestInterface $request) {
@@ -129,10 +129,10 @@ $connector->middleware()->push(Interceptor::request(function (RequestInterface $
 }));
 ```
 
-Modifying a response is also much simpler using the `Jenky\Atlas\Middleware\Interceptor::response()` middleware:
+Modifying a response is also much simpler using the `Fansipan\Middleware\Interceptor::response()` middleware:
 
 ```php
-use Jenky\Atlas\Middleware\Interceptor;
+use Fansipan\Middleware\Interceptor;
 use Psr\Http\Message\ResponseInterface;
 
 $connector->middleware()->push(Interceptor::response(function (ResponseInterface $response) {

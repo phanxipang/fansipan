@@ -20,6 +20,22 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 0.5.2 - 2023-09-18
+
+### Added
+
+- Default `RequestException`
+
+### Fixed
+
+- Use global functions by @jenky in https://github.com/jenky/atlas/pull/17
+
+### Removed
+
+- `RequestAwareException` now replace by `RequestException`
+
+**Full Changelog**: https://github.com/jenky/atlas/compare/0.5.1...0.5.2
+
 ## 0.5.1 - 2023-08-21
 
 ### Fixed

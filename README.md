@@ -11,7 +11,7 @@ A simple package that allows you to write your API integrations or SDKs in a ele
 
 ## Installation & Usage
 
-This package requires PHP >= 7.2.5. You'll find installation instructions and full documentation on https://jenky.github.io/atlas.
+This package requires PHP >= 7.2.5. You'll find installation instructions and full documentation on https://phanxipang.github.io/fansipan.
 
 ## Testing
 
@@ -40,20 +40,14 @@ If you discover any security related issues, please email contact@lynh.me instea
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/jenky/atlas.svg?style=for-the-badge
+[ico-version]: https://img.shields.io/packagist/v/fansipan/fansipan.svg?style=for-the-badge
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=for-the-badge
-[ico-travis]: https://img.shields.io/travis/jenky/atlas/master.svg?style=for-the-badge
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/atlas.svg?style=for-the-badge
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/atlas.svg?style=for-the-badge
-[ico-gh-actions]: https://img.shields.io/github/actions/workflow/status/jenky/atlas/testing.yml?branch=main&label=actions&logo=github&style=for-the-badge
-[ico-codecov]: https://img.shields.io/codecov/c/github/jenky/atlas?logo=codecov&style=for-the-badge
-[ico-downloads]: https://img.shields.io/packagist/dt/jenky/atlas.svg?style=for-the-badge
+[ico-gh-actions]: https://img.shields.io/github/actions/workflow/status/phanxipang/fansipan/testing.yml?branch=main&label=actions&logo=github&style=for-the-badge
+[ico-codecov]: https://img.shields.io/codecov/c/github/phanxipang/fansipan?logo=codecov&style=for-the-badge
+[ico-downloads]: https://img.shields.io/packagist/dt/fansipan/fansipan.svg?style=for-the-badge
 
-[link-packagist]: https://packagist.org/packages/jenky/atlas
-[link-travis]: https://travis-ci.org/jenky/atlas
-[link-scrutinizer]: https://scrutinizer-ci.com/g/jenky/atlas/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/jenky/atlas
-[link-gh-actions]: https://github.com/jenky/atlas/actions
-[link-codecov]: https://codecov.io/gh/jenky/atlas
-[link-downloads]: https://packagist.org/packages/jenky/atlas
+[link-packagist]: https://packagist.org/packages/fansipan/fansipan
+[link-gh-actions]: https://github.com/phanxipang/fansipan/actions
+[link-codecov]: https://codecov.io/gh/phanxipang/fansipan
+[link-downloads]: https://packagist.org/packages/fansipan/fansipan
 
