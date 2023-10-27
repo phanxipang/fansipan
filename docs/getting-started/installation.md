@@ -5,7 +5,7 @@ order: 90
 You can install the package via composer:
 
 ```bash
-composer require jenky/atlas
+composer require fansipan/fansipan
 ```
 
 You should have at least one package that offers implementation for [PSR-7, PSR-17 and PSR-18](./requirements.md). Here are a few recommendations:

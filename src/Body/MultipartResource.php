@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Body;
+namespace Fansipan\Body;
 
+use Fansipan\Contracts\MultipartInterface;
 use GuzzleHttp\Psr7\MimeType;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Jenky\Atlas\Contracts\MultipartInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Symfony\Component\Mime\MimeTypes;

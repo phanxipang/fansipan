@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Retry;
+namespace Fansipan\Retry;
 
 use Closure;
-use Jenky\Atlas\Contracts\DelayStrategyInterface;
-use Jenky\Atlas\Contracts\RetryStrategyInterface;
+use Fansipan\Contracts\DelayStrategyInterface;
+use Fansipan\Contracts\RetryStrategyInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

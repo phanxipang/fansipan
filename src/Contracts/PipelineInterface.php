@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Contracts;
+namespace Fansipan\Contracts;
 
 use Closure;
 

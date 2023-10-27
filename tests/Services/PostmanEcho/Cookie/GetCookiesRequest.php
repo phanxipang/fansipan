@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services\PostmanEcho\Cookie;
+namespace Fansipan\Tests\Services\PostmanEcho\Cookie;
 
-use Jenky\Atlas\Request;
+use Fansipan\Request;
 
 class GetCookiesRequest extends Request
 {

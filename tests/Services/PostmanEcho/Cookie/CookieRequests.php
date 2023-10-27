@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services\PostmanEcho\Cookie;
+namespace Fansipan\Tests\Services\PostmanEcho\Cookie;
 
-use Jenky\Atlas\Response;
-use Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector;
+use Fansipan\Response;
+use Fansipan\Tests\Services\PostmanEcho\EchoConnector;
 
 class CookieRequests
 {
     /**
-     * @var \Jenky\Atlas\Tests\Services\PostmanEcho\EchoConnector
+     * @var \Fansipan\Tests\Services\PostmanEcho\EchoConnector
      */
     private $connector;
 

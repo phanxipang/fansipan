@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Body;
+namespace Fansipan\Body;
 
-use Jenky\Atlas\Contracts\PayloadInterface;
-use Jenky\Atlas\Map;
+use Fansipan\Contracts\PayloadInterface;
+use Fansipan\Map;
 
 final class JsonPayload extends Map implements PayloadInterface
 {

@@ -8,15 +8,15 @@ First, you should [install the package](./installation.md).
 
 ## Create a Connector
 
-In order to send a request. You should create a `Connector` class that implements `Jenky\Atlas\Contracts\ConnectorInterface` interface and add `Jenky\Atlas\Traits\ConnectorTrait` trait to the connector to fullfil the contract interface.
+In order to send a request. You should create a `Connector` class that implements `Fansipan\Contracts\ConnectorInterface` interface and add `Fansipan\Traits\ConnectorTrait` trait to the connector to fullfil the contract interface.
 
 Additionally, you can set the request base URI by utilizing the `baseUri` static method. If a relative URI is specified in the request `endpoint` method, the connector will merge the base URI with the relative URI, following the guidelines outlined in [RFC 3986, section 5.2](https://www.rfc-editor.org/rfc/rfc3986#section-5.2).
 
 ```php
 <?php
 
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Traits\ConnectorTrait;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Traits\ConnectorTrait;
 
 final class Connector implements ConnectorInterface
 {
@@ -31,12 +31,12 @@ final class Connector implements ConnectorInterface
 
 ## Creating Request
 
-Let's say you want to send a request to `https://httpbin.org/headers`. Create `GetHeadersRequest` class that extends the `Jenky\Atlas\Request` abstract class and set the uri in `endpoint` public method. That's all.
+Let's say you want to send a request to `https://httpbin.org/headers`. Create `GetHeadersRequest` class that extends the `Fansipan\Request` abstract class and set the uri in `endpoint` public method. That's all.
 
 ```php
 <?php
 
-use Jenky\Atlas\Request;
+use Fansipan\Request;
 
 final class GetHeadersRequest extends Request
 {
@@ -62,7 +62,7 @@ $response = $connector->send($request);
 
 ## Inspecting response
 
-The request above will return an instance of `Jenky\Atlas\Response`, which provides a variety of methods that may be used to inspect the response:
+The request above will return an instance of `Fansipan\Response`, which provides a variety of methods that may be used to inspect the response:
 
 ```php
 if ($response->failed()) {

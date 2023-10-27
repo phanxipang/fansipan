@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas;
+namespace Fansipan;
 
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Traits\ConnectorTrait;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Traits\ConnectorTrait;
 
 final class GenericConnector implements ConnectorInterface
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Retry;
+namespace Fansipan\Retry;
 
-use Jenky\Atlas\Contracts\DelayStrategyInterface;
+use Fansipan\Contracts\DelayStrategyInterface;
 
 class Backoff implements DelayStrategyInterface
 {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas;
+namespace Fansipan;
 
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Contracts\RetryStrategyInterface;
-use Jenky\Atlas\Middleware\FollowRedirects;
-use Jenky\Atlas\Middleware\RetryRequests;
-use Jenky\Atlas\Retry\Delay;
-use Jenky\Atlas\Retry\GenericRetryStrategy;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Contracts\RetryStrategyInterface;
+use Fansipan\Middleware\FollowRedirects;
+use Fansipan\Middleware\RetryRequests;
+use Fansipan\Retry\Delay;
+use Fansipan\Retry\GenericRetryStrategy;
 
 class ConnectorConfigurator
 {

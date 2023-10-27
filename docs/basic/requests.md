@@ -6,7 +6,7 @@ Requests are classes that store all the information required to make a request. 
 
 ## Making Requests
 
-Your request should extend the `Jenky\Atlas\Request` abstract class. After that, you should define the endpoint of the request by using `endpoint` method. In addition you can also set the HTTP method by using `method` method, which defaults to `GET`.
+Your request should extend the `Fansipan\Request` abstract class. After that, you should define the endpoint of the request by using `endpoint` method. In addition you can also set the HTTP method by using `method` method, which defaults to `GET`.
 
 ```php
 <?php
@@ -36,7 +36,7 @@ Some requests require specific headers or query parameters to be sent. To define
 ```php
 <?php
 
-use Jenky\Atlas\Request;
+use Fansipan\Request;
 
 final class MyRequest extends Request
 {
@@ -74,7 +74,7 @@ Most API integrations will often require sending data using a `POST`,`PUT` or `P
 ```php
 <?php
 
-use Jenky\Atlas\Request;
+use Fansipan\Request;
 
 final class MyRequest extends Request
 {
@@ -112,8 +112,8 @@ If you would like to send data using the `application/json` content type, you sh
 ```php
 <?php
 
-use Jenky\Atlas\Body\AsJson;
-use Jenky\Atlas\Request;
+use Fansipan\Body\AsJson;
+use Fansipan\Request;
 
 final class MyRequest extends Request
 {
@@ -125,7 +125,7 @@ final class MyRequest extends Request
 
 ### Multi-part requests
 
-If you would like to send files as multi-part requests, you should create your file using `Jenky\Atlas\Body\MultipartResource::from()` static method. This method accepts:
+If you would like to send files as multi-part requests, you should create your file using `Fansipan\Body\MultipartResource::from()` static method. This method accepts:
 - `resource` stream.
 - `string` the file absolute path in the system.
 - `Psr\Http\Message\UploadedFileInterface` instance.
@@ -134,9 +134,9 @@ If you would like to send files as multi-part requests, you should create your f
 ```php
 <?php
 
-use Jenky\Atlas\Body\AsMultipart;
-use Jenky\Atlas\Body\Multipart;
-use Jenky\Atlas\Request;
+use Fansipan\Body\AsMultipart;
+use Fansipan\Body\Multipart;
+use Fansipan\Request;
 
 final class MyRequest extends Request
 {
@@ -164,7 +164,7 @@ $request->with('image', MultipartResource::from(__DIR__.'/../path_to_image.jpg',
 ```
 
 !!!
-You can create your own multipart file to fit your application logic. It must implement the `Jenky\Atlas\Contracts\MultipartInterface`.
+You can create your own multipart file to fit your application logic. It must implement the `Fansipan\Contracts\MultipartInterface`.
 !!!
 
 ### Raw requests
@@ -174,8 +174,8 @@ You may use the `AsText` trait if you would like to provide a raw request body w
 ```php
 <?php
 
-use Jenky\Atlas\Body\AsText;
-use Jenky\Atlas\Request;
+use Fansipan\Body\AsText;
+use Fansipan\Request;
 
 final class MyRequest extends Request
 {
@@ -265,7 +265,7 @@ For example, I want to create a request to update an individual user by an ID. I
 ```php
 <?php
 
-use Jenky\Atlas\Request;
+use Fansipan\Request;
 use Psr\Http\Client\ClientInterface;
 
 final class UpdateUserRequest extends Request
@@ -326,12 +326,12 @@ While the typical setup of a connector and requests is great, sometimes all you 
 It is NOT recommended to send your requests without connector. Be aware of the [downsides](#downsides).
 !!!
 
-Create a request class, but instead of extending `Jenky\Atlas\Request`, you should extend `Jenky\Atlas\ConnectorlessRequest`. Next, just define everything else like you would a normal request. Make sure to include the full URL of the service you are integrating with.
+Create a request class, but instead of extending `Fansipan\Request`, you should extend `Fansipan\ConnectorlessRequest`. Next, just define everything else like you would a normal request. Make sure to include the full URL of the service you are integrating with.
 
 ```php
 <?php
 
-use Jenky\Atlas\ConnectorlessRequest;
+use Fansipan\ConnectorlessRequest;
 
 final class GetUsersRequest extends ConnectorlessRequest
 {

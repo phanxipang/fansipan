@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests;
+namespace Fansipan\Tests;
 
-use Jenky\Atlas\GenericConnector;
-use Jenky\Atlas\Middleware\Auth\BasicAuthentication;
-use Jenky\Atlas\Middleware\Auth\BearerAuthentication;
-use Jenky\Atlas\Mock\MockClient;
-use Jenky\Atlas\Mock\MockResponse;
-use Jenky\Atlas\Tests\Services\DummyRequest;
+use Fansipan\GenericConnector;
+use Fansipan\Middleware\Auth\BasicAuthentication;
+use Fansipan\Middleware\Auth\BearerAuthentication;
+use Fansipan\Mock\MockClient;
+use Fansipan\Mock\MockResponse;
+use Fansipan\Tests\Services\DummyRequest;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

@@ -6,10 +6,10 @@ Sometimes you may deal with APIs that fail frequently because of network issues 
 
 ## Getting Started
 
-To retry a failed request, you should use the `Jenky\Atlas\ConnectorConfigurator` to configure your connector for retrying the request. The `retry` method accepts the maximum number of times the request should be attempted, a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.
+To retry a failed request, you should use the `Fansipan\ConnectorConfigurator` to configure your connector for retrying the request. The `retry` method accepts the maximum number of times the request should be attempted, a retry strategy to decide if the request should be retried, and to define the waiting time between each retry.
 
 ```php
-use Jenky\Atlas\ConnectorConfigurator;
+use Fansipan\ConnectorConfigurator;
 
 $connector = new MyConnector();
 $response = (new ConnectorConfigurator())
@@ -29,11 +29,11 @@ $response = (new ConnectorConfigurator())
 
 By default, failed requests are retried up to 3 times, with an exponential delay between retries (first retry = 1 second; second retry: 2 seconds, third retry: 4 seconds) and only for the following HTTP status codes: `423`, `425`, `429`, `502` and `503` when using any HTTP method and `500`, `504`, `507` and `510` when using an HTTP [idempotent method](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Idempotent_methods).
 
-If needed, you may pass a third argument to the `Jenky\Atlas\RetryableConnector` instance. It is an instance of `Jenky\Atlas\Contracts\RetryStrategyInterface` that determines if the retries should actually be attempted. This will retries the failed requests with a delay of 1 second.
+If needed, you may pass a third argument to the `Fansipan\RetryableConnector` instance. It is an instance of `Fansipan\Contracts\RetryStrategyInterface` that determines if the retries should actually be attempted. This will retries the failed requests with a delay of 1 second.
 
 ```php
-use Jenky\Atlas\ConnectorConfigurator;
-use Jenky\Atlas\Retry\RetryCallback;
+use Fansipan\ConnectorConfigurator;
+use Fansipan\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -50,8 +50,8 @@ $response = (new ConnectorConfigurator())
 You may also pass second and third arguments to the `RetryCallback::when()` method to customise the waiting time between each retry.
 
 ```php
-use Jenky\Atlas\ConnectorConfigurator;
-use Jenky\Atlas\Retry\RetryCallback;
+use Fansipan\ConnectorConfigurator;
+use Fansipan\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -68,9 +68,9 @@ In the example above, failed requests are retried up to 3 times, with an exponen
 Instead of using an interval delay or calculated exponential delay, you may easily configure "exponential" backoffs by using `withDelay()` method. In this example, the retry delay will be 1 second for the first retry, 3 seconds for the second retry, and 10 seconds for the third retry:
 
 ```php
-use Jenky\Atlas\ConnectorConfigurator;
-use Jenky\Atlas\Retry\Backoff;
-use Jenky\Atlas\Retry\RetryCallback;
+use Fansipan\ConnectorConfigurator;
+use Fansipan\Retry\Backoff;
+use Fansipan\Retry\RetryCallback;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -84,13 +84,13 @@ $response = (new ConnectorConfigurator())
 
 ## Disabling Throwing Exceptions
 
-If a request fails, it will be attempted again - if it reaches the maximum number of errors, a `Jenky\Atlas\Exception\RequestRetryFailedException` will be thrown. If a request is successful at any point, it will return a `Jenky\Atlas\Response` instance.
+If a request fails, it will be attempted again - if it reaches the maximum number of errors, a `Fansipan\Exception\RequestRetryFailedException` will be thrown. If a request is successful at any point, it will return a `Fansipan\Response` instance.
 
 If you would like to disable this behavior, you may provide a `throw` argument with a value of `false`. When disabled, the last response received by the client will be returned after all retries have been attempted:
 
 
 ```php
-use Jenky\Atlas\ConnectorConfigurator;
+use Fansipan\ConnectorConfigurator;
 
 $response = (new ConnectorConfigurator())
     ->retry(2, null, throw: false)
@@ -106,8 +106,8 @@ Since middleware is mutable, adding new middleware means that all subsequent req
 ```php
 <?php
 
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Traits\ConnectorTrait;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Traits\ConnectorTrait;
 
 final class MyConnector implements ConnectorInterface
 {
@@ -116,9 +116,9 @@ final class MyConnector implements ConnectorInterface
 ```
 +++ Usage
 ```php
-use Jenky\Atlas\Middleware\RetryRequests;
-use Jenky\Atlas\Retry\Delay;
-use Jenky\Atlas\Retry\GenericRetryStrategy;
+use Fansipan\Middleware\RetryRequests;
+use Fansipan\Retry\Delay;
+use Fansipan\Retry\GenericRetryStrategy;
 
 $connector = new MyConnector();
 

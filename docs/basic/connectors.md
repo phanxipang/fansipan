@@ -15,9 +15,9 @@ To create your own HTTP client, use the `defaultClient` method.
 ```php
 <?php
 
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Traits\ConnectorTrait;
-use Jenky\Atlas\Request;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Traits\ConnectorTrait;
+use Fansipan\Request;
 use GuzzleHttp\Client;
 use Psr\Http\Client\ClientInterface;
 

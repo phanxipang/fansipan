@@ -1,9 +1,7 @@
 {
-    "name": "jenky/atlas",
+    "name": "fansipan/fansipan",
     "description": "A simple package that allows you to write your API integrations or SDKs in a elegant way.",
     "keywords": [
-        "jenky",
-        "atlas",
         "http",
         "sdk",
         "api",
@@ -11,7 +9,7 @@
         "psr17",
         "psr18"
     ],
-    "homepage": "https://github.com/jenky/atlas",
+    "homepage": "https://github.com/phanxipang/fansipan",
     "license": "MIT",
     "authors": [
         {
@@ -39,7 +37,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Jenky\\Atlas\\": "src"
+            "Fansipan\\": "src"
         },
         "classmap": [
             "stubs"
@@ -47,7 +45,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Jenky\\Atlas\\Tests\\": "tests"
+            "Fansipan\\Tests\\": "tests"
         }
     },
     "scripts": {

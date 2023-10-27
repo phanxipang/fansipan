@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Contracts;
+namespace Fansipan\Contracts;
 
-use Jenky\Atlas\Retry\RetryContext;
+use Fansipan\Retry\RetryContext;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

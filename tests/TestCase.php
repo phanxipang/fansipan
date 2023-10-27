@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Atlas\Tests;
+namespace Fansipan\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 

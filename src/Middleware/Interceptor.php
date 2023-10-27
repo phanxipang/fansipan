@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Middleware;
+namespace Fansipan\Middleware;
 
 use Closure;
 use Psr\Http\Message\RequestInterface;

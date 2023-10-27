@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Contracts;
+namespace Fansipan\Contracts;
 
-use Jenky\Atlas\Middleware;
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
+use Fansipan\Middleware;
+use Fansipan\Request;
+use Fansipan\Response;
 use Psr\Http\Client\ClientInterface;
 
 interface ConnectorInterface

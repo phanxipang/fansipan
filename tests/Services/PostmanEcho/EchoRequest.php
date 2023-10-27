@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services\PostmanEcho;
+namespace Fansipan\Tests\Services\PostmanEcho;
 
-use Jenky\Atlas\Request;
+use Fansipan\Request;
 
 final class EchoRequest extends Request
 {

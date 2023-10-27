@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests;
+namespace Fansipan\Tests;
 
-use Jenky\Atlas\Body\MultipartResource;
-use Jenky\Atlas\Exception\HttpException;
-use Jenky\Atlas\Mock\MockClient;
-use Jenky\Atlas\Mock\MockResponse;
-use Jenky\Atlas\Response;
-use Jenky\Atlas\Tests\Services\HTTPBin\Connector;
-use Jenky\Atlas\Tests\Services\HTTPBin\DTO\Uuid;
-use Jenky\Atlas\Tests\Services\HTTPBin\GetHeadersRequest;
-use Jenky\Atlas\Tests\Services\HTTPBin\GetStatusRequest;
-use Jenky\Atlas\Tests\Services\HTTPBin\GetUuidRequest;
-use Jenky\Atlas\Tests\Services\HTTPBin\GetXmlRequest;
-use Jenky\Atlas\Tests\Services\HTTPBin\PostAnythingRequest;
-use Jenky\Atlas\Tests\Services\HTTPBin\PostRequest;
-use Jenky\Atlas\Tests\Services\PostmanEcho\CurrentUtcRequest;
+use Fansipan\Body\MultipartResource;
+use Fansipan\Exception\HttpException;
+use Fansipan\Mock\MockClient;
+use Fansipan\Mock\MockResponse;
+use Fansipan\Response;
+use Fansipan\Tests\Services\HTTPBin\Connector;
+use Fansipan\Tests\Services\HTTPBin\DTO\Uuid;
+use Fansipan\Tests\Services\HTTPBin\GetHeadersRequest;
+use Fansipan\Tests\Services\HTTPBin\GetStatusRequest;
+use Fansipan\Tests\Services\HTTPBin\GetUuidRequest;
+use Fansipan\Tests\Services\HTTPBin\GetXmlRequest;
+use Fansipan\Tests\Services\HTTPBin\PostAnythingRequest;
+use Fansipan\Tests\Services\HTTPBin\PostRequest;
+use Fansipan\Tests\Services\PostmanEcho\CurrentUtcRequest;
 
 final class RequestTest extends TestCase
 {
     /**
-     * @var \Jenky\Atlas\Tests\Services\HTTPBin\Connector
+     * @var \Fansipan\Tests\Services\HTTPBin\Connector
      */
     private $connector;
 

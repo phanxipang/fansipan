@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services\PostmanEcho;
+namespace Fansipan\Tests\Services\PostmanEcho;
 
-use Jenky\Atlas\Response;
-use Jenky\Atlas\Tests\Services\PostmanEcho\Cookie\CookieRequests;
-use Jenky\Atlas\Traits\ConnectorTrait;
+use Fansipan\Response;
+use Fansipan\Tests\Services\PostmanEcho\Cookie\CookieRequests;
+use Fansipan\Traits\ConnectorTrait;
 
 final class EchoConnector implements EchoConnectorInterface
 {
