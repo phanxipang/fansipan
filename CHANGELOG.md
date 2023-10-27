@@ -20,6 +20,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 0.6.0 - 2023-10-27
+
+### What's Changed
+
+- Move to organization by @jenky in https://github.com/phanxipang/fansipan/pull/19
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/0.5.2...0.6.0
+
 ## 0.5.2 - 2023-09-18
 
 ### Added
