@@ -1,9 +1,9 @@
 <?php
 
-namespace Jenky\Atlas;
+namespace Fansipan;
 
 use Closure;
-use Jenky\Atlas\Contracts\PipelineInterface;
+use Fansipan\Contracts\PipelineInterface;
 use Throwable;
 
 final class Pipeline implements PipelineInterface

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Retry;
+namespace Fansipan\Retry;
 
+use Fansipan\Contracts\DelayStrategyInterface;
 use InvalidArgumentException;
-use Jenky\Atlas\Contracts\DelayStrategyInterface;
 
 class Delay implements DelayStrategyInterface
 {

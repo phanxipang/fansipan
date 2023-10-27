@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Body;
+namespace Fansipan\Body;
 
+use Fansipan\Contracts\MultipartInterface;
+use Fansipan\Contracts\PayloadInterface;
+use Fansipan\Map;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Jenky\Atlas\Contracts\MultipartInterface;
-use Jenky\Atlas\Contracts\PayloadInterface;
-use Jenky\Atlas\Map;
 use Psr\Http\Message\StreamInterface;
 
 final class MultipartPayload extends Map implements PayloadInterface

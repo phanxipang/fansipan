@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Traits;
+namespace Fansipan\Traits;
 
-use Jenky\Atlas\Middleware;
+use Fansipan\Middleware;
 
 trait HasMiddleware
 {
     /**
      * The middleware instance.
      *
-     * @var \Jenky\Atlas\Middleware
+     * @var \Fansipan\Middleware
      */
     private $middleware;
 

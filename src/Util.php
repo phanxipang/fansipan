@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas;
+namespace Fansipan;
 
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\RequestInterface;

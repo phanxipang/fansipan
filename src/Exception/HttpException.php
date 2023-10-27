@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Exception;
+namespace Fansipan\Exception;
 
-use Jenky\Atlas\Response;
+use Fansipan\Response;
 
 class HttpException extends ResponseAwareException
 {

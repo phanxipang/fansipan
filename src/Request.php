@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas;
+namespace Fansipan;
 
-use Jenky\Atlas\Body\FormPayload;
-use Jenky\Atlas\Contracts\DecoderInterface;
-use Jenky\Atlas\Contracts\PayloadInterface;
-use Jenky\Atlas\Decoder\ChainDecoder;
-use Jenky\Atlas\Decoder\JsonDecoder;
-use Jenky\Atlas\Decoder\XmlDecoder;
+use Fansipan\Body\FormPayload;
+use Fansipan\Contracts\DecoderInterface;
+use Fansipan\Contracts\PayloadInterface;
+use Fansipan\Decoder\ChainDecoder;
+use Fansipan\Decoder\JsonDecoder;
+use Fansipan\Decoder\XmlDecoder;
 
 abstract class Request
 {
     /**
-     * @var \Jenky\Atlas\Map
+     * @var \Fansipan\Map
      */
     private $headers;
 
     /**
-     * @var \Jenky\Atlas\Map
+     * @var \Fansipan\Map
      */
     private $query;
 
     /**
-     * @var \Jenky\Atlas\Contracts\PayloadInterface
+     * @var \Fansipan\Contracts\PayloadInterface
      */
     private $body;
 

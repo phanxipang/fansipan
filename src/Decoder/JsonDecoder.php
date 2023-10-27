@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Decoder;
+namespace Fansipan\Decoder;
 
-use Jenky\Atlas\Contracts\DecoderInterface;
-use Jenky\Atlas\Exception\NotDecodableException;
+use Fansipan\Contracts\DecoderInterface;
+use Fansipan\Exception\NotDecodableException;
 use Psr\Http\Message\ResponseInterface;
 
 final class JsonDecoder implements DecoderInterface
 {
     /**
-     * @throws \Jenky\Atlas\Exception\NotDecodableException
+     * @throws \Fansipan\Exception\NotDecodableException
      */
     public function decode(ResponseInterface $response): array
     {

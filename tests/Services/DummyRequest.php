@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services;
+namespace Fansipan\Tests\Services;
 
-use Jenky\Atlas\ConnectorlessRequest;
+use Fansipan\ConnectorlessRequest;
 
 final class DummyRequest extends ConnectorlessRequest
 {

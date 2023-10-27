@@ -7,10 +7,10 @@ label: SDK
 ## Creating SDK Connector
 
 ```php
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Middleware\Auth\BearerAuthentication;
-use Jenky\Atlas\Middleware\Interceptor;
-use Jenky\Atlas\Traits\ConnectorTrait;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Middleware\Auth\BearerAuthentication;
+use Fansipan\Middleware\Interceptor;
+use Fansipan\Traits\ConnectorTrait;
 use Psr\Http\Message\RequestInterface;
 
 final class Github implements ConnectorInterface
@@ -66,7 +66,7 @@ $github = new Github('access-token');
 When you have created the request, all that developers would need to do is to instantiate and send the request on the connector.
 
 ```php
-use Jenky\Atlas\Request;
+use Fansipan\Request;
 
 final class GetRepository extends Request
 {
@@ -108,8 +108,8 @@ Sometimes you may want to make it easy for the developer to find all the methods
 
 +++ Definition
 ```php
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Traits\ConnectorTrait;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Traits\ConnectorTrait;
 
 final class Github implements ConnectorInterface
 {
@@ -137,12 +137,12 @@ The resource pattern can help you combine your SDK requests into simple groups t
 
 ### Creating a Resource
 
-Let's start by creating a `OrganizationResource` class. This class should contain a constructor that passes in an instance of `Jenky\Atlas\Contracts\ConnectorInterface` and additional constructor arguments that you need for all request grouped under the resource.
+Let's start by creating a `OrganizationResource` class. This class should contain a constructor that passes in an instance of `Fansipan\Contracts\ConnectorInterface` and additional constructor arguments that you need for all request grouped under the resource.
 
 ```php
 <?php
 
-use Jenky\Atlas\Contracts\ConnectorInterface;
+use Fansipan\Contracts\ConnectorInterface;
 
 final class OrganizationResource
 {
@@ -175,8 +175,8 @@ Now we'll define a method on the connector which returns this resource class. Do
 ```php
 <?php
 
-use Jenky\Atlas\Contracts\ConnectorInterface;
-use Jenky\Atlas\Traits\ConnectorTrait;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Traits\ConnectorTrait;
 
 final class Github implements ConnectorInterface
 {

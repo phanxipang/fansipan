@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests;
+namespace Fansipan\Tests;
 
+use Fansipan\Body\MultipartResource;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Jenky\Atlas\Body\MultipartResource;
 
 final class MultipartTest extends TestCase
 {

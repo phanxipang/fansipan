@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Tests\Services\HTTPBin\DTO;
+namespace Fansipan\Tests\Services\HTTPBin\DTO;
 
-use Jenky\Atlas\Response;
+use Fansipan\Response;
 
 class Uuid
 {

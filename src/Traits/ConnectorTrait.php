@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Traits;
+namespace Fansipan\Traits;
 
-use Jenky\Atlas\Contracts\PipelineInterface;
-use Jenky\Atlas\Pipeline;
-use Jenky\Atlas\Request;
-use Jenky\Atlas\Response;
-use Jenky\Atlas\Util;
+use Fansipan\Contracts\PipelineInterface;
+use Fansipan\Pipeline;
+use Fansipan\Request;
+use Fansipan\Response;
+use Fansipan\Util;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

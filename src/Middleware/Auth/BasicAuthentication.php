@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jenky\Atlas\Middleware\Auth;
+namespace Fansipan\Middleware\Auth;
 
 final class BasicAuthentication
 {
