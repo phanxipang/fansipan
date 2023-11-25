@@ -2,7 +2,7 @@
 label: Retrying Requests
 ---
 
-Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. Atlas has a useful built-in feature that allows you to send a request and retry multiple times.
+Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. Fansipan has a useful built-in feature that allows you to send a request and retry multiple times.
 
 ## Getting Started
 

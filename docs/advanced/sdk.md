@@ -91,10 +91,10 @@ final class GetRepository extends Request
 $github = new Github('access-token');
 
 // Send a request straight away.
-$github->send(new GetRepository('jenky', 'atlas'));
+$github->send(new GetRepository('phanxipang', 'fansipan'));
 
 // Or if you would like to do something with the request before sending it.
-$request = new GetRepository('jenky', 'atlas');
+$request = new GetRepository('phanxipang', 'fansipan');
 $request->headers()->with('X-Foo', 'baz');
 
 $response = $connector->send($request);

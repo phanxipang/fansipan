@@ -6,11 +6,11 @@ HTTP response is a crucial aspect of web development, and it is essential to dec
 
 ### Configuring
 
-The decoder should be configured as per-request basis. By default `Fansipan\Request` uses [`ChainDecoder`](https://github.com/jenky/atlas/blob/18f96c176bed75fa321df6a675146820760e295f/src/Request.php#L124-L130) to decode the response body. Essentially, it iterates over a list of `JsonDecoder` and `XmlDecoder` and attempts to read the `Content Type` header to determine which one to use for decoding the body.
+The decoder should be configured as per-request basis. By default `Fansipan\Request` uses [`ChainDecoder`](https://github.com/phanxipang/fansipan/blob/18f96c176bed75fa321df6a675146820760e295f/src/Request.php#L124-L130) to decode the response body. Essentially, it iterates over a list of `JsonDecoder` and `XmlDecoder` and attempts to read the `Content Type` header to determine which one to use for decoding the body.
 
 ### Creating Custom Decoder
 
-To create a custom decoder, you need to implement [`DecoderInterface`](https://github.com/jenky/atlas/blob/main/src/Contracts/DecoderInterface.php) which defines the structure that a decoder must have. The contract contains only one method: `decode` where you can implement your own logic to decode the response body. Then you can start using it in your request.
+To create a custom decoder, you need to implement [`DecoderInterface`](https://github.com/phanxipang/fansipan/blob/main/src/Contracts/DecoderInterface.php) which defines the structure that a decoder must have. The contract contains only one method: `decode` where you can implement your own logic to decode the response body. Then you can start using it in your request.
 
 ```php
 use Fansipan\Contracts\DecoderInterface;

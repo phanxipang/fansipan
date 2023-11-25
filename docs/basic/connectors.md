@@ -60,7 +60,7 @@ Then you can start [sending your request](requests.md#making-requests).
 ```php
 $connector = new GithubConnector(token: 'github-token');
 
-$connector->send(new GetUserRepoRequest('jenky/atlas');
+$connector->send(new GetUserRepoRequest('phanxipang/fansipan');
 ```
 
 This allows you to have constructor arguments on the connector, perfect for API tokens or configuration and also utilizes the powerful [middleware pipeline](../advanced/middleware.md) feature.
