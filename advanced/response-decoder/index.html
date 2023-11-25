@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.752507220333">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.754239183098">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -31,12 +31,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.5.0.752507220333" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.754239183098" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.752507220333" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.754239183098" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.752507220333" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.752507220333" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.754239183098" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.754239183098" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -212,14 +212,14 @@
         <span>Configuring</span>
     </h3>
 </doc-anchor-target>
-<p>The decoder should be configured as per-request basis. By default <code v-pre>Fansipan\Request</code> uses <a href="https://github.com/jenky/atlas/blob/18f96c176bed75fa321df6a675146820760e295f/src/Request.php#L124-L130"><code v-pre>ChainDecoder</code></a> to decode the response body. Essentially, it iterates over a list of <code v-pre>JsonDecoder</code> and <code v-pre>XmlDecoder</code> and attempts to read the <code v-pre>Content Type</code> header to determine which one to use for decoding the body.</p>
+<p>The decoder should be configured as per-request basis. By default <code v-pre>Fansipan\Request</code> uses <a href="https://github.com/phanxipang/fansipan/blob/18f96c176bed75fa321df6a675146820760e295f/src/Request.php#L124-L130"><code v-pre>ChainDecoder</code></a> to decode the response body. Essentially, it iterates over a list of <code v-pre>JsonDecoder</code> and <code v-pre>XmlDecoder</code> and attempts to read the <code v-pre>Content Type</code> header to determine which one to use for decoding the body.</p>
 <doc-anchor-target id="creating-custom-decoder">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#creating-custom-decoder">#</doc-anchor-trigger>
         <span>Creating Custom Decoder</span>
     </h3>
 </doc-anchor-target>
-<p>To create a custom decoder, you need to implement <a href="https://github.com/jenky/atlas/blob/main/src/Contracts/DecoderInterface.php"><code v-pre>DecoderInterface</code></a> which defines the structure that a decoder must have. The contract contains only one method: <code v-pre>decode</code> where you can implement your own logic to decode the response body. Then you can start using it in your request.</p>
+<p>To create a custom decoder, you need to implement <a href="https://github.com/phanxipang/fansipan/blob/main/src/Contracts/DecoderInterface.php"><code v-pre>DecoderInterface</code></a> which defines the structure that a decoder must have. The contract contains only one method: <code v-pre>decode</code> where you can implement your own logic to decode the response body. Then you can start using it in your request.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">use Fansipan\Contracts\DecoderInterface;
 use Fansipan\Request;
