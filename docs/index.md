@@ -19,7 +19,7 @@ While we have provided tools to work with APIs from [PSR-7](https://www.php-fig.
 ## Features
 
 - Provides a simple, easy-to-learn, object-oriented syntax that standardizes the way you interact with APIs.
-- Abstract API integrations into classes so you can keep your tidy and centralized.
+- Abstract API integrations into classes so you can keep your code tidy and centralized.
 - Configuration is fast and can be shared across all your requests.
 - [PSR](https://www.php-fig.org/psr) compliant.
 - HTTP Client agnostic.
