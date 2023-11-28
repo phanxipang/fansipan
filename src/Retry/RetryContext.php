@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Fansipan\Retry;
 
+use Fansipan\Exception\RequestRetryFailedException;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+/**
+ * @internal
+ */
 final class RetryContext
 {
     /**
@@ -34,18 +41,29 @@ final class RetryContext
         $this->attempts++;
     }
 
-    public function maxRetries(): int
-    {
-        return $this->maxRetries;
-    }
-
     public function attempts(): int
     {
         return $this->attempts;
     }
 
-    public function throwable(): bool
+    public function shouldStop(): bool
     {
-        return $this->throw;
+        return $this->maxRetries < $this->attempts;
+    }
+
+    /**
+     * @throws RequestRetryFailedException
+     */
+    public function throwExceptionIfNeeded(RequestInterface $request, ResponseInterface $response): void
+    {
+        if (! $this->throw) {
+            return;
+        }
+
+        throw new RequestRetryFailedException(
+            \sprintf('Maximum %d retries reached.', $this->maxRetries),
+            $request,
+            $response
+        );
     }
 }

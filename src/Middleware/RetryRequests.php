@@ -7,29 +7,49 @@ namespace Fansipan\Middleware;
 use Fansipan\Contracts\RetryStrategyInterface;
 use Fansipan\Exception\RequestRetryFailedException;
 use Fansipan\Retry\RetryContext;
+use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 final class RetryRequests
 {
     /**
-     * @var \Fansipan\Retry\RetryContext
+     * @var RetryContext
      */
     private $context;
 
     /**
-     * @var \Fansipan\Contracts\RetryStrategyInterface
+     * @var RetryStrategyInterface
      */
     private $strategy;
 
-    public function __construct(RetryStrategyInterface $strategy, int $maxRetries = 3, bool $throw = true)
-    {
+    /**
+     * @var ClientInterface|null
+     */
+    private $client;
+
+    public function __construct(
+        RetryStrategyInterface $strategy,
+        int $maxRetries = 3,
+        bool $throw = true
+    ) {
         $this->context = new RetryContext($maxRetries, $throw);
         $this->strategy = $strategy;
     }
 
     /**
-     * @throws \Fansipan\Exception\RequestRetryFailedException
+     * Set the client.
+     */
+    public function withClient(ClientInterface $client): self
+    {
+        $clone = clone $this;
+        $clone->client = $client;
+
+        return $clone;
+    }
+
+    /**
+     * @throws RequestRetryFailedException
      */
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
@@ -40,16 +60,9 @@ final class RetryRequests
         }
 
         $this->context->attempting();
-        $stop = $this->context->maxRetries() < $this->context->attempts();
 
-        if ($stop) {
-            if ($this->context->throwable()) {
-                throw new RequestRetryFailedException(
-                    \sprintf('Maximum %d retries reached.', $this->context->maxRetries()),
-                    $request,
-                    $response
-                );
-            }
+        if ($this->context->shouldStop()) {
+            $this->context->throwExceptionIfNeeded($request, $response);
 
             return $response;
         }
@@ -57,7 +70,11 @@ final class RetryRequests
         $delay = $this->getDelayFromHeaders($response) ?? $this->strategy->delay($this->context);
 
         if ($delay > 0) {
-            \usleep($delay * 1000);
+            if ($this->client !== null && \method_exists($this->client, 'delay')) {
+                $this->client->delay($delay);
+            } else {
+                \usleep($delay * 1000);
+            }
         }
 
         return $this($request, $next);
