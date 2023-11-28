@@ -196,9 +196,228 @@ Unlike `AsJson` or `AsMultipart` that set the content type automatically. When s
 Do not use multiple `As...` traits in your request.
 !!!
 
+## Using Constructor Arguments
+
+You will often have variables that you want to pass into the request. You may add your own properties to your request class or use a constructor to provide variables into the request instance. Since the request is still a regular class you may customise it how you like.
+
+Let's consider an example where you need to create a request to update a specific user based on their ID. To achieve this, you can enhance the request by adding a constructor that accepts the user ID as a parameter. By concatenating the ID variable with the endpoint, you can ensure that the ID is passed to every instance of the request. This approach allows for a more streamlined and reusable implementation.
+
+```php
+<?php
+
+use Fansipan\Request;
+use Psr\Http\Client\ClientInterface;
+
+final class UpdateUserRequest extends Request
+{
+    private $id;
+
+    private $data = [];
+
+    public function __construct(int $id, array $data = [])
+    {
+        $this->id = $id;
+        $this->data = $data;
+    }
+
+    public function method(): string
+    {
+        return 'PUT';
+    }
+
+    public function endpoint(): string
+    {
+        return '/users/'.$this->id;
+    }
+
+    protected function defaultBody()
+    {
+        return $this->data;
+    }
+}
+
+//
+
+$request = new UpdateUserRequest(123, [
+    'name' => 'John Doe',
+    'age' => 25,
+]);
+```
+
+Another example is this endpoint, [`https://jsonplaceholder.typicode.com/todos`](https://jsonplaceholder.typicode.com/todos), which supports the `_page` and `_limit` query parameters. Therefore, you should include something like this:
+
+!!!
+The flowing examples use PHP 8.1 syntax.
+!!!
+
+```php
+use Fansipan\Body\AsJson;
+use Fansipan\Request;
+
+final class TodosRequest extends Request
+{
+    use AsJson;
+
+    public function __construct(
+        private readonly ?int $page = null,
+        private readonly ?int $limit = null
+    ) {
+    }
+
+    protected function defaultQuery(): array
+    {
+        return \array_filter([
+            '_page' => $this->page,
+            '_limit' => $this->limit,
+        ]);
+    }
+}
+```
+
+Likewise, if your endpoint has too many query strings for filtering, sorting, paging, etc., you should consider grouping them in their own dedicated value object instead of bloating the constructor.
+
++++ Request
+```php
+use Fansipan\Body\AsJson;
+use Fansipan\Request;
+
+final class TodosRequest extends Request
+{
+    use AsJson;
+
+    public function __construct(
+        private readonly ?FilterQuery $filter = null,
+        private readonly ?SortQuery $sort = null,
+        private readonly ?PaginationQuery $pagination = null
+    ) {
+    }
+
+    protected function defaultQuery(): array
+    {
+        return \array_filter(\array_merge([
+            'filter' => $this->filter->toArray(),
+            'sort' => $this->sort->toArray(),
+        ], $this->pagination->toArray()));
+    }
+}
+```
++++ FilterQuery
+```php
+final class FilterQuery
+{
+    public function __construct(
+        private ?string $name = null,
+        private ?string $email = null
+    ) {
+    }
+
+    public function withName(string $name): self
+    {
+        $clone = clone $this;
+        $clone->name = $name;
+
+        return $clone;
+    }
+
+    public function withEmail(string $email): self
+    {
+        $clone = clone $this;
+        $clone->email = $email;
+
+        return $clone;
+    }
+
+    public function toArray(): array
+    {
+        return \array_filter([
+            'name' => $this->name,
+            'email' => $this->email,
+        ]);
+    }
+}
+```
++++ SortQuery
+```php
+final class SortQuery
+{
+    public const ASC = 'ASC';
+    public const DESC = 'DESC';
+
+    public function __construct(
+        private ?string $by = null,
+        private string $direction = self::DESC
+    ) {
+    }
+
+    public function withSort(string $by): self
+    {
+        $clone = clone $this;
+        $clone->by = $by;
+
+        return $clone;
+    }
+
+    public function withDirection(string $direction): self
+    {
+        $clone = clone $this;
+        $clone->direction = $direction;
+
+        return $clone;
+    }
+
+    public function toArray(): array
+    {
+        if (empty($this->by)) {
+            return [];
+        }
+
+        return [
+            'sort' => $this->by,
+            'direction' => $this->direction,
+        ];
+    }
+}
+```
++++ PaginationQuery
+```php
+final class PaginationQuery
+{
+    public function __construct(
+        private int $page = 1,
+        private ?int $limit = null
+    ) {
+    }
+
+    public function withPage(int $page): self
+    {
+        $clone = clone $this;
+        $clone->page = $page;
+
+        return $clone;
+    }
+
+    public function withLimit(int $limit): self
+    {
+        $clone = clone $this;
+        $clone->limit = $limit;
+
+        return $clone;
+    }
+
+    public function toArray(): array
+    {
+        return \array_filter([
+            'page' => $this->page,
+            'limit' => $this->limit,
+        ]);
+    }
+}
+```
++++
+
 ## Modifying Request
 
-Requests headers, query parameters and body can also be overwritten during runtime.
+Requests headers, query parameters and body can also be overwritten during runtime. However it is **RECOMMENDED** to setup your request [using constructor arguments](#using-constructor-arguments) to avoid mutating the request object. This approach makes it easier for the user to know which parameters should be used for sending the request, rather than dealing with keys and values.
 
 +++ Headers
 ```php
@@ -255,54 +474,6 @@ $request->body()->set([
 ]);
 ```
 +++
-
-## Using Constructor Arguments
-
-You will often have variables that you want to pass into the request. You may add your own properties to your request class or use a constructor to provide variables into the request instance. Since the request is still a regular class you may customise it how you like.
-
-For example, I want to create a request to update an individual user by an ID. I will add a constructor to accept the user ID and I will concatenate the variable with the endpoint. This way I can pass the ID into every instance of the request.
-
-```php
-<?php
-
-use Fansipan\Request;
-use Psr\Http\Client\ClientInterface;
-
-final class UpdateUserRequest extends Request
-{
-    private $id;
-
-    private $data = [];
-
-    public function __construct(int $id, array $data = [])
-    {
-        $this->id = $id;
-        $this->data = $data;
-    }
-
-    public function method(): string
-    {
-        return 'PUT';
-    }
-
-    public function endpoint(): string
-    {
-        return '/users/'.$this->id;
-    }
-
-    protected function defaultBody()
-    {
-        return $this->data;
-    }
-}
-
-//
-
-$request = new UpdateUserRequest(123, [
-    'name' => 'John Doe',
-    'age' => 25,
-]);
-```
 
 ## Sending Requests
 

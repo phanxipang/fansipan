@@ -2,7 +2,7 @@
 order: 300
 ---
 
-All requests will return an instance of `Fansipan\Response`, which is a decorator of `Psr\Http\Message\ResponseInterface` that provides a variety of convenience methods to inspect the response:
+All requests will return an instance of `Fansipan\Response`, which is a wrapper of `Psr\Http\Message\ResponseInterface` that provides a variety of convenience methods to inspect the response:
 
 ```php
 $response->body(): string;
@@ -13,6 +13,7 @@ $response->successful(): bool;
 $response->failed(): bool;
 $response->header(string $header): ?string;
 $response->headers(): array;
+// and more...
 ```
 
 ## Throwing Exceptions On Failures

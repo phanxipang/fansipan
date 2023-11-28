@@ -29,7 +29,7 @@ $response = (new ConnectorConfigurator())
 
 By default, failed requests are retried up to 3 times, with an exponential delay between retries (first retry = 1 second; second retry: 2 seconds, third retry: 4 seconds) and only for the following HTTP status codes: `423`, `425`, `429`, `502` and `503` when using any HTTP method and `500`, `504`, `507` and `510` when using an HTTP [idempotent method](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Idempotent_methods).
 
-If needed, you may pass a third argument to the `Fansipan\RetryableConnector` instance. It is an instance of `Fansipan\Contracts\RetryStrategyInterface` that determines if the retries should actually be attempted. This will retries the failed requests with a delay of 1 second.
+If needed, you may pass a second argument to the `retry` method. It is an instance of `Fansipan\Contracts\RetryStrategyInterface` that determines if the retries should actually be attempted. This will retries the failed requests with a delay of 1 second.
 
 ```php
 use Fansipan\ConnectorConfigurator;
