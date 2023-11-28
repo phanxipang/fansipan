@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.754413054945">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.754472166565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Responses</title>
     <meta name="title" content="Responses">
-    <meta name="description" content="All requests will return an instance of Fansipan\\Response, which is a decorator of Psr\\Http\\Message\\ResponseInterface">
+    <meta name="description" content="All requests will return an instance of Fansipan\\Response, which is a wrapper of Psr\\Http\\Message\\ResponseInterface">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://phanxipang.github.io/fansipan/basic/responses/">
@@ -21,22 +21,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://phanxipang.github.io/fansipan/basic/responses/">
     <meta property="og:title" content="Responses">
-    <meta property="og:description" content="All requests will return an instance of Fansipan\\Response, which is a decorator of Psr\\Http\\Message\\ResponseInterface">
+    <meta property="og:description" content="All requests will return an instance of Fansipan\\Response, which is a wrapper of Psr\\Http\\Message\\ResponseInterface">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://phanxipang.github.io/fansipan/basic/responses/">
     <meta property="twitter:title" content="Responses">
-    <meta property="twitter:description" content="All requests will return an instance of Fansipan\\Response, which is a decorator of Psr\\Http\\Message\\ResponseInterface">
+    <meta property="twitter:description" content="All requests will return an instance of Fansipan\\Response, which is a wrapper of Psr\\Http\\Message\\ResponseInterface">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.5.0.754413054945" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.754472166565" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.754413054945" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.754472166565" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.754413054945" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.754413054945" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.754472166565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.754472166565" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -205,7 +205,7 @@
         <span>Responses</span>
     </h1>
 </doc-anchor-target>
-<p>All requests will return an instance of <code v-pre>Fansipan\Response</code>, which is a decorator of <code v-pre>Psr\Http\Message\ResponseInterface</code> that provides a variety of convenience methods to inspect the response:</p>
+<p>All requests will return an instance of <code v-pre>Fansipan\Response</code>, which is a wrapper of <code v-pre>Psr\Http\Message\ResponseInterface</code> that provides a variety of convenience methods to inspect the response:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">$response-&gt;body(): string;
 $response-&gt;data(): array;
@@ -214,7 +214,8 @@ $response-&gt;ok(): bool;
 $response-&gt;successful(): bool;
 $response-&gt;failed(): bool;
 $response-&gt;header(string $header): ?string;
-$response-&gt;headers(): array;</code></pre>
+$response-&gt;headers(): array;
+// and more...</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="throwing-exceptions-on-failures">
     <h2>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.754413054945">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.754472166565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -33,11 +33,11 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="resources/css/retype.css?v=3.5.0.754413054945" rel="stylesheet">
+    <link href="resources/css/retype.css?v=3.5.0.754472166565" rel="stylesheet">
 
-    <script data-cfasync="false" src="resources/js/config.js?v=3.5.0.754413054945" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="resources/js/config.js?v=3.5.0.754472166565" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.5.0.754413054945" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.5.0.754472166565" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -224,8 +224,8 @@
         <span>Why?</span>
     </h2>
 </doc-anchor-target>
-<p>Building API integrations can be time consuming. After you have found an API client to use, you’re faced with lots of configuration to remember and it’s hard to repeat requests without copying and pasting. You’ll often find yourself writing the same boilerplate code over and over again.</p>
-<p>While we have provided tools to work with APIs from <a href="https://www.php-fig.org/psr/psr-7">PSR-7</a>, <a href="https://www.php-fig.org/psr/psr-17">PSR-17</a> and <a href="https://www.php-fig.org/psr/psr-18">PSR-18</a>, we do not currently have a standardized structure for building API integrations.</p>
+<p>Building API integrations can be a time-consuming task. Once you have selected an API client to work with, you encounter the challenge of managing numerous configurations. Additionally, reusing requests without resorting to copying and pasting can be difficult. It is common to find yourself writing repetitive boilerplate code repeatedly throughout the integration process.</p>
+<p>Tools such as <a href="https://www.php-fig.org/psr/psr-7">PSR-7</a>, <a href="https://www.php-fig.org/psr/psr-17">PSR-17</a> and <a href="https://www.php-fig.org/psr/psr-18">PSR-18</a> are great to build your API integrations. The only missing piece is how to effectively connect them together in a structured and clean manner.</p>
 <doc-anchor-target id="features">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#features">#</doc-anchor-trigger>
@@ -238,8 +238,19 @@
 <li>Configuration is fast and can be shared across all your requests.</li>
 <li><a href="https://www.php-fig.org/psr">PSR</a> compliant.</li>
 <li>HTTP Client agnostic.</li>
-<li>Great for building your next PHP SDKs or package/library</li>
-<li>Scalable with lots of API integrations across many team members.</li>
+<li>Reuseable middleware.</li>
+</ul>
+<doc-anchor-target id="credits">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#credits">#</doc-anchor-trigger>
+        <span>Credits</span>
+    </h2>
+</doc-anchor-target>
+<ul>
+<li><a href="https://www.php-fig.org/">PHP-FIG</a> for their <a href="https://www.php-fig.org/psr/">PSRs</a> with special recognition to the authors and contributors of <a href="https://www.php-fig.org/psr/psr-7">PSR-7 (HTTP message interfaces)</a>, <a href="https://www.php-fig.org/psr/psr-17">PSR-17 (HTTP Factories)</a> and <a href="https://www.php-fig.org/psr/psr-18">PSR-18 (HTTP Client)</a>.</li>
+<li><a href="https://github.com/guzzle/guzzle">Guzzle</a> for their URI resolver and middleware concept.</li>
+<li><a href="https://github.com/Sammyjo20">Sam C</a> for his amazing <a href="https://github.com/saloonphp/saloon">Saloon</a> package, which served as a source of inspiration.</li>
+<li><a href="https://github.com/php-http/discovery">HTTPlug Discovery</a>.</li>
 </ul>
 
                                 

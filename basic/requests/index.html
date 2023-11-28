@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.754413054945">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.754472166565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -31,12 +31,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.5.0.754413054945" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.754472166565" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.754413054945" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.754472166565" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.754413054945" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.754413054945" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.754472166565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.754472166565" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -461,13 +461,251 @@ final class MyRequest extends Request
         </div>
     </div>
 </div>
+<doc-anchor-target id="using-constructor-arguments">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#using-constructor-arguments">#</doc-anchor-trigger>
+        <span>Using Constructor Arguments</span>
+    </h2>
+</doc-anchor-target>
+<p>You will often have variables that you want to pass into the request. You may add your own properties to your request class or use a constructor to provide variables into the request instance. Since the request is still a regular class you may customise it how you like.</p>
+<p>Let&#x27;s consider an example where you need to create a request to update a specific user based on their ID. To achieve this, you can enhance the request by adding a constructor that accepts the user ID as a parameter. By concatenating the ID variable with the endpoint, you can ensure that the ID is passed to every instance of the request. This approach allows for a more streamlined and reusable implementation.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">&lt;?php
+
+use Fansipan\Request;
+use Psr\Http\Client\ClientInterface;
+
+final class UpdateUserRequest extends Request
+{
+    private $id;
+
+    private $data = [];
+
+    public function __construct(int $id, array $data = [])
+    {
+        $this-&gt;id = $id;
+        $this-&gt;data = $data;
+    }
+
+    public function method(): string
+    {
+        return 'PUT';
+    }
+
+    public function endpoint(): string
+    {
+        return '/users/'.$this-&gt;id;
+    }
+
+    protected function defaultBody()
+    {
+        return $this-&gt;data;
+    }
+}
+
+//
+
+$request = new UpdateUserRequest(123, [
+    'name' =&gt; 'John Doe',
+    'age' =&gt; 25,
+]);</code></pre>
+</doc-codeblock></div>
+<p>Another example is this endpoint, <a href="https://jsonplaceholder.typicode.com/todos"><code v-pre>https://jsonplaceholder.typicode.com/todos</code></a>, which supports the <code v-pre>_page</code> and <code v-pre>_limit</code> query parameters. Therefore, you should include something like this:</p>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1 rounded-tl rounded-bl bg-blue-500 dark:bg-blue-400"></div>
+    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr rounded-br doc-alert bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-blue-500 dark:text-blue-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M12 1C5.93 1 1 5.93 1 12s4.93 11 11 11 11-4.93 11-11S18.07 1 12 1zm0 20c-4.96 0-9-4.04-9-9s4.04-9 9-9 9 4.04 9 9-4.04 9-9 9z"></path>
+                    <path d="M12 11c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zM12.01 7c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>The flowing examples use PHP 8.1 syntax.</p>
+        </div>
+    </div>
+</div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\Body\AsJson;
+use Fansipan\Request;
+
+final class TodosRequest extends Request
+{
+    use AsJson;
+
+    public function __construct(
+        private readonly ?int $page = null,
+        private readonly ?int $limit = null
+    ) {
+    }
+
+    protected function defaultQuery(): array
+    {
+        return \array_filter([
+            '_page' =&gt; $this-&gt;page,
+            '_limit' =&gt; $this-&gt;limit,
+        ]);
+    }
+}</code></pre>
+</doc-codeblock></div>
+<p>Likewise, if your endpoint has too many query strings for filtering, sorting, paging, etc., you should consider grouping them in their own dedicated value object instead of bloating the constructor.</p>
+<doc-tabs>
+<doc-tab v-cloak id="request">
+<template #title>Request</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\Body\AsJson;
+use Fansipan\Request;
+
+final class TodosRequest extends Request
+{
+    use AsJson;
+
+    public function __construct(
+        private readonly ?FilterQuery $filter = null,
+        private readonly ?SortQuery $sort = null,
+        private readonly ?PaginationQuery $pagination = null
+    ) {
+    }
+
+    protected function defaultQuery(): array
+    {
+        return \array_filter(\array_merge([
+            'filter' =&gt; $this-&gt;filter-&gt;toArray(),
+            'sort' =&gt; $this-&gt;sort-&gt;toArray(),
+        ], $this-&gt;pagination-&gt;toArray()));
+    }
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+<doc-tab v-cloak id="filterquery">
+<template #title>FilterQuery</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">final class FilterQuery
+{
+    public function __construct(
+        private ?string $name = null,
+        private ?string $email = null
+    ) {
+    }
+
+    public function withName(string $name): self
+    {
+        $clone = clone $this;
+        $clone-&gt;name = $name;
+
+        return $clone;
+    }
+
+    public function withEmail(string $email): self
+    {
+        $clone = clone $this;
+        $clone-&gt;email = $email;
+
+        return $clone;
+    }
+
+    public function toArray(): array
+    {
+        return \array_filter([
+            'name' =&gt; $this-&gt;name,
+            'email' =&gt; $this-&gt;email,
+        ]);
+    }
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+<doc-tab v-cloak id="sortquery">
+<template #title>SortQuery</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">final class SortQuery
+{
+    public const ASC = 'ASC';
+    public const DESC = 'DESC';
+
+    public function __construct(
+        private ?string $by = null,
+        private string $direction = self::DESC
+    ) {
+    }
+
+    public function withSort(string $by): self
+    {
+        $clone = clone $this;
+        $clone-&gt;by = $by;
+
+        return $clone;
+    }
+
+    public function withDirection(string $direction): self
+    {
+        $clone = clone $this;
+        $clone-&gt;direction = $direction;
+
+        return $clone;
+    }
+
+    public function toArray(): array
+    {
+        if (empty($this-&gt;by)) {
+            return [];
+        }
+
+        return [
+            'sort' =&gt; $this-&gt;by,
+            'direction' =&gt; $this-&gt;direction,
+        ];
+    }
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+<doc-tab v-cloak id="paginationquery">
+<template #title>PaginationQuery</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">final class PaginationQuery
+{
+    public function __construct(
+        private int $page = 1,
+        private ?int $limit = null
+    ) {
+    }
+
+    public function withPage(int $page): self
+    {
+        $clone = clone $this;
+        $clone-&gt;page = $page;
+
+        return $clone;
+    }
+
+    public function withLimit(int $limit): self
+    {
+        $clone = clone $this;
+        $clone-&gt;limit = $limit;
+
+        return $clone;
+    }
+
+    public function toArray(): array
+    {
+        return \array_filter([
+            'page' =&gt; $this-&gt;page,
+            'limit' =&gt; $this-&gt;limit,
+        ]);
+    }
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+</doc-tabs>
 <doc-anchor-target id="modifying-request">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#modifying-request">#</doc-anchor-trigger>
         <span>Modifying Request</span>
     </h2>
 </doc-anchor-target>
-<p>Requests headers, query parameters and body can also be overwritten during runtime.</p>
+<p>Requests headers, query parameters and body can also be overwritten during runtime. However it is <strong>RECOMMENDED</strong> to setup your request <doc-anchor-trigger to="#using-constructor-arguments">using constructor arguments</doc-anchor-trigger> to avoid mutating the request object. This approach makes it easier for the user to know which parameters should be used for sending the request, rather than dealing with keys and values.</p>
 <doc-tabs>
 <doc-tab v-cloak id="headers">
 <template #title>Headers</template>
@@ -530,55 +768,6 @@ $request-&gt;body()-&gt;set([
 </doc-codeblock></div>
 </doc-tab>
 </doc-tabs>
-<doc-anchor-target id="using-constructor-arguments">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#using-constructor-arguments">#</doc-anchor-trigger>
-        <span>Using Constructor Arguments</span>
-    </h2>
-</doc-anchor-target>
-<p>You will often have variables that you want to pass into the request. You may add your own properties to your request class or use a constructor to provide variables into the request instance. Since the request is still a regular class you may customise it how you like.</p>
-<p>For example, I want to create a request to update an individual user by an ID. I will add a constructor to accept the user ID and I will concatenate the variable with the endpoint. This way I can pass the ID into every instance of the request.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
-
-use Fansipan\Request;
-use Psr\Http\Client\ClientInterface;
-
-final class UpdateUserRequest extends Request
-{
-    private $id;
-
-    private $data = [];
-
-    public function __construct(int $id, array $data = [])
-    {
-        $this-&gt;id = $id;
-        $this-&gt;data = $data;
-    }
-
-    public function method(): string
-    {
-        return 'PUT';
-    }
-
-    public function endpoint(): string
-    {
-        return '/users/'.$this-&gt;id;
-    }
-
-    protected function defaultBody()
-    {
-        return $this-&gt;data;
-    }
-}
-
-//
-
-$request = new UpdateUserRequest(123, [
-    'name' =&gt; 'John Doe',
-    'age' =&gt; 25,
-]);</code></pre>
-</doc-codeblock></div>
 <doc-anchor-target id="sending-requests">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#sending-requests">#</doc-anchor-trigger>
