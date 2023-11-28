@@ -196,66 +196,6 @@ Unlike `AsJson` or `AsMultipart` that set the content type automatically. When s
 Do not use multiple `As...` traits in your request.
 !!!
 
-## Modifying Request
-
-Requests headers, query parameters and body can also be overwritten during runtime. However it is **RECOMMENDED** to setup your request [using constructor arguments](#using-constructor-arguments) to avoid mutating the request object. This approach makes it easier for the user to know which parameters should be used for sending the request, rather than dealing with keys and values.
-
-+++ Headers
-```php
-$request = new MyRequest();
-
-// Add new headers
-$request->headers()
-    ->with('Content-Type', 'application/json')
-    ->merge([
-        'X-Custom' => 1,
-        'X-Key' => 'key',
-    ]);
-
-// Overwrite existing headers
-$request->headers()->set([
-    'Accept' => 'application/json',
-    'Content-Type' => 'application/json'
-]);
-```
-+++ Query parameters
-```php
-$request = new MyRequest();
-
-// Add new query parameters
-$request->query()
-    ->with('page', 1)
-    ->merge([
-        'limit' => 30,
-        'search' => 'keyword',
-    ]);
-
-// Overwrite existing query parameters
-$request->query()->set([
-    'page' => 2,
-    'limit' => 100
-]);
-```
-+++ Body
-```php
-$request = new MyRequest();
-
-// Add new body
-$request->body()
-    ->with('name', 'David')
-    ->merge([
-        'email' => 'david@example.com',
-        'homepage' => 'https://example.com',
-    ]);
-
-// Overwrite existing body
-$request->body()->set([
-    'name' => 'Daisy',
-    'email' => 'daisy@example.com',
-]);
-```
-+++
-
 ## Using Constructor Arguments
 
 You will often have variables that you want to pass into the request. You may add your own properties to your request class or use a constructor to provide variables into the request instance. Since the request is still a regular class you may customise it how you like.
@@ -472,6 +412,66 @@ final class PaginationQuery
         ]);
     }
 }
+```
++++
+
+## Modifying Request
+
+Requests headers, query parameters and body can also be overwritten during runtime. However it is **RECOMMENDED** to setup your request [using constructor arguments](#using-constructor-arguments) to avoid mutating the request object. This approach makes it easier for the user to know which parameters should be used for sending the request, rather than dealing with keys and values.
+
++++ Headers
+```php
+$request = new MyRequest();
+
+// Add new headers
+$request->headers()
+    ->with('Content-Type', 'application/json')
+    ->merge([
+        'X-Custom' => 1,
+        'X-Key' => 'key',
+    ]);
+
+// Overwrite existing headers
+$request->headers()->set([
+    'Accept' => 'application/json',
+    'Content-Type' => 'application/json'
+]);
+```
++++ Query parameters
+```php
+$request = new MyRequest();
+
+// Add new query parameters
+$request->query()
+    ->with('page', 1)
+    ->merge([
+        'limit' => 30,
+        'search' => 'keyword',
+    ]);
+
+// Overwrite existing query parameters
+$request->query()->set([
+    'page' => 2,
+    'limit' => 100
+]);
+```
++++ Body
+```php
+$request = new MyRequest();
+
+// Add new body
+$request->body()
+    ->with('name', 'David')
+    ->merge([
+        'email' => 'david@example.com',
+        'homepage' => 'https://example.com',
+    ]);
+
+// Overwrite existing body
+$request->body()->set([
+    'name' => 'Daisy',
+    'email' => 'daisy@example.com',
+]);
 ```
 +++
 
