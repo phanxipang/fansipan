@@ -20,6 +20,22 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 0.7.0 - 2023-12-31
+
+### What's Changed
+
+#### Fixed
+
+* Missing `code` by @jdecode in https://github.com/phanxipang/fansipan/pull/20
+* Update doc by @jenky in https://github.com/phanxipang/fansipan/pull/22
+* Refactor configurator by @jenky in https://github.com/phanxipang/fansipan/pull/23
+
+### New Contributors
+
+* @jdecode made their first contribution in https://github.com/phanxipang/fansipan/pull/20
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/0.6.0...0.7.0
+
 ## 0.6.0 - 2023-10-27
 
 ### What's Changed
