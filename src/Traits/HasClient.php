@@ -12,7 +12,7 @@ trait HasClient
     /**
      * The HTTP client instance.
      *
-     * @var \Psr\Http\Client\ClientInterface
+     * @var ClientInterface
      */
     private $client;
 

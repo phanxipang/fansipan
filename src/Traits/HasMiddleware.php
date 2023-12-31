@@ -11,7 +11,7 @@ trait HasMiddleware
     /**
      * The middleware instance.
      *
-     * @var \Fansipan\Middleware
+     * @var Middleware
      */
     private $middleware;
 
@@ -40,7 +40,7 @@ trait HasMiddleware
      */
     private function gatherMiddleware(): array
     {
-        return array_filter(array_map(function (array $item) {
+        return array_filter(array_map(static function (array $item) {
             return $item[0] ?? null;
         }, $this->middleware()->all()));
     }
