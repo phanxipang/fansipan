@@ -13,7 +13,7 @@ final class XmlDecoder implements DecoderInterface
     /**
      * @throws \Fansipan\Exception\NotDecodableException
      */
-    public function decode(ResponseInterface $response): array
+    public function decode(ResponseInterface $response): iterable
     {
         if (! $this->supports($response)) {
             throw NotDecodableException::create();

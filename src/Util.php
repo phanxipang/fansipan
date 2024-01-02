@@ -165,4 +165,12 @@ final class Util
                 ->createStream((string) $request->body())
         );
     }
+
+    /**
+     * Convert iterator to array.
+     */
+    public static function iteratorToArray(iterable $data): array
+    {
+        return $data instanceof \Traversable ? \iterator_to_array($data) : (array) $data;
+    }
 }
