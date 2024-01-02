@@ -9,6 +9,9 @@ use Fansipan\Mapper\GenericMapper;
 use Fansipan\Request;
 use Fansipan\Util;
 
+/**
+ * @extends Request<User>
+ */
 final class GetUserRequest extends Request
 {
     private $id;

@@ -11,6 +11,9 @@ use Fansipan\Exception\HttpException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @template T of object
+ */
 final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
 {
     use Traits\Macroable;
@@ -62,6 +65,8 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
 
     /**
      * Get the decoded body of the response as an object.
+     *
+     * @return ?T
      */
     public function object(): ?object
     {
@@ -69,7 +74,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
             return null;
         }
 
-        return $this->decoder->map($this->response);
+        return $this->decoder->map($this->response); // @phpstan-ignore-line
     }
 
     /**
@@ -231,6 +236,10 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
 
         if ($this->failed()) {
             $exception = $this->toException();
+
+            if (! $exception) {
+                return $this;
+            }
 
             if ($callback && \is_callable($callback)) {
                 $callback($this, $exception);

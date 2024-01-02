@@ -25,18 +25,13 @@ trait ConnectorTrait
         return null;
     }
 
-    /**
-     * Send the given request.
-     *
-     * The request and response should be processed through middleware.
-     */
     public function send(Request $request): Response
     {
         $response = $this->sendRequest(
             Util::request($request, static::baseUri())
         );
 
-        return new Response($response, $request->decoder());
+        return new Response($response, $request->decoder()); // @phpstan-ignore-line
     }
 
     public function sendRequest(RequestInterface $request): ResponseInterface

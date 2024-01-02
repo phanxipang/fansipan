@@ -9,6 +9,9 @@ use Fansipan\Contracts\DecoderInterface;
 use Fansipan\Contracts\PayloadInterface;
 use Fansipan\Decoder\ChainDecoder;
 
+/**
+ * @template T of object
+ */
 abstract class Request
 {
     /**
