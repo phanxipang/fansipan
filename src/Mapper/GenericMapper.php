@@ -9,7 +9,7 @@ use Fansipan\Contracts\MapperInterface;
 use Fansipan\Decoder\ChainDecoder;
 use Psr\Http\Message\ResponseInterface;
 
-final class GenericMapper implements MapperInterface
+final class GenericMapper implements DecoderInterface, MapperInterface
 {
     /**
      * @var callable(iterable): ?object
