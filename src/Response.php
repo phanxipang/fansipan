@@ -305,7 +305,8 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
         throw new LogicException('Response data may not be mutated using array access.');
     }
 
-    public function jsonSerialize(): mixed
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
     {
         return $this->data();
     }
