@@ -9,15 +9,19 @@ use Fansipan\Contracts\MapperInterface;
 use Fansipan\Decoder\ChainDecoder;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @template T of object
+ * @implements MapperInterface<T>
+ */
 final class GenericMapper implements DecoderInterface, MapperInterface
 {
     /**
-     * @var callable(iterable): ?object
+     * @var callable(iterable): ?T
      */
     private $onSuccess;
 
     /**
-     * @var callable(iterable): ?object
+     * @var callable(iterable): ?T
      */
     private $onFailure;
 
@@ -27,8 +31,8 @@ final class GenericMapper implements DecoderInterface, MapperInterface
     private $decoder;
 
     /**
-     * @param  callable(iterable): ?object $onSuccess
-     * @param  callable(iterable): ?object $onFailure
+     * @param  callable(iterable): ?T $onSuccess
+     * @param  callable(iterable): ?T $onFailure
      */
     public function __construct(
         callable $onSuccess,

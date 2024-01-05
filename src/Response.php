@@ -24,7 +24,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     private $response;
 
     /**
-     * @var null|DecoderInterface
+     * @var null|DecoderInterface|(DecoderInterface&MapperInterface<T>)
      */
     private $decoder;
 
