@@ -20,6 +20,18 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 0.8.0 - 2024-01-05
+
+### What's Changed
+
+This release can be considered as `1.0-RC1` since there will be no changes to the public API.
+
+#### Added
+
+* Refactor decoder by @jenky in https://github.com/phanxipang/fansipan/pull/24
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/0.7.0...0.8.0
+
 ## 0.7.0 - 2023-12-31
 
 ### What's Changed
