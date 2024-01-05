@@ -20,6 +20,17 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 0.8.1 - 2024-01-05
+
+### What's Changed
+
+#### Fixed
+
+* Handle undecodable responses gracefully by @jenky in https://github.com/phanxipang/fansipan/pull/25
+* Fixes generics
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/0.8.0...0.8.1
+
 ## 0.8.0 - 2024-01-05
 
 ### What's Changed
