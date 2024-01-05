@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.757350248160">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.757744149966">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -31,12 +31,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.5.0.757350248160" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.757744149966" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.757350248160" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.757744149966" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.757350248160" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.757350248160" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.757744149966" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.757744149966" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -207,17 +207,17 @@
 </doc-anchor-target>
 <p>HTTP response is a crucial aspect of web development, and it is essential to decode the response body to extract the necessary information. However, the response body is typically returned in a string format as JSON or XML, which can be challenging to work with. This is where a response decoder comes in handy. A response decoder can convert the HTTP response body from a string format to a more manageable format, such as an array. This conversion enables developers to extract the relevant information from the response quickly.</p>
 <doc-anchor-target id="configuring">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#configuring">#</doc-anchor-trigger>
         <span>Configuring</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
-<p>The decoder should be configured as per-request basis. By default <code v-pre>Fansipan\Request</code> uses <a href="https://github.com/phanxipang/fansipan/blob/18f96c176bed75fa321df6a675146820760e295f/src/Request.php#L124-L130"><code v-pre>ChainDecoder</code></a> to decode the response body. Essentially, it iterates over a list of <code v-pre>JsonDecoder</code> and <code v-pre>XmlDecoder</code> and attempts to read the <code v-pre>Content Type</code> header to determine which one to use for decoding the body.</p>
+<p>The decoder should be configured as per-request basis. By default <code v-pre>Fansipan\Request</code> uses <code v-pre>ChainDecoder</code> to decode the response body. Essentially, it iterates over a list of <code v-pre>JsonDecoder</code> and <code v-pre>XmlDecoder</code> and attempts to read the <code v-pre>Content-Type</code> header to determine which one to use for decoding the body.</p>
 <doc-anchor-target id="creating-custom-decoder">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#creating-custom-decoder">#</doc-anchor-trigger>
         <span>Creating Custom Decoder</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>To create a custom decoder, you need to implement <a href="https://github.com/phanxipang/fansipan/blob/main/src/Contracts/DecoderInterface.php"><code v-pre>DecoderInterface</code></a> which defines the structure that a decoder must have. The contract contains only one method: <code v-pre>decode</code> where you can implement your own logic to decode the response body. Then you can start using it in your request.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -232,6 +232,196 @@ class MyRequest extends Request
     }
 }</code></pre>
 </doc-codeblock></div>
+<doc-anchor-target id="mapping-response-body-to-object">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#mapping-response-body-to-object">#</doc-anchor-trigger>
+        <span>Mapping Response Body To Object</span>
+    </h2>
+</doc-anchor-target>
+<p>When dealing with the response body of an HTTP request, utilizing Data Transfer Objects (DTOs) or Value Objects (VOs) can greatly enhance the way data is represented, processed, and transferred.</p>
+<ul>
+<li><p><strong>Standardized Data Structure</strong>: DTOs and VOs provide a standardized and consistent structure for representing the response body. This ensures that the data is organized in a predictable manner, making it easier for developers to understand and work with the response data. With a well-defined structure, it becomes simpler to parse, validate, and manipulate the response data.</p>
+</li>
+<li><p><strong>Versioning and Compatibility</strong>: DTOs and VOs can help manage versioning and compatibility issues when dealing with APIs. If the structure of the response body changes over time, having DTOs/VOs in place allows for seamless handling of different versions. New fields can be added or deprecated fields can be removed in a controlled manner, without affecting the consuming codebase. This decoupling between the API and the consuming code helps to maintain backward compatibility and avoids breaking changes.</p>
+</li>
+<li><p><strong>Validation and Data Integrity</strong>: DTOs and VOs can incorporate data validation rules, ensuring that the response body adheres to specific constraints or business rules. By validating the data at the point of parsing or deserialization into DTOs/VOs, potential errors or inconsistencies can be detected early on. This helps to maintain data integrity and prevents the propagation of invalid or inconsistent data throughout the application.</p>
+</li>
+<li><p><strong>Serialization and Deserialization</strong>: DTOs and VOs can simplify the process of serializing and deserializing the response data. Many frameworks and libraries provide built-in mechanisms for converting objects to and from various formats such as JSON or XML. By utilizing DTOs/VOs, the serialization and deserialization process becomes more straightforward, reducing the amount of boilerplate code required.</p>
+</li>
+<li><p><strong>Testability</strong>: DTOs and VOs can greatly enhance the testability of the code that handles HTTP requests. By representing the response body with DTOs/VOs, it becomes easier to write unit tests that verify the behavior of the code in isolation. Mocking or stubbing the response data becomes simpler, as the expected structure is well-defined. This improves the overall test coverage and makes it easier to catch bugs and regressions.</p>
+</li>
+</ul>
+<doc-anchor-target id="creating-mapper">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#creating-mapper">#</doc-anchor-trigger>
+        <span>Creating Mapper</span>
+    </h3>
+</doc-anchor-target>
+<p>To create a mapper, your decoder must implements <a href="https://github.com/phanxipang/fansipan/blob/main/src/Contracts/MapperInterface.php"><code v-pre>MapperInterface</code></a> and include additional logic in the <code v-pre>map</code> method to map the response body to an object.</p>
+<doc-tabs>
+<doc-tab v-cloak id="decoder">
+<template #title>Decoder</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\Contracts\MapperInterface;
+
+final class MyUserMapperDecoder implements MapperInterface
+{
+    public function decode(ResponseInterface $response): iterable
+    {
+        return \json_decode((string) $response-&gt;getBody(), true);
+    }
+
+    public function map(ResponseInterface $response): ?object
+    {
+        // this is a very basic piece of code,
+        // you should also handle the mapping in case the response fails.
+        $decoded = $this-&gt;decode($response);
+
+        return new User(
+            $decoded['id'] ?? 0,
+            $decoded['name'] ?? '',
+        );
+    }
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+<doc-tab v-cloak id="request">
+<template #title>Request</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\Contracts\DecoderInterface;
+use Fansipan\Request;
+
+final class GetUserRequest extends Request
+{
+    public function decoder(): DecoderInterface
+    {
+        return new MyUserMapperDecoder();
+    }
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+<doc-tab v-cloak id="user-dto">
+<template #title>User DTO</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">final class User
+{
+    public int $id;
+
+    public string $name;
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+</doc-tabs>
+<p>You can also utilize a (de)serializer/mapper in your decoder to automatically create the object. Here is an example using <a href="https://github.com/CuyZ/Valinor"><code v-pre>cuyz/valinor</code></a>:</p>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1 rounded-tl rounded-bl bg-blue-500 dark:bg-blue-400"></div>
+    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr rounded-br doc-alert bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-blue-500 dark:text-blue-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M12 1C5.93 1 1 5.93 1 12s4.93 11 11 11 11-4.93 11-11S18.07 1 12 1zm0 20c-4.96 0-9-4.04-9-9s4.04-9 9-9 9 4.04 9 9-4.04 9-9 9z"></path>
+                    <path d="M12 11c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zM12.01 7c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>The flowing examples use PHP 8.1+ syntax.</p>
+        </div>
+    </div>
+</div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">use CuyZ\Valinor\Mapper\TreeMapper;
+use CuyZ\Valinor\MapperBuilder;
+use Fansipan\Contracts\MapperInterface;
+use Fansipan\Decoder\ChainDecoder;
+
+final class CustomDecoder implements MapperInterface
+{
+    private TreeMapper $mapper;
+
+    private DecoderInterface $decoder;
+
+    public function __construct(
+        private readonly string $signature,
+        ?TreeMapper $mapper = null,
+        ?DecoderInterface $decoder = null
+    ) {
+        $this-&gt;mapper = $mapper ?? (new MapperBuilder())
+            -&gt;allowSuperfluousKeys()
+            -&gt;mapper();
+
+        $this-&gt;decoder = $decoder ?? ChainDecoder::default();
+    }
+
+    public function map(ResponseInterface $response): ?object
+    {
+        $status = $response-&gt;getStatusCode();
+        $decoded = $this-&gt;decoder-&gt;decode($response);
+
+        if ($status &gt;= 200 &amp;&amp; $status &lt; 300) {
+            return $this-&gt;mapper-&gt;map($this-&gt;signature, $decoded);
+        } else {
+            return $this-&gt;mapper-&gt;map(ErrorResponse::class, $decoded); // &quot;Error&quot; response object
+        }
+    }
+
+    public function decode(ResponseInterface $response): iterable
+    {
+        return $this-&gt;decoder-&gt;decode($response);
+    }
+}</code></pre>
+</doc-codeblock></div>
+<p>It is entirely up to the SDK developer to choose the (de)serializer/mapper to work with. Some notable mentions are:</p>
+<ul>
+<li><a href="https://github.com/CuyZ/Valinor"><code v-pre>cuyz/valinor</code></a></li>
+<li><a href="https://github.com/symfony/serializer"><code v-pre>symfony/serializer</code></a></li>
+<li><a href="https://github.com/EventSaucePHP/ObjectHydrator"><code v-pre>eventsauce/object-hydrator</code></a></li>
+<li><a href="https://github.com/Crell/Serde"><code v-pre>crell/serde</code></a></li>
+<li><a href="https://github.com/spatie/laravel-data"><code v-pre>spatie/laravel-data</code></a></li>
+<li><a href="https://github.com/schmittjoh/serializer"><code v-pre>jms/serializer</code></a></li>
+<li><a href="https://github.com/cweiske/jsonmapper"><code v-pre>netresearch/jsonmapper</code></a></li>
+<li><a href="https://github.com/JsonMapper/JsonMapper"><code v-pre>json-mapper/json-mapper</code></a></li>
+<li><a href="https://github.com/brick/json-mapper"><code v-pre>brick/json-mapper</code></a></li>
+</ul>
+<doc-anchor-target id="using-your-object">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#using-your-object">#</doc-anchor-trigger>
+        <span>Using Your Object</span>
+    </h3>
+</doc-anchor-target>
+<p>Then, you can retrieve your response body as an object:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">$response = $connector-&gt;send(new GetUserRequest());
+
+/** @var User $user */
+$user = $response-&gt;object();</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="typed-object-with-generics-support">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#typed-object-with-generics-support">#</doc-anchor-trigger>
+        <span>Typed object with generics support</span>
+    </h4>
+</doc-anchor-target>
+<p>Additionally, you can define the type your DTO/VO via generics annotations:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\Request;
+
+/**
+ * @extends Request&lt;User&gt;
+ */
+final class GetUserRequest extends Request
+{
+
+}
+
+$response = $connector-&gt;send(new GetUserRequest());
+
+$user = $response-&gt;object();
+// Your IDE recognizes that $user is an instance of User without the need for an @var annotation.
+echo $user-&gt;id;</code></pre>
+</doc-codeblock></div>
+<p>The <code v-pre>@extends</code> annotation allows your IDE to understand which type your response body, and therefore allows for better static code analysis and code completion.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -275,7 +465,7 @@ class MyRequest extends Request
                                     <ul class="flex flex-wrap items-center text-sm">
                                     </ul>
                                 </div>
-                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2023. All rights reserved.</p></div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2024. All rights reserved.</p></div>
                             </footer>
                         </div>
                     </div>
