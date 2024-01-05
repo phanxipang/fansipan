@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.757763187384">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.757783963619">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -31,12 +31,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.5.0.757763187384" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.757783963619" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.757763187384" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.757783963619" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.757763187384" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.757763187384" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.757783963619" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.757783963619" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -257,7 +257,7 @@ class MyRequest extends Request
         <span>Creating Mapper</span>
     </h3>
 </doc-anchor-target>
-<p>To create a mapper, your decoder must implements <a href="https://github.com/phanxipang/fansipan/blob/main/src/Contracts/MapperInterface.php"><code v-pre>MapperInterface</code></a> and include additional logic in the <code v-pre>map</code> method to map the response body to an object.</p>
+<p>To create a mapper, your decoder must also implements <a href="https://github.com/phanxipang/fansipan/blob/main/src/Contracts/MapperInterface.php"><code v-pre>MapperInterface</code></a> and include additional logic in the <code v-pre>map</code> method to map the response body to an object.</p>
 <doc-tabs>
 <doc-tab v-cloak id="decoder">
 <template #title>Decoder</template>
@@ -431,6 +431,23 @@ $user = $response-&gt;object();
 echo $user-&gt;id;</code></pre>
 </doc-codeblock></div>
 <p>The <code v-pre>@extends</code> annotation allows your IDE to understand which type your response body, and therefore allows for better static code analysis and code completion.</p>
+<doc-anchor-target id="working-with-list-of-resources">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#working-with-list-of-resources">#</doc-anchor-trigger>
+        <span>Working With List of Resources</span>
+    </h3>
+</doc-anchor-target>
+<p>Dealing with a list of resources is common when working with API endpoints, such as fetching a <a href="https://jsonplaceholder.typicode.com/users">list of users</a>. In typical scenarios, your code would have a method that returns something like this:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">/**
+ * @return User[]
+ */
+public function fetchUsers(): array
+{
+    //
+}</code></pre>
+</doc-codeblock></div>
+<p>However the <code v-pre>$response-&gt;object()</code> method&#x27;s return type is <code v-pre>?object</code>, which is not suitable. Fortunately, you can utilize a collection library like <a href="https://github.com/ramsey/collection"><code v-pre>ramsey/collection</code></a> or <a href="https://laravel.com/docs/latest/collections">Laravel Collection</a> to represent your list of users as an object. If you prefer not to install additional dependencies, PHP&#x27;s built-in <a href="https://www.php.net/manual/en/class.arrayiterator.php"><code v-pre>ArrayIterator</code></a> is a solid choice for handling the list of resources.</p>
 
                                 
                                 <!-- Required only on API pages -->
