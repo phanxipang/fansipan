@@ -11,6 +11,8 @@ use Psr\Http\Message\ResponseInterface;
 final class JsonDecoder implements DecoderInterface
 {
     /**
+     * @return  array<array-key, mixed>
+     *
      * @throws \Fansipan\Exception\NotDecodableException
      */
     public function decode(ResponseInterface $response): iterable
