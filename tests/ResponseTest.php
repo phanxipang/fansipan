@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Fansipan\Tests;
 
+use Fansipan\Exception\NotDecodableException;
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
 use Fansipan\Response;
@@ -75,5 +76,16 @@ final class ResponseTest extends TestCase
         $this->assertTrue($response->ok());
         $this->assertJson($json = \json_encode($response));
         $this->assertJsonStringEqualsJsonFile($file, $json);
+    }
+
+    public function test_response_without_decoder(): void
+    {
+        $response = new Response(MockResponse::create(''));
+
+        $this->expectException(NotDecodableException::class);
+
+        $response->decode();
+
+        $this->assertIsArray($response->data());
     }
 }
