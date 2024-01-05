@@ -11,9 +11,11 @@ use Psr\Http\Message\ResponseInterface;
 final class JsonDecoder implements DecoderInterface
 {
     /**
+     * @return  array<array-key, mixed>
+     *
      * @throws \Fansipan\Exception\NotDecodableException
      */
-    public function decode(ResponseInterface $response): array
+    public function decode(ResponseInterface $response): iterable
     {
         if (! $this->supports($response)) {
             throw NotDecodableException::create();

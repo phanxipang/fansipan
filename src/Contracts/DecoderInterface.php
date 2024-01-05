@@ -9,9 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 interface DecoderInterface
 {
     /**
-     * Decode response body to native array type.
+     * Decode response body.
      *
      * @throws \Fansipan\Exception\NotDecodableException if decoder is unable to decode the response
      */
-    public function decode(ResponseInterface $response): array;
+    public function decode(ResponseInterface $response): iterable;
 }

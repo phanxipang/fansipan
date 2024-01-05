@@ -23,19 +23,29 @@ final class ChainDecoder implements DecoderInterface
         $this->decoders = $decoders;
     }
 
-    /**
-     * @throws \Fansipan\Exception\NotDecodableException
-     */
-    public function decode(ResponseInterface $response): array
+    public function decode(ResponseInterface $response): iterable
     {
         foreach ($this->decoders as $decoder) {
             try {
-                return $decoder->decode($response);
+                yield from $decoder->decode($response);
             } catch (NotDecodableException $e) {
                 continue;
             }
         }
+    }
 
-        throw NotDecodableException::create();
+    /**
+     * Create default chain decoder.
+     */
+    public static function default(): self
+    {
+        $decoders = static function () {
+            yield from [
+                new JsonDecoder(),
+                new XmlDecoder(),
+            ];
+        };
+
+        return new self($decoders());
     }
 }

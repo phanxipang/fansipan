@@ -63,4 +63,17 @@ final class ResponseTest extends TestCase
 
         $this->assertSame('bar', $response->foo());
     }
+
+    public function test_response_can_be_json_serialize(): void
+    {
+        $client = new MockClient(
+            MockResponse::fixture($file = __DIR__.'/fixtures/user.json')
+        );
+        $connector = (new Connector())->withClient($client);
+        $response = $connector->send(new GetStatusRequest());
+
+        $this->assertTrue($response->ok());
+        $this->assertJson($json = \json_encode($response));
+        $this->assertJsonStringEqualsJsonFile($file, $json);
+    }
 }
