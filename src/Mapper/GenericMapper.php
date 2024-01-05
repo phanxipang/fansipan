@@ -47,7 +47,7 @@ final class GenericMapper implements DecoderInterface, MapperInterface
     public function map(ResponseInterface $response): ?object
     {
         $status = $response->getStatusCode();
-        $decoded = $this->decoder->decode($response);
+        $decoded = $this->decode($response);
 
         if ($status >= 200 && $status < 300) {
             return ($this->onSuccess)($decoded);
