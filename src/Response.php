@@ -8,6 +8,7 @@ use Closure;
 use Fansipan\Contracts\DecoderInterface;
 use Fansipan\Contracts\MapperInterface;
 use Fansipan\Exception\HttpException;
+use Fansipan\Exception\NotDecodableException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -57,7 +58,11 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     public function data(): array
     {
         if (! $this->decoded) {
-            $this->decoded = Util::iteratorToArray($this->decode());
+            try {
+                $this->decoded = Util::iteratorToArray($this->decode());
+            } catch (NotDecodableException $e) {
+                $this->decoded = [];
+            }
         }
 
         return $this->decoded;
@@ -80,12 +85,12 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     /**
      * Get the decoded body the response.
      *
-     * @throws \Fansipan\Exception\NotDecodableException
+     * @throws NotDecodableException
      */
     public function decode(): iterable
     {
         if (! $this->decoder instanceof DecoderInterface) {
-            return [];
+            throw NotDecodableException::create();
         }
 
         return $this->decoder->decode($this->response);
@@ -191,6 +196,8 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
 
     /**
      * Execute the given callback if there was a server or client error.
+     *
+     * @return Response<T>
      */
     public function onError(callable $callback): self
     {
@@ -228,6 +235,8 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     /**
      * Throw an exception if a server or client error occurred.
      *
+     * @return Response<T>
+     *
      * @throws \Fansipan\Exception\HttpException
      */
     public function throw(): self
@@ -255,6 +264,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
      * Throw an exception if a server or client error occurred and the given condition evaluates to true.
      *
      * @param  \Closure|bool  $condition
+     * @return Response<T>
      *
      * @throws \Fansipan\Exception\HttpException
      */
