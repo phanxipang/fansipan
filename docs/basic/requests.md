@@ -247,7 +247,7 @@ $request = new UpdateUserRequest(123, [
 Another example is this endpoint, [`https://jsonplaceholder.typicode.com/todos`](https://jsonplaceholder.typicode.com/todos), which supports the `_page` and `_limit` query parameters. Therefore, you should include something like this:
 
 !!!
-The flowing examples use PHP 8.1 syntax.
+The flowing examples use PHP 8.1+ syntax.
 !!!
 
 ```php

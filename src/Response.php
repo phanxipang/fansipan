@@ -6,21 +6,25 @@ namespace Fansipan;
 
 use Closure;
 use Fansipan\Contracts\DecoderInterface;
+use Fansipan\Contracts\MapperInterface;
 use Fansipan\Exception\HttpException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
-final class Response implements \ArrayAccess, \Stringable
+/**
+ * @template T of object
+ */
+final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
 {
     use Traits\Macroable;
 
     /**
-     * @var \Psr\Http\Message\ResponseInterface
+     * @var ResponseInterface
      */
     private $response;
 
     /**
-     * @var null|\Fansipan\Contracts\DecoderInterface
+     * @var null|DecoderInterface|(DecoderInterface&MapperInterface<T>)
      */
     private $decoder;
 
@@ -53,20 +57,32 @@ final class Response implements \ArrayAccess, \Stringable
     public function data(): array
     {
         if (! $this->decoded) {
-            $this->decoded = $this->decode();
+            $this->decoded = Util::iteratorToArray($this->decode());
         }
 
         return $this->decoded;
     }
 
     /**
-     * Decode the response body.
+     * Get the decoded body of the response as an object.
      *
-     * @return array<array-key, mixed>
+     * @return ?T
+     */
+    public function object(): ?object
+    {
+        if (! $this->decoder instanceof MapperInterface) {
+            return null;
+        }
+
+        return $this->decoder->map($this->response); // @phpstan-ignore-line
+    }
+
+    /**
+     * Get the decoded body the response.
      *
      * @throws \Fansipan\Exception\NotDecodableException
      */
-    private function decode(): array
+    public function decode(): iterable
     {
         if (! $this->decoder instanceof DecoderInterface) {
             return [];
@@ -221,6 +237,10 @@ final class Response implements \ArrayAccess, \Stringable
         if ($this->failed()) {
             $exception = $this->toException();
 
+            if (! $exception) {
+                return $this;
+            }
+
             if ($callback && \is_callable($callback)) {
                 $callback($this, $exception);
             }
@@ -285,10 +305,14 @@ final class Response implements \ArrayAccess, \Stringable
         throw new LogicException('Response data may not be mutated using array access.');
     }
 
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
+    {
+        return $this->data();
+    }
+
     /**
      * Get the body of the response.
-     *
-     * @return string
      */
     public function __toString()
     {

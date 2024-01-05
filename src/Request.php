@@ -8,9 +8,10 @@ use Fansipan\Body\FormPayload;
 use Fansipan\Contracts\DecoderInterface;
 use Fansipan\Contracts\PayloadInterface;
 use Fansipan\Decoder\ChainDecoder;
-use Fansipan\Decoder\JsonDecoder;
-use Fansipan\Decoder\XmlDecoder;
 
+/**
+ * @template T of object
+ */
 abstract class Request
 {
     /**
@@ -128,13 +129,6 @@ abstract class Request
      */
     public function decoder(): DecoderInterface
     {
-        $decoders = static function () {
-            yield from [
-                new JsonDecoder(),
-                new XmlDecoder(),
-            ];
-        };
-
-        return new ChainDecoder($decoders());
+        return ChainDecoder::default();
     }
 }
