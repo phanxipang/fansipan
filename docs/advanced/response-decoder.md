@@ -100,15 +100,24 @@ The flowing examples use PHP 8.1+ syntax.
 ```php
 use CuyZ\Valinor\Mapper\TreeMapper;
 use CuyZ\Valinor\MapperBuilder;
+use Fansipan\Contracts\DecoderInterface;
 use Fansipan\Contracts\MapperInterface;
 use Fansipan\Decoder\ChainDecoder;
+use Psr\Http\Message\ResponseInterface;
 
-final class CustomDecoder implements MapperInterface
+/**
+ * @template T of object
+ * @implements MapperInterface<T>
+ */
+final class CustomDecoder implements DecoderInterface, MapperInterface
 {
     private TreeMapper $mapper;
 
     private DecoderInterface $decoder;
 
+    /**
+     * @param  string|class-string<T> $signature
+     */
     public function __construct(
         private readonly string $signature,
         ?TreeMapper $mapper = null,
@@ -124,7 +133,7 @@ final class CustomDecoder implements MapperInterface
     public function map(ResponseInterface $response): ?object
     {
         $status = $response->getStatusCode();
-        $decoded = $this->decoder->decode($response);
+        $decoded = $this->decode($response);
 
         if ($status >= 200 && $status < 300) {
             return $this->mapper->map($this->signature, $decoded);
