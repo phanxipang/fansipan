@@ -41,7 +41,7 @@ When dealing with the response body of an HTTP request, utilizing Data Transfer 
 
 ### Creating Mapper
 
-To create a mapper, your decoder must implements [`MapperInterface`](https://github.com/phanxipang/fansipan/blob/main/src/Contracts/MapperInterface.php) and include additional logic in the `map` method to map the response body to an object.
+To create a mapper, your decoder must also implements [`MapperInterface`](https://github.com/phanxipang/fansipan/blob/main/src/Contracts/MapperInterface.php) and include additional logic in the `map` method to map the response body to an object.
 
 +++ Decoder
 ```php
@@ -195,3 +195,19 @@ echo $user->id;
 ```
 
 The `@extends` annotation allows your IDE to understand which type your response body, and therefore allows for better static code analysis and code completion.
+
+### Working With List of Resources
+
+Dealing with a list of resources is common when working with API endpoints, such as fetching a [list of users](https://jsonplaceholder.typicode.com/users). In typical scenarios, your code would have a method that returns something like this:
+
+```php
+/**
+ * @return User[]
+ */
+public function fetchUsers(): array
+{
+    //
+}
+```
+
+However the `$response->object()` method's return type is `?object`, which is not suitable. Fortunately, you can utilize a collection library like [`ramsey/collection`](https://github.com/ramsey/collection) or [Laravel Collection](https://laravel.com/docs/latest/collections) to represent your list of users as an object. If you prefer not to install additional dependencies, PHP's built-in [`ArrayIterator`](https://www.php.net/manual/en/class.arrayiterator.php) is a solid choice for handling the list of resources.
