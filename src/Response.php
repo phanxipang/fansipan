@@ -307,7 +307,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
 
     public function jsonSerialize(): mixed
     {
-        return \json_encode($this->data());
+        return $this->data();
     }
 
     /**

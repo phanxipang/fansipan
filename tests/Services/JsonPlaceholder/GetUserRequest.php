@@ -33,7 +33,7 @@ final class GetUserRequest extends Request
                 return User::fromArray(Util::iteratorToArray($data));
             },
             static function (iterable $data) {
-                return User::fromArray(Util::iteratorToArray($data));
+                return new Error();
             }
         );
     }
