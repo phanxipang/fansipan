@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Fansipan\Tests;
 
+use Fansipan\Decoder\ChainDecoder;
 use Fansipan\Exception\NotDecodableException;
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
@@ -89,5 +90,12 @@ final class ResponseTest extends TestCase
         $response->decode();
 
         $this->assertIsArray($response->data());
+    }
+
+    public function test_response_unable_to_decode(): void
+    {
+        $response = new Response(MockResponse::create('Hello'), ChainDecoder::default());
+
+        $this->assertSame([], $response->data());
     }
 }
