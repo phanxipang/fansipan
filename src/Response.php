@@ -90,7 +90,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     public function decode(): iterable
     {
         if (! $this->decoder instanceof DecoderInterface) {
-            throw NotDecodableException::create();
+            throw new NotDecodableException('Unable to decode response body because no decoder has been set.');
         }
 
         return $this->decoder->decode($this->response);

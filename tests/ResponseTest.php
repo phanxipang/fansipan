@@ -21,6 +21,8 @@ final class ResponseTest extends TestCase
         $connector = (new Connector())->withClient($client);
         $response = $connector->send(new GetStatusRequest());
 
+        $this->assertArrayHasKey('Content-Type', $response->headers());
+        $this->assertSame('OK', $response->reason());
         $this->assertTrue($response->ok());
         $this->assertSame(1, $response['id'] ?? null);
 
