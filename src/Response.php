@@ -197,7 +197,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     /**
      * Execute the given callback if there was a server or client error.
      *
-     * @return Response<T>
+     * @return self<T>
      */
     public function onError(callable $callback): self
     {
@@ -235,7 +235,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     /**
      * Throw an exception if a server or client error occurred.
      *
-     * @return Response<T>
+     * @return self<T>
      *
      * @throws \Fansipan\Exception\HttpException
      */
@@ -264,9 +264,9 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
      * Throw an exception if a server or client error occurred and the given condition evaluates to true.
      *
      * @param  \Closure|bool  $condition
-     * @return Response<T>
+     * @return self<T>
      *
-     * @throws \Fansipan\Exception\HttpException
+     * @throws HttpException
      */
     public function throwIf($condition): self
     {
