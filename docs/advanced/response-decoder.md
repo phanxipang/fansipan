@@ -45,9 +45,10 @@ To create a mapper, your decoder must also implements [`MapperInterface`](https:
 
 +++ Decoder
 ```php
+use Fansipan\Contracts\DecoderInterface;
 use Fansipan\Contracts\MapperInterface;
 
-final class MyUserMapperDecoder implements MapperInterface
+final class MyUserMapperDecoder implements DecoderInterface, MapperInterface
 {
     public function decode(ResponseInterface $response): iterable
     {
