@@ -1,5 +1,6 @@
 ---
 label: Response Decoder
+icon: git-pull-request
 ---
 
 HTTP response is a crucial aspect of web development, and it is essential to decode the response body to extract the necessary information. However, the response body is typically returned in a string format as JSON or XML, which can be challenging to work with. This is where a response decoder comes in handy. A response decoder can convert the HTTP response body from a string format to a more manageable format, such as an array. This conversion enables developers to extract the relevant information from the response quickly.

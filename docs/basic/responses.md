@@ -1,5 +1,6 @@
 ---
 order: 300
+icon: trophy
 ---
 
 All requests will return an instance of `Fansipan\Response`, which is a wrapper of `Psr\Http\Message\ResponseInterface` that provides a variety of convenience methods to inspect the response:

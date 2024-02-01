@@ -1,10 +1,11 @@
 ---
 order: 80
+icon: zap
 ---
 
 In this quickstart, we'll guide you through the most important functionalities of the package and how to use them.
 
-First, you should [install the package](./installation.md).
+[!ref](./installation.md)
 
 ## Create a Connector
 

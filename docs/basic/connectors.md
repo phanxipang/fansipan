@@ -1,5 +1,6 @@
 ---
 order: 500
+icon: plug
 ---
 
 From the [Quick start](../getting-started/quickstart.md#creating-request) guide, you have learned how to send a request without defining an HTTP client. However in real world use cases, typically you need to customize your HTTP client with options such as custom authorization header, timeout, etc...

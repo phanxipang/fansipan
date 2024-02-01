@@ -1,5 +1,6 @@
 ---
 order: 100
+icon: checklist
 ---
 
 This package requires:

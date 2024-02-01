@@ -1,3 +1,8 @@
+---
+order: 500
+icon: mirror
+---
+
 Middleware provide a convenient mechanism for inspecting and modifying HTTP requests before sending.
 
 Additional middleware can be written to perform a variety of tasks. For example, a logging middleware might log all outgoing requests and responses.

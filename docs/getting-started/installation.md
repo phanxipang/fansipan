@@ -1,5 +1,6 @@
 ---
 order: 90
+icon: package-dependencies
 ---
 
 You can install the package via composer:

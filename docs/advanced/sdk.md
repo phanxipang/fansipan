@@ -1,5 +1,6 @@
 ---
 label: SDK
+icon: pulse
 ---
 
 ![](../static/sdk-hero.png)
@@ -204,3 +205,17 @@ $repos = $github->org('github')->repos();
 
 $docs = $github->org('github')->repo('docs');
 ```
+
+## SDK Generator
+
+[Mist](https://github.com/phanxipang/mist) is a generation tool designed to automate the generation of SDKs based on the OpenAPI specification (OAS).
+
+[!ref icon="cloud" target="blank" text="Mist"](https://github.com/phanxipang/mist)
+
+The tool assists in generating code that establishes the basic foundation for interacting with an API based on the OpenAPI specification. This includes generating connector methods, request stubs, data models, and handling basic request/response functionality. However, it may not cover all possible use cases or provide all the advanced features required for a fully functional SDK.
+
+It's important to note that while the Mist provides a starting point, developers will still need to review and modify the generated code according to their project's requirements, coding standards, and best practices. This customization process ensures that the SDK aligns with the specific needs of the application and the API being integrated.
+
+!!!
+As the tool is in the early alpha stage, it's essential to carefully evaluate its generated code and thoroughly test it to ensure it meets the desired functionality and quality standards before using it in a production environment.
+!!!
