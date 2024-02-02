@@ -20,6 +20,16 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.0.0 - 2024-02-02
+
+### What's Changed
+
+#### v1.0.0 stable release.
+
+This release does not contain any changes but mark the project as stable. While this project becomes stable, [Mist](https://github.com/phanxipang/mist) start its journey in alpha stage.
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/0.8.1...1.0.0
+
 ## 0.8.1 - 2024-01-05
 
 ### What's Changed
