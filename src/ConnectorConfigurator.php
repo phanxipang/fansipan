@@ -17,7 +17,7 @@ use Fansipan\Retry\GenericRetryStrategy;
 class ConnectorConfigurator
 {
     /**
-     * @var \Closure[]
+     * @var array<int, callable(T): void>
      */
     private $handlers = [];
 
@@ -41,10 +41,10 @@ class ConnectorConfigurator
     /**
      * Register a configuration handler.
      *
-     * @param  \Closure(T): void $handler
+     * @param  callable(T): void $handler
      * @return static
      */
-    protected function register(\Closure $handler)
+    final public function register(callable $handler)
     {
         $clone = clone $this;
 
