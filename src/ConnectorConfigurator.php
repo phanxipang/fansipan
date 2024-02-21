@@ -10,6 +10,8 @@ use Fansipan\Middleware\FollowRedirects;
 use Fansipan\Middleware\RetryRequests;
 use Fansipan\Retry\Delay;
 use Fansipan\Retry\GenericRetryStrategy;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @template T of ConnectorInterface
@@ -36,6 +38,21 @@ class ConnectorConfigurator
         }
 
         return $clone;
+    }
+
+    /**
+     * Register a middleware configuration handler.
+     *
+     * @param  callable(RequestInterface, callable): ResponseInterface $middleware
+     * @return static
+     */
+    final public function middleware(callable $middleware, string $name = '')
+    {
+        return $this->register(static function (ConnectorInterface $connector) use ($middleware, $name) {
+            $connector->middleware()->unshift(
+                $middleware, $name
+            );
+        });
     }
 
     /**
@@ -84,13 +101,11 @@ class ConnectorConfigurator
         bool $strict = false,
         bool $referer = false
     ) {
-        return $this->register(static function (ConnectorInterface $connector) use ($max, $protocols, $strict, $referer) {
-            $connector->middleware()->unshift(new FollowRedirects(
-                $max,
-                $protocols,
-                $strict,
-                $referer
-            ), 'follow_redirects');
-        });
+        return $this->middleware(new FollowRedirects(
+            $max,
+            $protocols,
+            $strict,
+            $referer
+        ), 'follow_redirects');
     }
 }
