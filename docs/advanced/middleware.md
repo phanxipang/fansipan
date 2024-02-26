@@ -123,13 +123,24 @@ Once the middleware has been created, you may use the `push` method to assign mi
 $connector->middleware()->push(new AddHeader('X-Foo', 'baz'));
 ```
 
+Adding middleware to the connector will apply to all requests. If you only want to apply it to the current request, use the `middleware` method of `ConnectorConfigurator` to create a cloned instance of your connector:
+
+```php
+use Fansipan\ConnectorConfigurator;
+
+$response = (new ConnectorConfigurator())
+    ->middleware(new AddHeader('X-Foo', 'baz'))
+    ->configure($connector)
+    ->send(new MyRequest());
+```
+
 Creating a middleware that modifies a request is made much simpler using the `Fansipan\Middleware\Interceptor::request()` method. This middleware accepts a function that takes the request argument:
 
 ```php
 use Fansipan\Middleware\Interceptor;
 use Psr\Http\Message\RequestInterface;
 
-$connector->middleware()->push(Interceptor::request(function (RequestInterface $request) {
+$connector->middleware()->push(Interceptor::request(static function (RequestInterface $request) {
     return $request->withHeader('X-Foo', 'bar');
 }));
 ```
@@ -140,7 +151,7 @@ Modifying a response is also much simpler using the `Fansipan\Middleware\Interce
 use Fansipan\Middleware\Interceptor;
 use Psr\Http\Message\ResponseInterface;
 
-$connector->middleware()->push(Interceptor::response(function (ResponseInterface $response) {
+$connector->middleware()->push(Interceptor::response(static function (ResponseInterface $response) {
     return $response->withHeader('X-Foo', 'bar');
 }));
 ```
@@ -149,17 +160,17 @@ You can give middleware a name, which allows you to add middleware before other 
 
 ```php
 // Add a middleware with a name
-$connector->middleware()->push(Interceptor::request(function (RequestInterface $request) {
+$connector->middleware()->push(Interceptor::request(static function (RequestInterface $request) {
     return $request->withHeader('X-Foo', 'bar');
 }), 'add_foo');
 
 // Add a middleware before a named middleware (unshift before).
-$connector->middleware()->before('add_foo', Interceptor::request(function (RequestInterface $request) {
+$connector->middleware()->before('add_foo', Interceptor::request(static function (RequestInterface $request) {
     return $request->withHeader('X-Baz', 'qux');
 }), 'add_baz');
 
 // Add a middleware after a named middleware (pushed after).
-$connector->middleware()->before('add_baz', Interceptor::request(function (RequestInterface $request) {
+$connector->middleware()->before('add_baz', Interceptor::request(static function (RequestInterface $request) {
     return $request->withHeader('X-Lorem', 'Ipsum');
 }));
 
