@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.761801012735">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.762233291812">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -31,12 +31,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.5.0.761801012735" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.762233291812" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.761801012735" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.762233291812" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.761801012735" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.761801012735" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.762233291812" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.762233291812" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -355,12 +355,21 @@ final class Connector implements ConnectorInterface
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">$connector-&gt;middleware()-&gt;push(new AddHeader('X-Foo', 'baz'));</code></pre>
 </doc-codeblock></div>
+<p>Adding middleware to the connector will apply to all requests. If you only want to apply it to the current request, use the <code v-pre>middleware</code> method of <code v-pre>ConnectorConfigurator</code> to create a cloned instance of your connector:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\ConnectorConfigurator;
+
+$response = (new ConnectorConfigurator())
+    -&gt;middleware(new AddHeader('X-Foo', 'baz'))
+    -&gt;configure($connector)
+    -&gt;send(new MyRequest());</code></pre>
+</doc-codeblock></div>
 <p>Creating a middleware that modifies a request is made much simpler using the <code v-pre>Fansipan\Middleware\Interceptor::request()</code> method. This middleware accepts a function that takes the request argument:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">use Fansipan\Middleware\Interceptor;
 use Psr\Http\Message\RequestInterface;
 
-$connector-&gt;middleware()-&gt;push(Interceptor::request(function (RequestInterface $request) {
+$connector-&gt;middleware()-&gt;push(Interceptor::request(static function (RequestInterface $request) {
     return $request-&gt;withHeader('X-Foo', 'bar');
 }));</code></pre>
 </doc-codeblock></div>
@@ -369,24 +378,24 @@ $connector-&gt;middleware()-&gt;push(Interceptor::request(function (RequestInter
 <pre class="language-php"><code v-pre class="language-php">use Fansipan\Middleware\Interceptor;
 use Psr\Http\Message\ResponseInterface;
 
-$connector-&gt;middleware()-&gt;push(Interceptor::response(function (ResponseInterface $response) {
+$connector-&gt;middleware()-&gt;push(Interceptor::response(static function (ResponseInterface $response) {
     return $response-&gt;withHeader('X-Foo', 'bar');
 }));</code></pre>
 </doc-codeblock></div>
 <p>You can give middleware a name, which allows you to add middleware before other named middleware, after other named middleware, or remove middleware by name.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">// Add a middleware with a name
-$connector-&gt;middleware()-&gt;push(Interceptor::request(function (RequestInterface $request) {
+$connector-&gt;middleware()-&gt;push(Interceptor::request(static function (RequestInterface $request) {
     return $request-&gt;withHeader('X-Foo', 'bar');
 }), 'add_foo');
 
 // Add a middleware before a named middleware (unshift before).
-$connector-&gt;middleware()-&gt;before('add_foo', Interceptor::request(function (RequestInterface $request) {
+$connector-&gt;middleware()-&gt;before('add_foo', Interceptor::request(static function (RequestInterface $request) {
     return $request-&gt;withHeader('X-Baz', 'qux');
 }), 'add_baz');
 
 // Add a middleware after a named middleware (pushed after).
-$connector-&gt;middleware()-&gt;before('add_baz', Interceptor::request(function (RequestInterface $request) {
+$connector-&gt;middleware()-&gt;before('add_baz', Interceptor::request(static function (RequestInterface $request) {
     return $request-&gt;withHeader('X-Lorem', 'Ipsum');
 }));
 
