@@ -8,7 +8,7 @@ Middleware provide a convenient mechanism for inspecting and modifying HTTP requ
 Additional middleware can be written to perform a variety of tasks. For example, a logging middleware might log all outgoing requests and responses.
 
 !!!
-Middleware is **mutable**. If you want to apply middleware to only one request, use `clone` to avoid mutating the connector middleware.
+Middleware is **mutable**. If you want to apply middleware to only one request, use `clone` or [`ConnectorConfigurator`](#adding--removing-middleware) to avoid mutating the connector middleware.
 !!!
 
 ## Defining Middleware
