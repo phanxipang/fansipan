@@ -20,6 +20,16 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.0.2 - 2024-03-05
+
+### What's Changed
+
+#### Added
+
+* Make `GenericConnector` PSR-18 client.
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/1.0.1...1.0.2
+
 ## 1.0.1 - 2024-02-21
 
 ### What's Changed
