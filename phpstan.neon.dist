@@ -10,6 +10,11 @@ parameters:
 
     tmpDir: build/phpstan
 
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
     treatPhpDocTypesAsCertain: false
+
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
+
+        -
+            identifier: missingType.generics
