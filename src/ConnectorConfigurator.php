@@ -61,7 +61,7 @@ class ConnectorConfigurator
      * @param  \Closure(T): void $handler
      * @return static
      */
-    protected function register(\Closure $handler)
+    final public function register(\Closure $handler)
     {
         $clone = clone $this;
         $clone->handlers[] = $handler;
