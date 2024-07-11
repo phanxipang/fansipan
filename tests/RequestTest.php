@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Fansipan\Tests;
 
 use Fansipan\Body\MultipartResource;
+use Fansipan\ConnectorlessRequest;
 use Fansipan\Exception\HttpException;
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
 use Fansipan\Response;
+use Fansipan\Tests\Services\DummyRequest;
 use Fansipan\Tests\Services\HTTPBin\Connector;
 use Fansipan\Tests\Services\HTTPBin\DTO\Uuid;
 use Fansipan\Tests\Services\HTTPBin\GetHeadersRequest;
@@ -168,5 +170,19 @@ final class RequestTest extends TestCase
         });
 
         $connector->send($request->withStatus(200))->throwIf(true);
+    }
+
+    public function test_connectorless_request(): void
+    {
+        $client = new MockClient();
+        $connector = $this->connector->withClient($client);
+
+        $response = (new DummyRequest('https://example.com'))->send($connector);
+
+        $this->assertTrue($response->successful());
+
+        $response = ConnectorlessRequest::create('https://example.org')->send($connector);
+
+        $this->assertTrue($response->successful());
     }
 }
