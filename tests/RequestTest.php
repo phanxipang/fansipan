@@ -175,13 +175,12 @@ final class RequestTest extends TestCase
     public function test_connectorless_request(): void
     {
         $client = new MockClient();
-        $connector = $this->connector->withClient($client);
 
-        $response = (new DummyRequest('https://example.com'))->send($connector);
+        $response = (new DummyRequest('https://example.com'))->send($client);
 
         $this->assertTrue($response->successful());
 
-        $response = ConnectorlessRequest::create('https://example.org')->send($connector);
+        $response = ConnectorlessRequest::create('https://example.org')->send($client);
 
         $this->assertTrue($response->successful());
     }

@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace Fansipan;
 
-use Fansipan\Contracts\ConnectorInterface;
+use Http\Discovery\Psr18ClientDiscovery;
+use Psr\Http\Client\ClientInterface;
 
 abstract class ConnectorlessRequest extends Request
 {
     /**
      * Send the request.
      */
-    final public function send(?ConnectorInterface $connector = null): Response
+    final public function send(?ClientInterface $client = null): Response
     {
-        $connector = $connector ?: new GenericConnector();
+        $client = $client ?: Psr18ClientDiscovery::find();
 
-        return $connector->send($this);
+        $response = $client->sendRequest(Util::request($this));
+
+        return new Response($response, $this->decoder());
     }
 
     /**
