@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Fansipan;
+namespace Fansipan\Tests\Services;
 
 use Fansipan\Contracts\ConnectorInterface;
 use Fansipan\Traits\ConnectorTrait;

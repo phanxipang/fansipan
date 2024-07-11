@@ -6,11 +6,11 @@ namespace Fansipan\Tests;
 
 use Fansipan\ConnectorConfigurator;
 use Fansipan\Exception\TooManyRedirectsException;
-use Fansipan\GenericConnector;
 use Fansipan\Middleware\FollowRedirects;
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
 use Fansipan\Tests\Services\DummyRequest;
+use Fansipan\Tests\Services\GenericConnector;
 
 final class FollowRedirectsTest extends TestCase
 {

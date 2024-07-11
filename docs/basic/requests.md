@@ -492,17 +492,22 @@ $response = $connector->send($request);
 
 ### Sending Request without Connector
 
-While the typical setup of a connector and requests is great, sometimes all you need is to make a single request to a service. For scenarios like these, you may create a "`ConnectorlessRequest`" instead of making a connector and a single request. This saves you from having to create additional classes.
+While the typical setup of a connector and requests is great, sometimes all you need is to make a single request to a service. For scenarios like these, you may create a `ConnectorlessRequest` instead of making a connector and a single request. This saves you from having to create additional classes.
 
 !!!danger
 It is NOT recommended to send your requests without connector. Be aware of the [downsides](#downsides).
 !!!
 
-Create a request class, but instead of extending `Fansipan\Request`, you should extend `Fansipan\ConnectorlessRequest`. Next, just define everything else like you would a normal request. Make sure to include the full URL of the service you are integrating with.
+```php
+use Fansipan\ConnectorlessRequest;
+
+$request = ConnectorlessRequest::create('https://jsonplaceholder.typicode.com/users');
+$response = $request->send();
+```
+
+In case you needs constructor arguments on your request. Create a request class, but instead of extending `Fansipan\Request`, you should extend `Fansipan\ConnectorlessRequest`. Next, just define everything else like you would a normal request. Make sure to include the full URL of the service you are integrating with.
 
 ```php
-<?php
-
 use Fansipan\ConnectorlessRequest;
 
 final class GetUsersRequest extends ConnectorlessRequest
