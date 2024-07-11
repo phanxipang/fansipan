@@ -17,13 +17,6 @@ final class MultipartPayload extends Map implements PayloadInterface
      */
     private $boundary;
 
-    /**
-     * Create new multipart payload instance.
-     *
-     * @param  array  $parameters
-     * @param  null|string  $boundary
-     * @return void
-     */
     public function __construct(array $parameters = [], ?string $boundary = null)
     {
         parent::__construct($parameters);
@@ -31,9 +24,6 @@ final class MultipartPayload extends Map implements PayloadInterface
         $this->boundary = $boundary ?: \bin2hex(\random_bytes(20));
     }
 
-    /**
-     * Get the header content type value.
-     */
     public function contentType(): ?string
     {
         return 'multipart/form-data; boundary='.$this->boundary;
@@ -94,9 +84,6 @@ final class MultipartPayload extends Map implements PayloadInterface
         return $str;
     }
 
-    /**
-     * Get the string representation of the payload.
-     */
     public function __toString()
     {
         $str = '';

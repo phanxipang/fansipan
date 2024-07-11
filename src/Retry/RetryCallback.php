@@ -13,15 +13,19 @@ use Psr\Http\Message\ResponseInterface;
 final class RetryCallback implements RetryStrategyInterface
 {
     /**
-     * @var \Closure
+     * @var \Closure(RequestInterface, ResponseInterface): bool
      */
     private $when;
 
     /**
-     * @var \Closure
+     * @var \Closure(RetryContext): int
      */
     private $delay;
 
+    /**
+     * @param  \Closure(RequestInterface, ResponseInterface): bool $when
+     * @param  \Closure(RetryContext): int $delay
+     */
     public function __construct(Closure $when, Closure $delay)
     {
         $this->when = $when;

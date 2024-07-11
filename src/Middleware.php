@@ -14,6 +14,9 @@ final class Middleware implements \IteratorAggregate, \Countable
      */
     private $middleware = [];
 
+    /**
+     * @param  array<array-key, callable(RequestInterface, callable): ResponseInterface> $middleware
+     */
     public function __construct(array $middleware = [])
     {
         foreach ($middleware as $name => $value) {
