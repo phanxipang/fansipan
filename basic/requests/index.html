@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.774006557427">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.774028696793">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -31,12 +31,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.5.0.774006557427" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.774028696793" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.774006557427" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.774028696793" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.774006557427" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.774006557427" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.774028696793" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.774028696793" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -790,7 +790,7 @@ $response = $connector-&gt;send($request);</code></pre>
         <span>Sending Request without Connector</span>
     </h3>
 </doc-anchor-target>
-<p>While the typical setup of a connector and requests is great, sometimes all you need is to make a single request to a service. For scenarios like these, you may create a &quot;<code v-pre>ConnectorlessRequest</code>&quot; instead of making a connector and a single request. This saves you from having to create additional classes.</p>
+<p>While the typical setup of a connector and requests is great, sometimes all you need is to make a single request to a service. For scenarios like these, you may create a <code v-pre>ConnectorlessRequest</code> instead of making a connector and a single request. This saves you from having to create additional classes.</p>
 <div class="flex mb-6">
     <div class="shrink-0 w-1 rounded-tl rounded-bl bg-red-500"></div>
     <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr rounded-br doc-alert bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
@@ -807,11 +807,15 @@ $response = $connector-&gt;send($request);</code></pre>
         </div>
     </div>
 </div>
-<p>Create a request class, but instead of extending <code v-pre>Fansipan\Request</code>, you should extend <code v-pre>Fansipan\ConnectorlessRequest</code>. Next, just define everything else like you would a normal request. Make sure to include the full URL of the service you are integrating with.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">&lt;?php
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\ConnectorlessRequest;
 
-use Fansipan\ConnectorlessRequest;
+$request = ConnectorlessRequest::create('https://jsonplaceholder.typicode.com/users');
+$response = $request-&gt;send();</code></pre>
+</doc-codeblock></div>
+<p>In case you needs constructor arguments on your request. Create a request class, but instead of extending <code v-pre>Fansipan\Request</code>, you should extend <code v-pre>Fansipan\ConnectorlessRequest</code>. Next, just define everything else like you would a normal request. Make sure to include the full URL of the service you are integrating with.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\ConnectorlessRequest;
 
 final class GetUsersRequest extends ConnectorlessRequest
 {
