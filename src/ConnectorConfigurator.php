@@ -19,7 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 class ConnectorConfigurator
 {
     /**
-     * @var \Closure[]
+     * @var array<\Closure(T): void>
      */
     private $handlers = [];
 
@@ -64,7 +64,6 @@ class ConnectorConfigurator
     protected function register(\Closure $handler)
     {
         $clone = clone $this;
-
         $clone->handlers[] = $handler;
 
         return $clone;
