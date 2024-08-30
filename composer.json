@@ -55,6 +55,9 @@
         "cs": [
             "vendor/bin/php-cs-fixer fix"
         ],
+        "lint": [
+            "vendor/bin/php-cs-fixer fix --dry-run"
+        ],
         "test": [
             "vendor/bin/phpunit"
         ],
@@ -62,7 +65,7 @@
             "vendor/bin/phpunit --coverage"
         ],
         "check": [
-            "@cs --dry-run",
+            "@lint",
             "@analyse",
             "@test"
         ]

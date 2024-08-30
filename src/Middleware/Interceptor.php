@@ -12,6 +12,8 @@ final class Interceptor
 {
     /**
      * Add a request interceptor.
+     *
+     * @param  \Closure(RequestInterface): RequestInterface $callback
      */
     public static function request(Closure $callback): Closure
     {
@@ -22,6 +24,8 @@ final class Interceptor
 
     /**
      * Add a response interceptor.
+     *
+     * @param  \Closure(ResponseInterface): ResponseInterface $callback
      */
     public static function response(Closure $callback): Closure
     {

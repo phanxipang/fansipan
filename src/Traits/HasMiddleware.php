@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Fansipan\Traits;
 
 use Fansipan\Middleware;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 trait HasMiddleware
 {
@@ -29,6 +31,8 @@ trait HasMiddleware
 
     /**
      * Get default middleware.
+     *
+     * @return array<array-key, callable(RequestInterface, callable): ResponseInterface>
      */
     protected function defaultMiddleware(): array
     {

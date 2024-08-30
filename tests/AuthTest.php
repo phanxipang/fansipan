@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Fansipan\Tests;
 
-use Fansipan\GenericConnector;
 use Fansipan\Middleware\Auth\BasicAuthentication;
 use Fansipan\Middleware\Auth\BearerAuthentication;
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
 use Fansipan\Tests\Services\DummyRequest;
+use Fansipan\Tests\Services\GenericConnector;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

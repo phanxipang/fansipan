@@ -13,18 +13,17 @@ use Fansipan\Retry\GenericRetryStrategy;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * @template T of ConnectorInterface
- */
 class ConnectorConfigurator
 {
     /**
-     * @var \Closure[]
+     * @var array<\Closure(ConnectorInterface): void>
      */
     private $handlers = [];
 
     /**
      * Configure the given connector with options for current request.
+     *
+     * @template T of ConnectorInterface
      *
      * @param  T $connector
      * @return T
@@ -58,13 +57,12 @@ class ConnectorConfigurator
     /**
      * Register a configuration handler.
      *
-     * @param  \Closure(T): void $handler
+     * @param  \Closure(ConnectorInterface): void $handler
      * @return static
      */
     protected function register(\Closure $handler)
     {
         $clone = clone $this;
-
         $clone->handlers[] = $handler;
 
         return $clone;

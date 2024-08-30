@@ -20,6 +20,17 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.1.0 - 2024-07-11
+
+### What's Changed
+
+#### Added
+
+* feat: update generics by @jenky in https://github.com/phanxipang/fansipan/pull/28
+* Anonymous connectorless request by @jenky in https://github.com/phanxipang/fansipan/pull/29
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/1.0.2...1.1.0
+
 ## 1.0.2 - 2024-03-05
 
 ### What's Changed

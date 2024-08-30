@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Fansipan\Tests;
 
 use Fansipan\Contracts\MapperInterface;
-use Fansipan\GenericConnector;
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
 use Fansipan\Tests\Services\DummyRequest;
+use Fansipan\Tests\Services\GenericConnector;
 use Fansipan\Tests\Services\JsonPlaceholder\Error;
 use Fansipan\Tests\Services\JsonPlaceholder\GetUserRequest;
 use Fansipan\Tests\Services\JsonPlaceholder\User;

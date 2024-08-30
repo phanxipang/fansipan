@@ -24,7 +24,6 @@ trait HasClient
     public function withClient(ClientInterface $client)
     {
         $clone = clone $this;
-
         $clone->client = $client;
 
         return $clone;

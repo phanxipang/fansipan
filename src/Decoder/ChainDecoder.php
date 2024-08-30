@@ -26,6 +26,10 @@ final class ChainDecoder implements DecoderInterface
     public function decode(ResponseInterface $response): iterable
     {
         foreach ($this->decoders as $decoder) {
+            if (! $decoder instanceof DecoderInterface) {
+                throw new \InvalidArgumentException(sprintf('Decoder must implement %s. %s given', DecoderInterface::class, \get_debug_type($decoder)));
+            }
+
             try {
                 yield from $decoder->decode($response);
             } catch (NotDecodableException $e) {

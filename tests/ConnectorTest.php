@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Fansipan\Tests;
 
 use Fansipan\ConnectorConfigurator;
-use Fansipan\GenericConnector;
 use Fansipan\Middleware\Interceptor;
 use Fansipan\Mock\MockResponse;
 use Fansipan\Mock\ScopingMockClient;
 use Fansipan\Tests\Services\DummyRequest;
+use Fansipan\Tests\Services\GenericConnector;
 use Fansipan\Tests\Services\PostmanEcho\EchoConnector;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

@@ -21,17 +21,11 @@ final class JsonPayload extends Map implements PayloadInterface
         $this->flags = $flags;
     }
 
-    /**
-     * Get the header content type value.
-     */
     public function contentType(): ?string
     {
         return 'application/json';
     }
 
-    /**
-     * Get the string representation of the payload.
-     */
     public function __toString()
     {
         return \json_encode($this->all(), $this->flags) ?: '';
