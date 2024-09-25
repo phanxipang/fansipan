@@ -6,11 +6,10 @@ $finder = Symfony\Component\Finder\Finder::create()
         __DIR__ . '/tests',
     ])
     ->name('*.php')
-    ->notName('*.blade.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-    return (new PhpCsFixer\Config)
+return (new PhpCsFixer\Config)
     ->setRules([
         '@PSR12' => true,
         'align_multiline_comment' => true,

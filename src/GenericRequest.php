@@ -6,8 +6,14 @@ namespace Fansipan;
 
 final class GenericRequest extends ConnectorlessRequest
 {
+    /**
+     * @var string
+     */
     private $uri;
 
+    /**
+     * @var string
+     */
     private $method;
 
     public function __construct(

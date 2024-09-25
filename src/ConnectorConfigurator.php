@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Fansipan;
 
+use Fansipan\Contracts\AuthenticatorInterface;
 use Fansipan\Contracts\ConnectorInterface;
 use Fansipan\Contracts\RetryStrategyInterface;
+use Fansipan\Middleware\Authentication;
 use Fansipan\Middleware\FollowRedirects;
 use Fansipan\Middleware\RetryRequests;
 use Fansipan\Retry\Delay;
@@ -105,5 +107,15 @@ class ConnectorConfigurator
             $strict,
             $referer
         ), 'follow_redirects');
+    }
+
+    /**
+     * Set the authenticator for current request.
+     *
+     * @return static
+     */
+    public function auth(AuthenticatorInterface $authenticator)
+    {
+        return $this->middleware(new Authentication($authenticator), 'authentication');
     }
 }

@@ -29,7 +29,7 @@ final class GenericAccessTokenExtractor implements AccessTokenExtractorInterface
         $this->expiresKey = $expiresKey;
     }
 
-    public function extract(ResponseInterface $response): AccessToken
+    public function getToken(ResponseInterface $response): AccessToken
     {
         $responseWrapper = new Response($response, ChainDecoder::default());
 

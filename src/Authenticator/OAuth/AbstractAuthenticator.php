@@ -59,6 +59,6 @@ abstract class AbstractAuthenticator implements AuthenticatorInterface
 
         $response = $this->client->sendRequest(Util::request($request));
 
-        return $this->extractor->extract($response);
+        return $this->extractor->getToken($response);
     }
 }

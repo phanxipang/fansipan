@@ -9,5 +9,5 @@ use Psr\Http\Message\ResponseInterface;
 
 interface AccessTokenExtractorInterface
 {
-    public function extract(ResponseInterface $response): AccessToken;
+    public function getToken(ResponseInterface $response): AccessToken;
 }
