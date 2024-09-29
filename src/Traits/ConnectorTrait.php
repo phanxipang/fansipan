@@ -31,7 +31,7 @@ trait ConnectorTrait
             Util::request($request, static::baseUri())
         );
 
-        return new Response($response, $request->decoder()); // @phpstan-ignore-line
+        return new Response($response, $request->decoder());
     }
 
     public function sendRequest(RequestInterface $request): ResponseInterface

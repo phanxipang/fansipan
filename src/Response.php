@@ -75,11 +75,12 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
      */
     public function object(): ?object
     {
-        if (! $this->decoder instanceof MapperInterface) {
+        if (! ($decoder = $this->decoder) instanceof MapperInterface) {
             return null;
         }
 
-        return $this->decoder->map($this->response); // @phpstan-ignore-line
+        /** @var MapperInterface<T> $decoder */
+        return $decoder->map($this->response);
     }
 
     /**

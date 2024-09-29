@@ -27,6 +27,7 @@ interface ConnectorInterface
      * The request and response should be processed through middleware.
      *
      * @template T of object
+     *
      * @param  Request<T> $request
      * @return Response<T>
      */
