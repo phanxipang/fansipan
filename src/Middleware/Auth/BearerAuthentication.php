@@ -11,6 +11,7 @@ use Fansipan\Middleware\Authentication;
 
 /**
  * @deprecated since v1.2 Use Authentication middleware with BearerAuthenticator instead.
+ * @codeCoverageIgnore
  */
 final class BearerAuthentication
 {
