@@ -12,6 +12,6 @@ final class BasicAuthenticator implements AuthenticatorInterface
 
     public function __construct(string $username, string $password)
     {
-        $this->token = 'Basic '.\base64_encode($username.':'.$password);
+        $this->value = 'Basic '.\base64_encode($username.':'.$password);
     }
 }

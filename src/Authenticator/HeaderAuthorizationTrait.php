@@ -10,16 +10,21 @@ use Psr\Http\Message\RequestInterface;
 trait HeaderAuthorizationTrait
 {
     /**
+     * @var string
+     */
+    private $header = 'Authorization';
+
+    /**
      * @var string|\Stringable
      */
-    protected $token;
+    protected $value;
 
     public function authenticate(RequestInterface $request): RequestInterface
     {
-        if (! $this->token) {
+        if (! $this->value) {
             throw new InvalidTokenException('Invalid authorization token.');
         }
 
-        return $request->withAddedHeader('Authorization', (string) $this->token);
+        return $request->withAddedHeader($this->header, (string) $this->value);
     }
 }
