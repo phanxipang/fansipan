@@ -7,6 +7,9 @@ namespace Fansipan\Middleware\Auth;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 trait AuthenticationMiddlewareTrait
 {
     /**

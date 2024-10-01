@@ -25,6 +25,10 @@ Tools such as [PSR-7](https://www.php-fig.org/psr/psr-7), [PSR-17](https://www.p
 - HTTP Client agnostic.
 - Reuseable middleware.
 
+[!ref Middleware](/advanced/middleware.md)
+[!ref Response DTO](/advanced/response-decoder.md/#mapping-response-body-to-object)
+[!ref SDK](/advanced/sdk.md)
+
 ## Credits
 
 - [PHP-FIG](https://www.php-fig.org/) for their [PSRs](https://www.php-fig.org/psr/) with special recognition to the authors and contributors of [PSR-7 (HTTP message interfaces)](https://www.php-fig.org/psr/psr-7), [PSR-17 (HTTP Factories)](https://www.php-fig.org/psr/psr-17) and [PSR-18 (HTTP Client)](https://www.php-fig.org/psr/psr-18).
