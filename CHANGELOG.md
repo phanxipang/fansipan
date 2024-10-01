@@ -20,6 +20,21 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.2.0 - 2024-10-01
+
+### What's Changed
+
+#### Added
+
+* Authenticator by @jenky in https://github.com/phanxipang/fansipan/pull/30
+* Minor generics improvements
+
+#### Deprecated
+
+* Deprecate `BearerAuthentication` and `BasicAuthentication` in favor of [Authenticator](https://phanxipang.github.io/fansipan/advanced/authentication/)
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/1.1.0...1.2.0
+
 ## 1.1.0 - 2024-07-11
 
 ### What's Changed
