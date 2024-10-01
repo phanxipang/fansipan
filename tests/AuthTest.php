@@ -8,6 +8,7 @@ use Fansipan\Authenticator\BasicAuthenticator;
 use Fansipan\Authenticator\BearerAuthenticator;
 use Fansipan\Authenticator\HeaderAuthenticator;
 use Fansipan\Authenticator\QueryAuthenticator;
+use Fansipan\ConnectorConfigurator;
 use Fansipan\Contracts\AuthenticatorInterface;
 use Fansipan\Middleware\Authentication;
 use Fansipan\Mock\MockClient;
@@ -20,14 +21,14 @@ use Psr\Http\Message\ResponseInterface;
 
 final class AuthTest extends TestCase
 {
-    private function fakeAuthentication(string $credential): callable
+    private function fakeAuthentication(string $credential, string $header = 'Authorization'): callable
     {
-        return static function (RequestInterface $request, callable $next) use ($credential): ResponseInterface {
-            if (! $request->hasHeader('Authorization')) {
+        return static function (RequestInterface $request, callable $next) use ($header, $credential): ResponseInterface {
+            if (! $request->hasHeader($header)) {
                 return $next($request)->withStatus(401);
             }
 
-            $authorization = $request->getHeaderLine('Authorization');
+            $authorization = $request->getHeaderLine($header);
 
             if ($authorization !== $credential) {
                 return $next($request)->withStatus(401);
@@ -82,6 +83,24 @@ final class AuthTest extends TestCase
         $connector->middleware()->before('fake_auth', new Authentication(new BearerAuthenticator('#zKh#4KNu$Bq4^b97KJ6')));
 
         $response = $connector->send(new DummyRequest('http://localhost'));
+
+        $this->assertTrue($response->ok());
+    }
+
+    public function test_header_auth(): void
+    {
+        $client = new MockClient();
+        $connector = (new GenericConnector())->withClient($client);
+        $connector->middleware()->push($this->fakeAuthentication('api_secret_key', 'X-Api-Key'));
+
+        $response = $connector->send(new DummyRequest('http://localhost'));
+
+        $this->assertTrue($response->unauthorized());
+
+        $response = (new ConnectorConfigurator())
+            ->auth(new HeaderAuthenticator('X-API-KEY', 'api_secret_key'))
+            ->configure($connector)
+            ->send(new DummyRequest('http://localhost'));
 
         $this->assertTrue($response->ok());
     }
