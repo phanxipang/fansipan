@@ -8,7 +8,7 @@ use Fansipan\Contracts\AuthenticatorInterface;
 
 final class BearerAuthenticator implements AuthenticatorInterface
 {
-    use HeaderAuthorizationTrait;
+    use HeaderAuthenticationTrait;
 
     public function __construct(string $token, string $tokenPrefix = 'Bearer')
     {

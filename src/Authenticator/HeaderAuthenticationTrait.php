@@ -7,7 +7,7 @@ namespace Fansipan\Authenticator;
 use Fansipan\Exception\InvalidTokenException;
 use Psr\Http\Message\RequestInterface;
 
-trait HeaderAuthorizationTrait
+trait HeaderAuthenticationTrait
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ trait HeaderAuthorizationTrait
     public function authenticate(RequestInterface $request): RequestInterface
     {
         if (! $this->value) {
-            throw new InvalidTokenException('Invalid authorization token.');
+            throw new InvalidTokenException('Invalid token.');
         }
 
         return $request->withAddedHeader($this->header, (string) $this->value);

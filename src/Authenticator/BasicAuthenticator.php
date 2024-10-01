@@ -8,7 +8,7 @@ use Fansipan\Contracts\AuthenticatorInterface;
 
 final class BasicAuthenticator implements AuthenticatorInterface
 {
-    use HeaderAuthorizationTrait;
+    use HeaderAuthenticationTrait;
 
     public function __construct(string $username, string $password)
     {
