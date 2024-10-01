@@ -27,7 +27,6 @@ final class QueryAuthenticator implements AuthenticatorInterface
 
     public function authenticate(RequestInterface $request): RequestInterface
     {
-
         $uri = $request->getUri();
         \parse_str($uri->getQuery(), $query);
 
