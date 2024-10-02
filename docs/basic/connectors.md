@@ -38,7 +38,7 @@ final class MyConnector implements ConnectorInterface
         return 'https://my-service.api';
     }
 
-    public function defaultClient(): ClientInterface
+    protected function defaultClient(): ClientInterface
     {
         return new Client([
             'timeout' => 10,

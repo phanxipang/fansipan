@@ -8,8 +8,9 @@ icon: pulse
 ## Creating SDK Connector
 
 ```php
+use Fansipan\Authenticator\BearerAuthenticator;
 use Fansipan\Contracts\ConnectorInterface;
-use Fansipan\Middleware\Auth\BearerAuthentication;
+use Fansipan\Middleware\Authentication;
 use Fansipan\Middleware\Interceptor;
 use Fansipan\Traits\ConnectorTrait;
 use Psr\Http\Message\RequestInterface;
@@ -46,7 +47,7 @@ final class Github implements ConnectorInterface
 
                 return $request->withHeader('Accept', 'application/vnd.github+json');
             }),
-            new BearerAuthentication($this->token),
+            new Authentication(new BearerAuthenticator($this->token)),
         ];
     }
 }
@@ -67,7 +68,7 @@ $github = new Github('access-token');
 When you have created the request, all that developers would need to do is to instantiate and send the request on the connector.
 
 ```php
-use Fansipan\Request;
+use Fansipan\Middleware\Auth\BearerAuthentication;
 
 final class GetRepository extends Request
 {
@@ -109,8 +110,8 @@ Sometimes you may want to make it easy for the developer to find all the methods
 
 +++ Definition
 ```php
-use Fansipan\Contracts\ConnectorInterface;
-use Fansipan\Traits\ConnectorTrait;
+use Fansipan\Middleware\Authentication;
+use Fansipan\Middleware\Interceptor;
 
 final class Github implements ConnectorInterface
 {
@@ -143,7 +144,7 @@ Let's start by creating a `OrganizationResource` class. This class should contai
 ```php
 <?php
 
-use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Request;
 
 final class OrganizationResource
 {
@@ -176,8 +177,12 @@ Now we'll define a method on the connector which returns this resource class. Do
 ```php
 <?php
 
-use Fansipan\Contracts\ConnectorInterface;
 use Fansipan\Traits\ConnectorTrait;
+use Fansipan\Traits\ConnectorTrait;
+use Fansipan\Traits\ConnectorTrait;
+use Psr\Http\Message\RequestInterface;
+
+
 
 final class Github implements ConnectorInterface
 {
