@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.781083909171">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.781152050543">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -33,12 +33,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.6.0.781083909171" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.6.0.781152050543" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.781083909171" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.781152050543" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.781083909171" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.781083909171" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.781152050543" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.781152050543" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -219,8 +219,9 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Fansipan\Contracts\ConnectorInterface;
-use Fansipan\Middleware\Auth\BearerAuthentication;
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\Authenticator\BearerAuthenticator;
+use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Middleware\Authentication;
 use Fansipan\Middleware\Interceptor;
 use Fansipan\Traits\ConnectorTrait;
 use Psr\Http\Message\RequestInterface;
@@ -257,7 +258,7 @@ final class Github implements ConnectorInterface
 
                 return $request-&gt;withHeader('Accept', 'application/vnd.github+json');
             }),
-            new BearerAuthentication($this-&gt;token),
+            new Authentication(new BearerAuthenticator($this-&gt;token)),
         ];
     }
 }</code></pre>
@@ -282,7 +283,7 @@ final class Github implements ConnectorInterface
 </doc-anchor-target>
 <p>When you have created the request, all that developers would need to do is to instantiate and send the request on the connector.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Fansipan\Request;
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\Middleware\Auth\BearerAuthentication;
 
 final class GetRepository extends Request
 {
@@ -326,8 +327,8 @@ $response = $connector-&gt;send($request);</code></pre>
 <doc-tab v-cloak id="definition">
 <template #title>Definition</template>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-php"><code v-pre class="language-php">use Fansipan\Contracts\ConnectorInterface;
-use Fansipan\Traits\ConnectorTrait;
+<pre class="language-php"><code v-pre class="language-php">use Fansipan\Middleware\Authentication;
+use Fansipan\Middleware\Interceptor;
 
 final class Github implements ConnectorInterface
 {
@@ -368,7 +369,7 @@ $github-&gt;allUserRepos('jenky');</code></pre>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">&lt;?php
 
-use Fansipan\Contracts\ConnectorInterface;
+use Fansipan\Request;
 
 final class OrganizationResource
 {
@@ -403,8 +404,12 @@ final class OrganizationResource
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-php"><code v-pre class="language-php">&lt;?php
 
-use Fansipan\Contracts\ConnectorInterface;
 use Fansipan\Traits\ConnectorTrait;
+use Fansipan\Traits\ConnectorTrait;
+use Fansipan\Traits\ConnectorTrait;
+use Psr\Http\Message\RequestInterface;
+
+
 
 final class Github implements ConnectorInterface
 {
