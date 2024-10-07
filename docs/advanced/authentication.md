@@ -29,7 +29,7 @@ $response = (new ConnectorConfigurator())
     ->send(new MyRequest());
 ```
 
-## Built-in Authenticators
+## Built-In Authenticators
 
 ### Bearer Authenticator
 
