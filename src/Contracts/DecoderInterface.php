@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 interface DecoderInterface
 {
     /**
-     * Decode response body.
+     * Decode the response body.
      *
      * @throws \Fansipan\Exception\NotDecodableException if decoder is unable to decode the response
      */

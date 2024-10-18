@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 interface RetryStrategyInterface
 {
     /**
-     * Returns whether the request should be retried.
+     * Determine whether the request should be retried.
      */
     public function shouldRetry(RequestInterface $request, ResponseInterface $response): bool;
 

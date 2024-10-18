@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 interface MapperInterface
 {
     /**
-     * Map the response to an object.
+     * Map the response body to an object.
      *
      * @return ?T
      */
