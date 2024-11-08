@@ -53,6 +53,9 @@ final class FollowRedirects
         $this->referer = $referer;
     }
 
+    /**
+     * @param  callable(RequestInterface): ResponseInterface $next
+     */
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
         $response = $next($request);

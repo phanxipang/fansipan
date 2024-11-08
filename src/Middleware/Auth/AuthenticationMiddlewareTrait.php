@@ -17,6 +17,9 @@ trait AuthenticationMiddlewareTrait
      */
     private $token;
 
+    /**
+     * @param  callable(RequestInterface): ResponseInterface $next
+     */
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
         return $next($request->withHeader('Authorization', (string) $this->token));

@@ -20,6 +20,9 @@ final class Authentication
         $this->authenticator = $authenticator;
     }
 
+    /**
+     * @param  callable(RequestInterface): ResponseInterface $next
+     */
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
     {
         return $next($this->authenticator->authenticate($request));

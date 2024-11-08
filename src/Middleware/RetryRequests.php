@@ -29,6 +29,7 @@ final class RetryRequests
     }
 
     /**
+     * @param  callable(RequestInterface): ResponseInterface $next
      * @throws \Fansipan\Exception\RequestRetryFailedException
      */
     public function __invoke(RequestInterface $request, callable $next): ResponseInterface
