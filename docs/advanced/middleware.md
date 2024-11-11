@@ -1,6 +1,6 @@
 ---
 order: 500
-icon: mirror
+icon: stack
 ---
 
 Middleware provide a convenient mechanism for inspecting and modifying HTTP requests before sending.
