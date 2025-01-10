@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Fansipan\Tests;
 
 use Fansipan\Contracts\MapperInterface;
+use Fansipan\Exception\MapperException;
 use Fansipan\Mock\MockClient;
 use Fansipan\Mock\MockResponse;
 use Fansipan\Tests\Services\DummyRequest;
@@ -48,6 +49,8 @@ final class MapperTest extends TestCase
 
         $this->assertNotInstanceOf(MapperInterface::class, $request->decoder());
         $this->assertTrue($response->ok());
-        $this->assertNull($response->object());
+
+        $this->expectException(MapperException::class);
+        $response->object();
     }
 }
