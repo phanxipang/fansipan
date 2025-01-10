@@ -20,6 +20,24 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.3.0 - 2025-01-10
+
+### What's Changed
+
+#### Added
+
+* PHP 8.4 test by @jenky in https://github.com/phanxipang/fansipan/pull/31
+
+#### Fixed
+
+* Throw exception when using `$response->object()` when decoder is not a mapper
+
+#### Deprecated
+
+* Add deprecation warning  when `$response->object()` return `null`
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/1.2.0...1.3.0
+
 ## 1.2.0 - 2024-10-01
 
 ### What's Changed
