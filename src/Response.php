@@ -8,6 +8,7 @@ use Closure;
 use Fansipan\Contracts\DecoderInterface;
 use Fansipan\Contracts\MapperInterface;
 use Fansipan\Exception\HttpException;
+use Fansipan\Exception\MapperException;
 use Fansipan\Exception\NotDecodableException;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
@@ -76,11 +77,17 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     public function object(): ?object
     {
         if (! ($decoder = $this->decoder) instanceof MapperInterface) {
-            return null;
+            throw new MapperException('The response could not be mapped to an object because the decoder is not a mapper.');
         }
 
         /** @var MapperInterface<T> $decoder */
-        return $decoder->map($this->response);
+        $object = $decoder->map($this->response);
+
+        if (null === $object) {
+            @trigger_error('The object() method should not return null. The return type will be updated in v2.', \E_USER_DEPRECATED);
+        }
+
+        return $object;
     }
 
     /**
