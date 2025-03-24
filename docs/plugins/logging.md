@@ -75,7 +75,7 @@ new HttpMessageFormatter('{request:json} <-> {response:json}');
 
 ### Log Level
 
-By default, successful requests and responses are recorded using `info` level, while client errors (4xx) are recorded at the `error` level. You can also pass a third argument to the `Logger` constructor to override this behavior.
+By default, successful requests and responses are recorded using `info` level, while client and server errors (4xx & 5xx) are recorded at the `error` level. You can also pass a third argument to the `Logger` constructor to override this behavior.
 
 ```php
 use Fansipan\Log\HttpMessageFormatter;
