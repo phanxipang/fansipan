@@ -336,6 +336,6 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
      */
     public function __toString()
     {
-        return $this->body();
+        return (string) $this->body();
     }
 }
