@@ -20,6 +20,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.4.0 - 2025-06-14
+
+### What's Changed
+
+* Update body method to return string or StreamInterface based on asString parameter by @jenky in https://github.com/phanxipang/fansipan/pull/32
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/1.3.0...1.4.0
+
 ## 1.3.0 - 2025-01-10
 
 ### What's Changed
