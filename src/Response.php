@@ -45,10 +45,12 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
 
     /**
      * Get the body of the response.
+     *
+     * @return ($asString is true ? string : \Psr\Http\Message\StreamInterface)
      */
-    public function body(): string
+    public function body(bool $asString = true): mixed
     {
-        return (string) $this->response->getBody();
+        return $asString ? (string) $this->response->getBody() : $this->response->getBody();
     }
 
     /**
