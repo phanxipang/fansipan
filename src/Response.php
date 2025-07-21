@@ -60,7 +60,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
      */
     public function data(): array
     {
-        if (! $this->decoded) {
+        if ($this->decoded === null) {
             try {
                 $this->decoded = Util::iteratorToArray($this->decode());
             } catch (NotDecodableException $e) {
@@ -83,13 +83,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
         }
 
         /** @var MapperInterface<T> $decoder */
-        $object = $decoder->map($this->response);
-
-        if (null === $object) {
-            @trigger_error('The object() method should not return null. The return type will be updated in v2.', \E_USER_DEPRECATED);
-        }
-
-        return $object;
+        return $decoder->map($this->response);
     }
 
     /**
