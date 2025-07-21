@@ -83,9 +83,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
         }
 
         /** @var MapperInterface<T> $decoder */
-        $object = $decoder->map($this->response);
-
-        return $object;
+        return $decoder->map($this->response);
     }
 
     /**
