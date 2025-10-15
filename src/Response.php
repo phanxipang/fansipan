@@ -83,7 +83,13 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
         }
 
         /** @var MapperInterface<T> $decoder */
-        return $decoder->map($this->response);
+        $object = $decoder->map($this->response);
+
+        if (null === $object) {
+            @trigger_error('The object() method should not return null. The return type will be updated in v2.', \E_USER_DEPRECATED);
+        }
+
+        return $object;
     }
 
     /**
