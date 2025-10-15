@@ -20,6 +20,16 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.4.2 - 2025-10-15
+
+### What's Changed
+
+#### Deprecated
+
+* Add deprecation warning  when `$response->object()` return `null`
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/1.4.1...1.4.2
+
 ## 1.4.1 - 2025-07-21
 
 ### What's Changed
