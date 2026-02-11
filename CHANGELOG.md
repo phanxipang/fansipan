@@ -20,6 +20,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.5.0 - 2026-02-11
+
+### What's Changed
+
+* Adds payload support to connectorless requests by @jenky in https://github.com/phanxipang/fansipan/pull/35
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/1.4.2...1.5.0
+
 ## 1.4.2 - 2025-10-15
 
 ### What's Changed
