@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Fansipan\Tests;
 
+use Fansipan\Body\JsonPayload;
 use Fansipan\Body\MultipartResource;
 use Fansipan\ConnectorlessRequest;
 use Fansipan\Exception\HttpException;
@@ -20,6 +21,7 @@ use Fansipan\Tests\Services\HTTPBin\GetXmlRequest;
 use Fansipan\Tests\Services\HTTPBin\PostAnythingRequest;
 use Fansipan\Tests\Services\HTTPBin\PostRequest;
 use Fansipan\Tests\Services\PostmanEcho\CurrentUtcRequest;
+use Psr\Http\Message\RequestInterface;
 
 final class RequestTest extends TestCase
 {
@@ -183,5 +185,13 @@ final class RequestTest extends TestCase
         $response = ConnectorlessRequest::create('https://example.org')->send($client);
 
         $this->assertTrue($response->successful());
+
+        $response = ConnectorlessRequest::create('https://example.org', 'POST', new JsonPayload())->send($client);
+
+        $this->assertTrue($response->successful());
+
+        $client->assertSent(static function (RequestInterface $request) {
+            return $request->getHeaderLine('content-type') === 'application/json';
+        });
     }
 }

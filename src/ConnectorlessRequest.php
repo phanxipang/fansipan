@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Fansipan;
 
+use Fansipan\Body\FormPayload;
+use Fansipan\Contracts\PayloadInterface;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 
@@ -24,9 +26,9 @@ abstract class ConnectorlessRequest extends Request
     /**
      * @param  string|\Stringable $endpoint
      */
-    public static function create($endpoint, string $method = 'GET'): self
+    public static function create($endpoint, string $method = 'GET', ?PayloadInterface $payload = null): self
     {
-        return new class ((string) $endpoint, $method) extends ConnectorlessRequest {
+        return new class ((string) $endpoint, $method, $payload) extends ConnectorlessRequest {
             /**
              * @var string
              */
@@ -37,12 +39,19 @@ abstract class ConnectorlessRequest extends Request
              */
             private $method;
 
+            /**
+             * @var ?PayloadInterface
+             */
+            private $payload;
+
             public function __construct(
                 string $endpoint,
-                string $method = 'GET'
+                string $method = 'GET',
+                ?PayloadInterface $payload = null
             ) {
                 $this->endpoint = $endpoint;
                 $this->method = $method;
+                $this->payload = $payload;
             }
 
             public function endpoint(): string
@@ -53,6 +62,14 @@ abstract class ConnectorlessRequest extends Request
             public function method(): string
             {
                 return $this->method;
+            }
+
+            /**
+             * Create new request body payload.
+             */
+            protected function definePayload(): PayloadInterface
+            {
+                return $this->payload !== null ? $this->payload : new FormPayload();
             }
         };
     }
