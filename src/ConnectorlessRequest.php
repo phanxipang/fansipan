@@ -28,7 +28,7 @@ abstract class ConnectorlessRequest extends Request
      */
     public static function create($endpoint, string $method = 'GET', ?PayloadInterface $payload = null): self
     {
-        return new class ((string) $endpoint, $method, $payload) extends ConnectorlessRequest {
+        return new class ((string) $endpoint, $method, $payload ?? new FormPayload()) extends ConnectorlessRequest {
             /**
              * @var string
              */
@@ -40,14 +40,14 @@ abstract class ConnectorlessRequest extends Request
             private $method;
 
             /**
-             * @var ?PayloadInterface
+             * @var PayloadInterface
              */
             private $payload;
 
             public function __construct(
                 string $endpoint,
-                string $method = 'GET',
-                ?PayloadInterface $payload = null
+                string $method,
+                PayloadInterface $payload
             ) {
                 $this->endpoint = $endpoint;
                 $this->method = $method;
@@ -69,7 +69,7 @@ abstract class ConnectorlessRequest extends Request
              */
             protected function definePayload(): PayloadInterface
             {
-                return $this->payload !== null ? $this->payload : new FormPayload();
+                return $this->payload;
             }
         };
     }
