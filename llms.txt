@@ -1,0 +1,31 @@
+﻿# Introduction
+
+> A simple package that allows you to write your API integrations or SDKs in a elegant way.
+
+- [Introduction](https://phanxipang.github.io/fansipan/index.md): Introduction
+
+## Getting Started
+
+- [Requirements](https://phanxipang.github.io/fansipan/getting-started/requirements.md): This package requires:
+- [Installation](https://phanxipang.github.io/fansipan/getting-started/installation.md): You can install the package via composer:
+- [Quickstart](https://phanxipang.github.io/fansipan/getting-started/quickstart.md): In this quickstart, we'll guide you through the most important functionalities of the package and how to use them.
+
+## The Basics
+
+- [Connectors](https://phanxipang.github.io/fansipan/basic/connectors.md): From the Quick start guide, you have learned how to send a request without defining an HTTP client. However in real world use cases, typically you need to
+- [Requests](https://phanxipang.github.io/fansipan/basic/requests.md): Requests are classes that store all the information required to make a request. Within a request, you can define the HTTP Method (GET, POST, etc.) and the endpoint that you would like to make a request.
+- [Responses](https://phanxipang.github.io/fansipan/basic/responses.md): All requests will return an instance of Fansipan\Response, which is a wrapper of Psr\Http\Message\ResponseInterface that provides a variety of convenience
+
+## Digging Deeper
+
+- [Middleware](https://phanxipang.github.io/fansipan/advanced/middleware.md): Middleware provide a convenient mechanism for inspecting and modifying HTTP requests before sending.
+- [Authentication](https://phanxipang.github.io/fansipan/advanced/authentication.md): The Authenticator is a dedicated component designed to centralizes and simplifies the logic needed to manage client authentication.
+- [Response Decoder](https://phanxipang.github.io/fansipan/advanced/response-decoder.md): HTTP response is a crucial aspect of web development, and it is essential to decode the response body to extract the necessary information. However, the response body is typically returned in a string format as JSON or XML, which can be challenging to work with.
+- [Retrying Requests](https://phanxipang.github.io/fansipan/advanced/retrying-requests.md): Sometimes you may deal with APIs that fail frequently because of network issues or temporary server errors. Fansipan has a useful built-in feature that allows you to send a request and retry multiple times.
+- [SDK](https://phanxipang.github.io/fansipan/advanced/sdk.md): Now that we have created the SDK connector class, all we need to do is instansiate it and provide the API authentication token.
+- [Testing](https://phanxipang.github.io/fansipan/advanced/testing.md): When testing HTTP clients, it is often necessary to simulate specific scenarios such as returning a successful response, returning an error, or returning specific responses in a certain order.
+
+## Plugins
+
+- [PHP-HTTP](https://phanxipang.github.io/fansipan/plugins/php-http.md): The PHP-HTTP (formerly HTTPlug) plugin system allows to wrap a Client with PluginClient and add some processing logic prior to and/or after sending the actual request.
+- [Logging](https://phanxipang.github.io/fansipan/plugins/logging.md): To record your outgoing requests and responses for debugging and historical purposes, you can use the Fansipan logger plugin that takes advantage of PSR-3 loggers.
