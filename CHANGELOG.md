@@ -20,6 +20,19 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.5.1 - 2026-09-18
+
+### What's Changed
+
+* Fix invalid multipart payload when value is an empty string by @gasaichandesu in https://github.com/phanxipang/fansipan/pull/38
+* Escapes multipart `Content-Disposition` header by @jenky in https://github.com/phanxipang/fansipan/pull/40
+
+### New Contributors
+
+* @gasaichandesu made their first contribution in https://github.com/phanxipang/fansipan/pull/38
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/1.5.0...1.5.1
+
 ## 1.5.0 - 2026-02-11
 
 ### What's Changed
