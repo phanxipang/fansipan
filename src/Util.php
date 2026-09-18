@@ -145,7 +145,7 @@ final class Util
 
         $psrRequest = Psr17FactoryDiscovery::findRequestFactory()
             ->createRequest(
-                $request->method(),
+                \strtoupper($request->method()),
                 $baseUri ? self::absoluteUri(self::uri($baseUri), $uri) : $uri
             );
 
