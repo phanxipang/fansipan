@@ -8,6 +8,9 @@ use Fansipan\Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @phpstan-ignore trait.unused
+ */
 trait HasMiddleware
 {
     /**

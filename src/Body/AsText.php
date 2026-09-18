@@ -6,6 +6,9 @@ namespace Fansipan\Body;
 
 use Fansipan\Contracts\PayloadInterface;
 
+/**
+ * @phpstan-ignore trait.unused
+ */
 trait AsText
 {
     /**

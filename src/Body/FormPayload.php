@@ -9,7 +9,7 @@ use Fansipan\Map;
 
 final class FormPayload extends Map implements PayloadInterface
 {
-    public function contentType(): ?string
+    public function contentType(): string
     {
         return 'application/x-www-form-urlencoded';
     }
