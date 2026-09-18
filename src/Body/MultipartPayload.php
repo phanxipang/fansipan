@@ -68,11 +68,6 @@ final class MultipartPayload extends Map implements PayloadInterface
                 : Psr17FactoryDiscovery::findStreamFactory()->createStream($value);
         }
 
-        // Set a default content-length header
-        if ($length = $stream->getSize()) {
-            $headers['Content-Length'] = (string) $length;
-        }
-
         $str = '';
 
         foreach ($headers as $key => $value) {
@@ -89,7 +84,7 @@ final class MultipartPayload extends Map implements PayloadInterface
         $str = '';
 
         foreach ($this->parts() as $part) {
-            $str .= '--'.$this->boundary."\r\n".\trim($part)."\r\n";
+            $str .= '--'.$this->boundary."\r\n".$part."\r\n";
         }
 
         $str .= '--'.$this->boundary."--\r\n";
