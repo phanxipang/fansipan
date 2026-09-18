@@ -84,7 +84,7 @@ final class MultipartPayload extends Map implements PayloadInterface
         $str = '';
 
         foreach ($this->parts() as $part) {
-            $str .= '--'.$this->boundary."\r\n".\trim($part)."\r\n";
+            $str .= '--'.$this->boundary."\r\n".$part."\r\n";
         }
 
         $str .= '--'.$this->boundary."--\r\n";
