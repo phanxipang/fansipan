@@ -7,6 +7,9 @@ namespace Fansipan\Traits;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 
+/**
+ * @phpstan-ignore trait.unused
+ */
 trait HasClient
 {
     /**

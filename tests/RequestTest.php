@@ -21,6 +21,8 @@ use Fansipan\Tests\Services\HTTPBin\GetXmlRequest;
 use Fansipan\Tests\Services\HTTPBin\PostAnythingRequest;
 use Fansipan\Tests\Services\HTTPBin\PostRequest;
 use Fansipan\Tests\Services\PostmanEcho\CurrentUtcRequest;
+use Fansipan\Tests\Services\PostmanEcho\EchoRequest;
+use Fansipan\Util;
 use Psr\Http\Message\RequestInterface;
 
 final class RequestTest extends TestCase
@@ -35,6 +37,13 @@ final class RequestTest extends TestCase
         parent::setUp();
 
         $this->connector = new Connector();
+    }
+
+    public function test_http_method_is_normalized_to_uppercase(): void
+    {
+        $request = Util::request(new EchoRequest('get'));
+
+        $this->assertSame('GET', $request->getMethod());
     }
 
     public function test_sending_request_directly(): void

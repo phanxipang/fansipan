@@ -24,7 +24,7 @@ final class MultipartPayload extends Map implements PayloadInterface
         $this->boundary = $boundary ?: \bin2hex(\random_bytes(20));
     }
 
-    public function contentType(): ?string
+    public function contentType(): string
     {
         return 'multipart/form-data; boundary='.$this->boundary;
     }
@@ -42,18 +42,18 @@ final class MultipartPayload extends Map implements PayloadInterface
     /**
      * Build a single part.
      *
-     * @param  string|MultipartInterface|StreamInterface $value
+     * @param  string|int|float|bool|MultipartInterface|StreamInterface|null $value
      */
     private function part(string $name, $value): string
     {
         // Set a default content-disposition header
         $headers['Content-Disposition'] = \sprintf(
-            'form-data; name="%s"', $name
+            'form-data; name="%s"', self::escape($name)
         );
 
         if ($value instanceof MultipartInterface) {
             if ($filename = $value->filename()) {
-                $headers['Content-Disposition'] .= \sprintf('; filename="%s"', \basename($filename));
+                $headers['Content-Disposition'] .= \sprintf('; filename="%s"', self::escape(\basename($filename)));
             }
 
             // Set a default Content-Type
@@ -65,7 +65,7 @@ final class MultipartPayload extends Map implements PayloadInterface
         } else {
             $stream = $value instanceof StreamInterface
                 ? $value
-                : Psr17FactoryDiscovery::findStreamFactory()->createStream($value);
+                : Psr17FactoryDiscovery::findStreamFactory()->createStream((string) $value);
         }
 
         $str = '';
@@ -77,6 +77,14 @@ final class MultipartPayload extends Map implements PayloadInterface
         $str .= "\r\n".(string) $stream;
 
         return $str;
+    }
+
+    /**
+     * Escape a Content-Disposition parameter value per RFC 7578 §2.
+     */
+    private static function escape(string $value): string
+    {
+        return \str_replace(["\r", "\n", '"'], ['%0D', '%0A', '%22'], $value);
     }
 
     public function __toString()

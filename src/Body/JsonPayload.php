@@ -21,7 +21,7 @@ final class JsonPayload extends Map implements PayloadInterface
         $this->flags = $flags;
     }
 
-    public function contentType(): ?string
+    public function contentType(): string
     {
         return 'application/json';
     }

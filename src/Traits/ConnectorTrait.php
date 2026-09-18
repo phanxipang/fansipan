@@ -12,6 +12,9 @@ use Fansipan\Util;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @phpstan-ignore trait.unused
+ */
 trait ConnectorTrait
 {
     use HasClient;
