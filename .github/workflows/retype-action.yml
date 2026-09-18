@@ -16,14 +16,14 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 10.x
 
-      - uses: retypeapp/action-build@latest
+      - uses: retypeapp/action-build@v4
 
-      - uses: retypeapp/action-github-pages@latest
+      - uses: retypeapp/action-github-pages@v4
         with:
           update-branch: true
