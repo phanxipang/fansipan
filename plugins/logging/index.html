@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/fansipan">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.843014336452">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.843015446933">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -38,12 +38,12 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../resources/css/retype.css?v=4.6.0.843014336452" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.843015446933" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.843014336452" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.843015446933" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.843014336452" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.843014336452" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.843015446933" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.843015446933" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -216,9 +216,9 @@ $connector-&gt;middleware()-&gt;push(new Logger($logger));</code></pre>
 </doc-codeblock></div>
 </doc-tab>
 </doc-tabs>
-<h3 id="using-a-custom-error-message">Using a Custom Error Message</h3>
+<h3 id="using-a-custom-log-message">Using a Custom Log Message</h3>
 <p>You can customize the log message by passing a second argument to the <code translate="no" v-pre>Logger</code> constructor. This argument accepts an implementation of <a href="https://github.com/phanxipang/logger-plugin/blob/main/src/MessageFormatter.php"><code translate="no" v-pre>MessageFormatter</code></a>:</p>
-<div id="using-a-custom-error-message-code-1" class="codeblock-wrapper"><doc-codeblock>
+<div id="using-a-custom-log-message-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-php"><code v-pre class="language-php">use Fansipan\Log\HttpMessageFormatter;
 use Fansipan\Log\Logger;
 
@@ -226,13 +226,13 @@ use Fansipan\Log\Logger;
 $connector-&gt;middleware()-&gt;push(new Logger($logger, new HttpMessageFormatter()));</code></pre>
 </doc-codeblock></div>
 <p>The built-in <code translate="no" v-pre>HttpMessageFormatter</code> allows you to set any template you want. By default, it uses the <code translate="no" v-pre>DEBUG</code> template, which contains placeholders that will be replaced with actual values.</p>
-<div id="using-a-custom-error-message-code-2" class="codeblock-wrapper"><doc-codeblock>
+<div id="using-a-custom-log-message-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-php"><code v-pre class="language-php">public const CLF = '{hostname} {req.header_User-Agent} - [{date_common_log}] &quot;{method} {target} HTTP/{version}&quot; {code} {res.header_Content-Length}';
 public const DEBUG = &quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\n{request}\n&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;\n{response}\n--------\n{error}&quot;;
 public const DEBUG_JSON = &quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\n{request:json}\n&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;\n{response:json}\n--------\n{error}&quot;;
 public const SHORT = '[{ts}] &quot;{method} {target} HTTP/{version}&quot; {code}';</code></pre>
 </doc-codeblock></div>
-<div id="using-a-custom-error-message-code-3" class="codeblock-wrapper"><doc-codeblock>
+<div id="using-a-custom-log-message-code-3" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-php"><code v-pre class="language-php">use Fansipan\Log\HttpMessageFormatter;
 
 new HttpMessageFormatter(HttpMessageFormatter::CLF);
