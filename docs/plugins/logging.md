@@ -44,7 +44,7 @@ $connector->middleware()->push(new Logger($logger));
 ```
 +++
 
-### Using a Custom Error Message
+### Using a Custom Log Message
 
 You can customize the log message by passing a second argument to the `Logger` constructor. This argument accepts an implementation of [`MessageFormatter`](https://github.com/phanxipang/logger-plugin/blob/main/src/MessageFormatter.php):
 
