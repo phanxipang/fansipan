@@ -7,6 +7,7 @@ namespace Fansipan;
 use Closure;
 use Fansipan\Contracts\DecoderInterface;
 use Fansipan\Contracts\MapperInterface;
+use Fansipan\Decoder\ChainDecoder;
 use Fansipan\Exception\HttpException;
 use Fansipan\Exception\MapperException;
 use Fansipan\Exception\NotDecodableException;
@@ -26,7 +27,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     private $response;
 
     /**
-     * @var null|DecoderInterface|(DecoderInterface&MapperInterface<T>)
+     * @var DecoderInterface|(DecoderInterface&MapperInterface<T>)
      */
     private $decoder;
 
@@ -40,7 +41,7 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
     public function __construct(ResponseInterface $response, ?DecoderInterface $decoder = null)
     {
         $this->response = $response;
-        $this->decoder = $decoder;
+        $this->decoder = $decoder ?? ChainDecoder::default();
     }
 
     /**
@@ -93,10 +94,6 @@ final class Response implements \ArrayAccess, \JsonSerializable, \Stringable
      */
     public function decode(): iterable
     {
-        if (! $this->decoder instanceof DecoderInterface) {
-            throw new NotDecodableException('Unable to decode response body because no decoder has been set.');
-        }
-
         return $this->decoder->decode($this->response);
     }
 
