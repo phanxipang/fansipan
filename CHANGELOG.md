@@ -20,6 +20,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing -->
+## 1.6.0 - 2026-10-09
+
+### What's Changed
+
+* Add default decoder fallback by @jenky in https://github.com/phanxipang/fansipan/pull/42
+
+**Full Changelog**: https://github.com/phanxipang/fansipan/compare/1.5.1...1.6.0
+
 ## 1.5.1 - 2026-09-18
 
 ### What's Changed
